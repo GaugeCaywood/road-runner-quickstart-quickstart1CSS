@@ -15,8 +15,8 @@ public class liftPIDF extends OpMode{
 
     private PIDController controller;
 
-    public static double p = 0.02, i = 0, d = 0.0000;
-    public static double f = 0.08;
+    public static double p = 0.02, i = 0, d = 0.0001;
+    public static double f = 0.05;
     public static int target = 0;
 
     private final double ticks_in_degree = 751.8 / 180;
@@ -28,19 +28,18 @@ public class liftPIDF extends OpMode{
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         liftA = hardwareMap.get(DcMotorEx.class, "liftA");
         liftB = hardwareMap.get(DcMotorEx.class, "liftB");
-        liftB.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
     public void loop() {
         controller.setPID(p, i, d);
-        int armPoz = liftB.getCurrentPosition();
+        int armPoz = liftA.getCurrentPosition();
         double pid = controller.calculate(armPoz, target);
         double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
         double power = pid + ff;
 
         liftA.setPower(power);
-        liftB.setPower(power);
+        liftB.setPower(-power);
         telemetry.addData(" Poz ", armPoz);
         telemetry.addData("target ", target );
         telemetry.update();
