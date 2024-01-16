@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.acmerobotics.dashboard.FtcDashboard;
+
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.arcrobotics.ftclib.controller.PIDController;
@@ -23,40 +26,36 @@ public class newDrive extends LinearOpMode {
     /* Declare OpMode members. */
     BotHardwareNew robot = new BotHardwareNew();
     ElapsedTime runtime = new ElapsedTime();
-    private PIDController controller;
 
-    public static double p = 0.015, i = 0, d = 0;
-    public static double f = 0.05;
+    public PIDController controller;
+    public static double p = 0.01, i = 0, d = 0.0002;
+    public static double f = 0.45;
     public static int target = 0;
-    int liftPos = 0;
-    private final double ticks_in_degree = 751.8 / 180;
 
+    private final double ticks_in_degree = 751.8 / 180;
 
     @Override
     public void runOpMode() {
-
         controller = new PIDController(p, i, d);
+
         robot.init(hardwareMap);
         robot.planeS.setPosition(.61);
+
         waitForStart();
 
         runtime.reset();
         while (opModeIsActive()) {
-            controller.setPID(p, i, d);
+            telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
             int armPoz = robot.liftA.getCurrentPosition();
             double pid = controller.calculate(armPoz, target);
             double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
             double power = pid + ff;
-
             /*ENCODER TELEMETRY*/
-
+            robot.liftA.setPower(power);
+            robot.liftB.setPower(power);
             telemetry.addData("Current time: ", runtime.seconds());
             telemetry.addData(" ", " ");
             telemetry.addData("LiftA", robot.liftA.getCurrentPosition());
-            telemetry.addData("LiftB", robot.liftB.getCurrentPosition());
-            telemetry.addData("Left Encoder: ", robot.bl.getCurrentPosition());
-            telemetry.addData("Right Encoder: ", robot.fr.getCurrentPosition());
-            telemetry.addData("Front Encoder: ", robot.fl.getCurrentPosition());
 
 
             robot.fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -111,9 +110,7 @@ public class newDrive extends LinearOpMode {
             if(gamepad2.right_bumper){
                 target -= 3;
             }
-            else if(gamepad2.left_bumper){
-                target += 10;
-            }
+
 
             /////////////INTAKE PROGRAMMING///////////////////
             if(gamepad2.right_trigger > .1){
@@ -163,7 +160,7 @@ public class newDrive extends LinearOpMode {
             }
             telemetry.addData("LIFTA IS ", robot.liftA.getCurrentPosition());
             telemetry.addData("LIFTB IS ", robot.liftB.getCurrentPosition());
-            telemetry.addData("Target ", target);
+//            telemetry.addData("Target ", target);
             telemetry.update();
         }
     }

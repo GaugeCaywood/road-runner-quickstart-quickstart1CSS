@@ -15,8 +15,8 @@ public class liftPIDF extends OpMode{
 
     private PIDController controller;
 
-    public static double p = 0.02, i = 0, d = 0.0001;
-    public static double f = 0.05;
+    public static double p = 0.015, i = 0, d = 0.0001;
+    public static double f = 0.03;
     public static int target = 0;
 
     private final double ticks_in_degree = 751.8 / 180;

@@ -22,7 +22,7 @@ public class leftSideRed {
                 .setConstraints(50, 30, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-37.5, -61.2, Math.toRadians(-90)))
-                                .setTangent(Math.toRadians(100))
+                                .back(1e-2)
                                 .splineToSplineHeading(new Pose2d(-33.5, -29, Math.toRadians(180)), Math.toRadians(90))
                                 .build()
                 );

@@ -20,7 +20,7 @@ import java.lang.Math;
 import java.util.ArrayList;
 
 
-@Autonomous(name="Human Player Side Red ", group="Auton")
+@Autonomous(name="Human Player Side Red RR", group="Auton")
 public class HPRedRR extends LinearOpMode {
 
     private VisionPortal visionPortal;
@@ -41,10 +41,15 @@ public class HPRedRR extends LinearOpMode {
     final double ticks_in_degrees = 751.8/180;
     PIDController controller;
 
-    public double p = 0.015;
-    public double i = 0;
-    public double d = 0.000;
-    public double f = 0.05;
+    public static double p = 0.01, i = 0, d = 0.0002;
+    public static double f = 0.45;
+    public enum Stage{
+        placePurplePixelright,
+        placePurplePixelleft,
+        placePurplePixelMiddle,
+        idle
+    }
+    Stage stage = Stage.placePurplePixelright;
     @Override
     public void runOpMode() {
 
@@ -53,6 +58,17 @@ public class HPRedRR extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
+        Trajectory purplePixelRIGHT = drive.trajectoryBuilder(new Pose2d(-37.5, -61.2, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(-37.5, -23, Math.toRadians(180)))
+                .waitSeconds(0.5)
+
+                .splineToSplineHeading(new Pose2d(-57, -11, Math.toRadians(180)), Math.toRadians(180))
+                .waitSeconds(1)
+
+                .setTangent(Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(48, -35, Math.toRadians(180)), Math.toRadians(-60))
+                .waitSeconds(1)
+                .build();
        /////////////////
         robot.init(hardwareMap);
         visionProcessor();
@@ -107,19 +123,45 @@ public class HPRedRR extends LinearOpMode {
             switch (recordedPropPosition) {
                 case LEFT:
                     // code to do if we saw the prop on the left
+                    switch (stage){
+                        case placePurplePixelleft:
+                            target = 100;
+                            drive.followTrajectoryAsync(purplePixelRIGHT);
+                            stage = Stage.idle;
+                            break;
+                        case idle:
+                            drive.update();
 
+                    }
 
                     break;
                 case UNFOUND: // we can also just add the unfound case here to do fallthrough intstead of the overriding method above, whatever you prefer!
 
                     break;
                 case MIDDLE:
+                    switch (stage){
+                        case placePurplePixelMiddle:
+                            drive.followTrajectoryAsync(purplePixelRIGHT);
+                            stage = Stage.idle;
+                            break;
+                        case idle:
+                            drive.update();
 
+                    }
 
                     // code to do if we saw the prop on the middle
                     break;
                 case RIGHT:
                     // code to do if we saw the prop on the right
+                    switch (stage){
+                        case placePurplePixelright:
+                            drive.followTrajectoryAsync(purplePixelRIGHT);
+                            stage = Stage.idle;
+                            break;
+                        case idle:
+                            drive.update();
+
+                    }
                     break;
             }
         }
