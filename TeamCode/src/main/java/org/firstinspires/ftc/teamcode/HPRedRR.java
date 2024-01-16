@@ -8,6 +8,8 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.arcrobotics.ftclib.controller.PIDController;
+
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -29,7 +31,7 @@ public class HPRedRR extends LinearOpMode {
     Scalar upper = new Scalar(180, 255, 255);  // the upper hsv threshold for your detection
 
     double minArea = 150;
-    BotHardwareNew robot = new BotHardwareNew();
+    rrHardware robot = new rrHardware();
     public ElapsedTime runtime = new ElapsedTime();
     public boolean SIDE = true;
     public int slide = 1;
@@ -55,22 +57,15 @@ public class HPRedRR extends LinearOpMode {
 
 
         controller = new PIDController(p, i, d);
-
+        robot.init(hardwareMap);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Trajectory purplePixelRIGHT = drive.trajectoryBuilder(new Pose2d(-37.5, -61.2, Math.toRadians(-90)))
-                .lineToLinearHeading(new Pose2d(-37.5, -23, Math.toRadians(180)))
-                .waitSeconds(0.5)
-
-                .splineToSplineHeading(new Pose2d(-57, -11, Math.toRadians(180)), Math.toRadians(180))
-                .waitSeconds(1)
-
-                .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(48, -35, Math.toRadians(180)), Math.toRadians(-60))
-                .waitSeconds(1)
+        TrajectorySequence purplePixelRIGHT= drive.trajectorySequenceBuilder(new Pose2d(-37.5, -61.2, Math.toRadians(-90)))
+                .setTangent(Math.toRadians(100))
+                .splineToSplineHeading(new Pose2d(-33.5, -29, Math.toRadians(180)), Math.toRadians(90))
                 .build();
        /////////////////
-        robot.init(hardwareMap);
+
         visionProcessor();
         while(!opModeIsActive()){
 
@@ -126,7 +121,7 @@ public class HPRedRR extends LinearOpMode {
                     switch (stage){
                         case placePurplePixelleft:
                             target = 100;
-                            drive.followTrajectoryAsync(purplePixelRIGHT);
+                            drive.followTrajectorySequenceAsync(purplePixelRIGHT);
                             stage = Stage.idle;
                             break;
                         case idle:
@@ -141,7 +136,7 @@ public class HPRedRR extends LinearOpMode {
                 case MIDDLE:
                     switch (stage){
                         case placePurplePixelMiddle:
-                            drive.followTrajectoryAsync(purplePixelRIGHT);
+                            drive.followTrajectorySequenceAsync(purplePixelRIGHT);
                             stage = Stage.idle;
                             break;
                         case idle:
@@ -155,7 +150,7 @@ public class HPRedRR extends LinearOpMode {
                     // code to do if we saw the prop on the right
                     switch (stage){
                         case placePurplePixelright:
-                            drive.followTrajectoryAsync(purplePixelRIGHT);
+                            drive.followTrajectorySequenceAsync(purplePixelRIGHT);
                             stage = Stage.idle;
                             break;
                         case idle:
