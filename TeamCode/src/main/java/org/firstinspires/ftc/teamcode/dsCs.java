@@ -102,7 +102,7 @@ public class dsCs extends LinearOpMode {
         switch (recordedPropPosition) {
             case LEFT:
                 // code to do if we saw the prop on the left
-                strafeDs(robot.LEFTDS, .25, 0);
+
                 break;
             case UNFOUND: // we can also just add the unfound case here to do fallthrough intstead of the overriding method above, whatever you prefer!
 

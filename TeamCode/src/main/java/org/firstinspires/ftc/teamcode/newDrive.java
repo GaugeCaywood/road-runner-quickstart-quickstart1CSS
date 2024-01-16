@@ -6,6 +6,8 @@ import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.arcrobotics.ftclib.controller.PIDController;
 import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -25,8 +27,8 @@ public class newDrive extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
     private PIDController controller;
 
-    public static double p = 0.015, i = 0, d = 0;
-    public static double f = 0.05;
+    public static double p = 0.02, i = 0, d = 0;
+    public static double f = 0.08;
     public static int target = 0;
     int liftPos = 0;
     private final double ticks_in_degree = 751.8 / 180;
@@ -37,6 +39,7 @@ public class newDrive extends LinearOpMode {
 
         controller = new PIDController(p, i, d);
         robot.init(hardwareMap);
+        robot.liftB.setDirection(DcMotorSimple.Direction.REVERSE);
         robot.planeS.setPosition(.61);
         waitForStart();
 
