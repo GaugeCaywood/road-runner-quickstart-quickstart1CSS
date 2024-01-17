@@ -28,8 +28,8 @@ public class newDrive extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
 
     public PIDController controller;
-    public static double p = 0.01, i = 0, d = 0.0002;
-    public static double f = 0.45;
+    public static double p = 0.01, i = 0, d = 0.000;
+    public static double f = 0.6;
     public static int target = 0;
 
     private final double ticks_in_degree = 751.8 / 180;
@@ -51,13 +51,13 @@ public class newDrive extends LinearOpMode {
             double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
             double power = pid + ff;
             /*ENCODER TELEMETRY*/
-            robot.liftA.setPower(power);
-            robot.liftB.setPower(power);
+            robot.liftA.setPower(power * .5);
+            robot.liftB.setPower(power * .5);
             telemetry.addData("Current time: ", runtime.seconds());
             telemetry.addData(" ", " ");
             telemetry.addData("LiftA", robot.liftA.getCurrentPosition());
 
-
+            telemetry.addData("Target: ", target);
             robot.fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
