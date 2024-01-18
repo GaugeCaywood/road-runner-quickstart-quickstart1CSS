@@ -36,25 +36,24 @@ public class HPRedRR extends LinearOpMode {
     public boolean SIDE = true;
     public int slide = 1;
     public boolean position = true;
-
+    public boolean servoOpen = false;
     private int preloadpos = 0;
 
-    enum Stage {firststage, rightpreload, middlepreload, leftpreload,scorepreload, drivetostack, end}
+    enum Stage {firststage, preLoadTravel,scorepreload, drivetostack, end}
     Stage stage = Stage.firststage;
 
 
-    int liftPos = 0;
-    int target = 0;
+    int liftPos = -1;
+    int target = -100;
     final double ticks_in_degrees = 751.8/180;
     PIDController controller;
 
     public static double p = 0.01, i = 0, d = 0.000;
-    public static double f = 0.6;
+    public static double f = 0.2;
     @Override
     public void runOpMode() {
 
 
-        controller = new PIDController(p, i, d);
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
@@ -66,15 +65,25 @@ public class HPRedRR extends LinearOpMode {
         //
         //
 
-        drive.setPoseEstimate(new Pose2d(-37.5, -61.2, Math.toRadians(-90)));
+        drive.setPoseEstimate(new Pose2d(-35.8, -61.2, Math.toRadians(-90)));
 
-        TrajectorySequence PPreloadRight = drive.trajectorySequenceBuilder(new Pose2d(-37.5, -61.2, Math.toRadians(-90)))
-                .setTangent(Math.toRadians(100))
-                .splineToLinearHeading(new Pose2d(-33.5, -29, Math.toRadians(180)), Math.toRadians(90))
+        TrajectorySequence PPreloadRight = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
+                .setTangent(Math.toRadians(120))
+                .splineToLinearHeading(new Pose2d(-27, -29, Math.toRadians(180)), Math.toRadians(70))
                 .build();
 
-
-
+        TrajectorySequence DriveToStack = drive.trajectorySequenceBuilder(PPreloadRight.end())
+                .setTangent(Math.toRadians(100))
+                .splineToLinearHeading(new Pose2d(-54, -33, Math.toRadians(180)), Math.toRadians(180))
+                .build();
+        TrajectorySequence PPrealoadMiddle = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(-37.5, -23, Math.toRadians(180)))
+                .build();
+        TrajectorySequence PPrealoadLeft = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(-45, -24, Math.toRadians(90)) )
+                .build();
+        robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
+        robot.L2.setPosition(robot.OUTTAKEB_CLOSE);
         visionProcessor();
         while(!opModeIsActive()){
 
@@ -98,6 +107,8 @@ public class HPRedRR extends LinearOpMode {
         while(opModeIsActive() && !isStopRequested()) {
             // gets the recorded prop position
             drive.update();
+
+            controller = new PIDController(p, i, d);
             controller.setPID(p, i, d);
             int armPos = robot.liftA.getCurrentPosition();
             double pid = controller.calculate(armPos, target);
@@ -130,48 +141,76 @@ public class HPRedRR extends LinearOpMode {
                     switch (recordedPropPosition) {
                         case LEFT:
                             // code to do if we saw the prop on the left
-
+                            preloadpos = 1;
+                            stage = Stage.preLoadTravel;
 
                             break;
                         case UNFOUND: // we can also just add the unfound case here to do fallthrough intstead of the overriding method above, whatever you prefer!
 
                             break;
                         case MIDDLE:
-
-
+                            preloadpos = 2;
+                            stage = Stage.preLoadTravel;
                             // code to do if we saw the prop on the middle
                             break;
                         case RIGHT:
                             // code to do if we saw the prop on the right
                             preloadpos = 3;
 
-                            stage = Stage.rightpreload;
+                            stage = Stage.preLoadTravel;
 
                             break;
                     }
 
                     break;
+                case preLoadTravel:
 
-                case rightpreload:
-
-                    drive.followTrajectorySequenceAsync(PPreloadRight);
-
-                    stage = Stage.drivetostack;
-
+                    if(preloadpos == 3) {
+                        drive.followTrajectorySequenceAsync(PPreloadRight);
+                    }
+                    if (preloadpos == 2) {
+                        drive.followTrajectorySequenceAsync(PPrealoadMiddle);
+                    }
+                    if(preloadpos == 1) {
+                        drive.followTrajectorySequenceAsync(PPrealoadLeft);
+                    }
+                    target = -45;
+                    stage = Stage.scorepreload;
                     break;
-
                 case scorepreload:
-
-                    if(!drive.isBusy()){
-                        stage = Stage.end;
+                    if(!drive.isBusy()) {
+                        telemetry.addData("Lift Is: ", robot.liftA.getCurrentPosition());
+                        telemetry.addData("Target: ", target);
+                        telemetry.update();
+                        robot.L2.setPosition(robot.OUTTAKEB_OPEN);
+                        servoOpen = true;
+                        stage = Stage.drivetostack;
                     }
 
 
-
                     break;
+                case drivetostack:
 
+                    if(preloadpos == 1){
+                        drive.setPoseEstimate(PPrealoadLeft.end());
+                    }
+                    else if(preloadpos == 2){
+                        drive.setPoseEstimate(PPrealoadMiddle.end());
+                    }
+                    else if (preloadpos == 3) {
+                        drive.setPoseEstimate(PPreloadRight.end());
+                    }
+                    if(!drive.isBusy()) {
+
+                        drive.followTrajectorySequenceAsync(DriveToStack);
+                    }
+                    stage = stage.end;
+                    break;
+ 
                 case end:
-
+                    telemetry.addData("Lift Is: ", robot.liftA.getCurrentPosition());
+                    telemetry.addData("Target: ", target);
+                    telemetry.update();
                     break;
 
 

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
@@ -19,7 +20,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 //Last Edited 2/19/2021 10:10PM AE
-
+@Config
 @TeleOp(name="New Drive", group="Pushbot")
 
 public class newDrive extends LinearOpMode {
@@ -27,16 +28,17 @@ public class newDrive extends LinearOpMode {
     BotHardwareNew robot = new BotHardwareNew();
     ElapsedTime runtime = new ElapsedTime();
 
-    public PIDController controller;
+    PIDController controller;
     public static double p = 0.01, i = 0, d = 0.000;
-    public static double f = 0.6;
-    public static int target = 0;
+    public static double f = 0.2;
+    public static int target = -45;
 
     private final double ticks_in_degree = 751.8 / 180;
 
     @Override
     public void runOpMode() {
-        controller = new PIDController(p, i, d);
+
+
 
         robot.init(hardwareMap);
         robot.planeS.setPosition(.61);
@@ -45,6 +47,7 @@ public class newDrive extends LinearOpMode {
 
         runtime.reset();
         while (opModeIsActive()) {
+            controller = new PIDController(p, i, d);
             telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
             int armPoz = robot.liftA.getCurrentPosition();
             double pid = controller.calculate(armPoz, target);
@@ -96,7 +99,7 @@ public class newDrive extends LinearOpMode {
             robot.liftA.setPower(power);
             robot.liftB.setPower(power);
             if(gamepad2.dpad_down){
-                target = 0;
+                target = -45;
             }
             else if(gamepad2.dpad_right){
                 target = 2000;

@@ -131,7 +131,7 @@ public class BotHardwareNew
     /////////WRIST VALUES//////////////////
     public static final double WRIST_UP = 0.600;
     public static final double WRIST_DOWN = 0.40;
-    public static final double LIFTENCODERTRIGGER = 1000;
+    public static final double LIFTENCODERTRIGGER = 1500;
 
     ////////DRIVE VALUE/////////////////////
     public static double x= 1.0;
