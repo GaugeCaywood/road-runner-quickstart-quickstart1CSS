@@ -165,20 +165,20 @@ public class HPRedRR extends LinearOpMode {
                     break;
                 case preLoadTravel:
 
-                    if(preloadpos == 3) {
+                    if (preloadpos == 3) {
                         drive.followTrajectorySequenceAsync(PPreloadRight);
                     }
                     if (preloadpos == 2) {
                         drive.followTrajectorySequenceAsync(PPrealoadMiddle);
                     }
-                    if(preloadpos == 1) {
+                    if (preloadpos == 1) {
                         drive.followTrajectorySequenceAsync(PPrealoadLeft);
                     }
                     target = -45;
                     stage = Stage.scorepreload;
                     break;
                 case scorepreload:
-                    if(!drive.isBusy()) {
+                    if (!drive.isBusy()) {
                         telemetry.addData("Lift Is: ", robot.liftA.getCurrentPosition());
                         telemetry.addData("Target: ", target);
                         telemetry.update();
@@ -190,20 +190,16 @@ public class HPRedRR extends LinearOpMode {
 
                     break;
                 case drivetostack:
-
-                    if(preloadpos == 1){
-                        drive.setPoseEstimate(PPrealoadLeft.end());
-                    }
-                    else if(preloadpos == 2){
-                        drive.setPoseEstimate(PPrealoadMiddle.end());
-                    }
-                    else if (preloadpos == 3) {
-                        drive.setPoseEstimate(PPreloadRight.end());
-                    }
                     if(!drive.isBusy()) {
+                        if (preloadpos == 1) {
 
-                        drive.followTrajectorySequenceAsync(DriveToStack);
+                        } else if (preloadpos == 2) {
+                            
+                        } else if (preloadpos == 3) {
+
+                        }
                     }
+
                     stage = stage.end;
                     break;
                 case end:
