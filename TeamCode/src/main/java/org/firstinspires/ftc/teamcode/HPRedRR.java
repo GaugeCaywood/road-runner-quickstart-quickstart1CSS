@@ -24,19 +24,19 @@ import java.util.ArrayList;
 
 @Autonomous(name="Human Player Side Red RR", group="Auton")
 public class HPRedRR extends LinearOpMode {
-
+//////////////////VISION//////////////////////
     private VisionPortal visionPortal;
     private ColourMassDetectionProcessorRed colourMassDetectionProcessor;
     Scalar lower = new Scalar(140, 60, 0); // the lower hsv threshold for your detection
     Scalar upper = new Scalar(180, 255, 255);  // the upper hsv threshold for your detection
 
     double minArea = 150;
+    /////////////////////HARDWARE
     BotHardwareNew robot = new BotHardwareNew();
     public ElapsedTime runtime = new ElapsedTime();
-    public boolean SIDE = true;
-    public int slide = 1;
+
     public boolean position = true;
-    public boolean servoOpen = false;
+
     private int preloadpos = 0;
 
     enum Stage {firststage, preLoadTravel,scorepreload, drivetostack, end}
@@ -193,7 +193,7 @@ public class HPRedRR extends LinearOpMode {
                         telemetry.addData("Target: ", target);
                         telemetry.update();
                         robot.L2.setPosition(robot.OUTTAKEB_OPEN);
-                        servoOpen = true;
+
                         stage = Stage.drivetostack;
                     }
 
