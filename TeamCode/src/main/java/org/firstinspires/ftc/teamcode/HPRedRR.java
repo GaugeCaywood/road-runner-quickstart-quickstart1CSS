@@ -206,7 +206,6 @@ public class HPRedRR extends LinearOpMode {
                     }
                     stage = stage.end;
                     break;
- 
                 case end:
                     telemetry.addData("Lift Is: ", robot.liftA.getCurrentPosition());
                     telemetry.addData("Target: ", target);

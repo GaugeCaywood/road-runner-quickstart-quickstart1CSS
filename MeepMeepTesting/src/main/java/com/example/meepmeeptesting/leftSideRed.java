@@ -23,7 +23,7 @@ public class leftSideRed {
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-37, -61.2, Math.toRadians(-90)))
                                 .setTangent(Math.toRadians(120))
-                                .splineToLinearHeading(new Pose2d(-37.5, -23), Math.toRadians(0))
+                                .splineToLinearHeading(new Pose2d(-37, -23), Math.toRadians(0))
                                 .build()
                 );
         RoadRunnerBotEntity left = new DefaultBotBuilder(meepMeep)
