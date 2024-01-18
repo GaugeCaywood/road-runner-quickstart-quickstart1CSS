@@ -69,19 +69,29 @@ public class HPRedRR extends LinearOpMode {
 
         TrajectorySequence PPreloadRight = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
                 .setTangent(Math.toRadians(120))
-                .splineToLinearHeading(new Pose2d(-27, -29, Math.toRadians(180)), Math.toRadians(70))
+                .splineToLinearHeading(new Pose2d(-31, -34, Math.toRadians(180)), Math.toRadians(50))
                 .build();
 
-        TrajectorySequence DriveToStack = drive.trajectorySequenceBuilder(PPreloadRight.end())
-                .setTangent(Math.toRadians(100))
-                .splineToLinearHeading(new Pose2d(-54, -33, Math.toRadians(180)), Math.toRadians(180))
+        TrajectorySequence DriveToStackRight = drive.trajectorySequenceBuilder(PPreloadRight.end())
+                .setTangent(Math.toRadians(200))
+                .splineToLinearHeading(new Pose2d(-50, -11, Math.toRadians(180)), Math.toRadians(180))
                 .build();
-        TrajectorySequence PPrealoadMiddle = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
-                .lineToLinearHeading(new Pose2d(-37.5, -23, Math.toRadians(180)))
+
+
+        TrajectorySequence PPreloadMiddle = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(-40, -23, Math.toRadians(180)))
                 .build();
-        TrajectorySequence PPrealoadLeft = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
+        TrajectorySequence DriveToStackMiddle = drive.trajectorySequenceBuilder(PPreloadMiddle.end())
+                .setTangent(Math.toRadians(160))
+                .splineToSplineHeading(new Pose2d(-57, -11, Math.toRadians(180)), Math.toRadians(180))
+                .build();
+        TrajectorySequence PPreloadLeft = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
                 .lineToLinearHeading(new Pose2d(-45, -24, Math.toRadians(90)) )
                 .build();
+        TrajectorySequence DriveToStackLeft = drive.trajectorySequenceBuilder(PPreloadLeft.end())
+                .setTangent(Math.toRadians(120))
+                .splineToSplineHeading(new Pose2d(-57, -11, Math.toRadians(180)), Math.toRadians(180))
+                        .build();
         robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
         robot.L2.setPosition(robot.OUTTAKEB_CLOSE);
         visionProcessor();
@@ -169,10 +179,10 @@ public class HPRedRR extends LinearOpMode {
                         drive.followTrajectorySequenceAsync(PPreloadRight);
                     }
                     if (preloadpos == 2) {
-                        drive.followTrajectorySequenceAsync(PPrealoadMiddle);
+                        drive.followTrajectorySequenceAsync(PPreloadMiddle);
                     }
                     if (preloadpos == 1) {
-                        drive.followTrajectorySequenceAsync(PPrealoadLeft);
+                        drive.followTrajectorySequenceAsync(PPreloadLeft);
                     }
                     target = -45;
                     stage = Stage.scorepreload;
@@ -192,11 +202,11 @@ public class HPRedRR extends LinearOpMode {
                 case drivetostack:
                     if(!drive.isBusy()) {
                         if (preloadpos == 1) {
-
+                            drive.followTrajectorySequenceAsync(DriveToStackLeft);
                         } else if (preloadpos == 2) {
-                            
+                            drive.followTrajectorySequenceAsync(DriveToStackMiddle);
                         } else if (preloadpos == 3) {
-
+                            drive.followTrajectorySequenceAsync(DriveToStackRight);
                         }
                     }
 
