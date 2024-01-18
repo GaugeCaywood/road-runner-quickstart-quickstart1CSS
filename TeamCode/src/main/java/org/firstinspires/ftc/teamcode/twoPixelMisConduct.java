@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import java.lang.Math;
 import java.util.ArrayList;
-
+@Disabled
 @Autonomous(name="forwardBlue", group="Auton")
 public class twoPixelMisConduct extends LinearOpMode {
     BotHardware robot = new BotHardware();

@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
+@Disabled
 public class Constants {
     BotHardware robot = new BotHardware();
     public static final double LIFT_POWER = 0.50;

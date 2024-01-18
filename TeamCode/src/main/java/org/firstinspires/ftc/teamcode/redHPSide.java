@@ -3,13 +3,14 @@ package org.firstinspires.ftc.teamcode;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.processors.tseSaturationProcessor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 import android.util.Size;
-
+@Disabled
 @Autonomous(name="redHumanPlayerSide", group="Auton")
 public class redHPSide extends LinearOpMode {
     BotHardware robot = new BotHardware();

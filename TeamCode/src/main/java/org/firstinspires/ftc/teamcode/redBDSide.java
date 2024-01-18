@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,7 +12,7 @@ import org.opencv.core.Scalar;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.teamcode.processors.tseSaturationProcessor;
 import org.opencv.core.Scalar;
-
+@Disabled
 @Autonomous(name="redBackDropSide", group="Auton")
 public class redBDSide extends LinearOpMode {
     BotHardware robot = new BotHardware();

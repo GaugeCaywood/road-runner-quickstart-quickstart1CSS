@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import java.lang.Math;
 import java.util.ArrayList;
-
+@Disabled
 @Autonomous(name="forwardRed", group="Auton")
 public class redPush extends LinearOpMode {
     BotHardware robot = new BotHardware();

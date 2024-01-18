@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 //import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 //import com.vuforia.Vuforia;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
 //import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -15,7 +16,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
         import com.qualcomm.robotcore.hardware.Servo;
 
 //Last Edited 10/27/2022 6:59PM MST
-
+@Disabled
 public class BotHardware
 {
     Constants constants = new Constants();

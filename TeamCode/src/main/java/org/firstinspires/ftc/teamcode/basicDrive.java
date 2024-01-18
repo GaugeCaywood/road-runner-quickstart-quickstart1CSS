@@ -17,6 +17,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 //Last Edited 2/19/2021 10:10PM AE
 // NAMING IT ON SCREEN
+@Disabled
 @TeleOp(name="basic drive", group="Pushbot")
 
 public class basicDrive extends LinearOpMode {

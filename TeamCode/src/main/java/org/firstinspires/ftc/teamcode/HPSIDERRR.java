@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.processors.tseSaturationProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -18,7 +19,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import java.lang.Math;
 import java.util.ArrayList;
 
-
+@Disabled
 @Autonomous(name="Human Player Side Red", group="Auton")
 public class HPSIDERRR extends LinearOpMode {
     int detectedLine = -1;
