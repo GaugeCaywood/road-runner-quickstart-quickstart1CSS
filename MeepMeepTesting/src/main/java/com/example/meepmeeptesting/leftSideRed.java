@@ -22,27 +22,14 @@ public class leftSideRed {
                 .setConstraints(50, 30, Math.toRadians(180), Math.toRadians(180), 18)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-37, -61.2, Math.toRadians(90)))
-                                .setTangent(Math.toRadians(-120))
-                                .splineToLinearHeading(new Pose2d(-45, 26, Math.toRadians(-90)), Math.toRadians(-90))
-                                .waitSeconds(0.5)
-
-                                .setTangent(Math.toRadians(-100))
-                                .splineToSplineHeading(new Pose2d(-54, 11, Math.toRadians(180)), Math.toRadians(-180))
-
-
-
-
+                                .setTangent(Math.toRadians(120))
+                                .splineToLinearHeading(new Pose2d(-29, -34, Math.toRadians(180)), Math.toRadians(50))
+                                .waitSeconds(10)
+                                .setTangent(Math.toRadians(200))
+                                .splineToLinearHeading(new Pose2d(-50, -11, Math.toRadians(180)), Math.toRadians(180))
                                 .setTangent(Math.toRadians(0))
-                                .splineToLinearHeading(new Pose2d(34, 11, Math.toRadians(180)), Math.toRadians(0))
-
-                                .setTangent(Math.toRadians(70))
-                                .splineToLinearHeading(new Pose2d(49, 29.5, Math.toRadians(180)), Math.toRadians(0))
-
-                                .waitSeconds(0.5)
-
-
-                                .setTangent(Math.toRadians(180))
-                                .splineToLinearHeading(new Pose2d(45, 11, Math.toRadians(180)), Math.toRadians(0))
+                                .splineToLinearHeading(new Pose2d(34, -11, Math.toRadians(180)), Math.toRadians(-10))
+                                .splineToLinearHeading(new Pose2d(53.5, -46, Math.toRadians(180)), Math.toRadians(-30))
                                 .build()
                 );
         RoadRunnerBotEntity left = new DefaultBotBuilder(meepMeep)

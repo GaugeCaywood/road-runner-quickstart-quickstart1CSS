@@ -74,7 +74,7 @@ public class HPBlueRR extends LinearOpMode {
                 .build();
 
         TrajectorySequence DriveToStackRight = drive.trajectorySequenceBuilder(PPreloadRight.end())
-
+                .waitSeconds(10)
                 .setTangent(Math.toRadians(-100))
                 .splineToLinearHeading(new Pose2d(-57, 7, Math.toRadians(180)), Math.toRadians(-180))
 
@@ -92,6 +92,7 @@ public class HPBlueRR extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(-46, 22, Math.toRadians(-180)), Math.toRadians(-180))
                 .build();
         TrajectorySequence DriveToStackMiddle = drive.trajectorySequenceBuilder(PPreloadMiddle.end())
+                .waitSeconds(10)
                 .setTangent(Math.toRadians(-160))
                 .splineToLinearHeading(new Pose2d(-57, 6, Math.toRadians(-180)), Math.toRadians(-180))
                 .setTangent(Math.toRadians(0))
@@ -103,6 +104,7 @@ public class HPBlueRR extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(-28, 34, Math.toRadians(180)), Math.toRadians(-20))
                 .build();
         TrajectorySequence DriveToStackLeft = drive.trajectorySequenceBuilder(PPreloadLeft.end())
+                .waitSeconds(10)
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(-54, 11, Math.toRadians(180)), Math.toRadians(-140))
                 .setTangent(Math.toRadians(0))

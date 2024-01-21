@@ -2,14 +2,13 @@ package org.firstinspires.ftc.teamcode;
 //+
 // .
 import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-// @Config
-@Disabled
+@Config
+
 @TeleOp
 public class ServoPosition extends LinearOpMode {
 //    public Servo    L1  = null;

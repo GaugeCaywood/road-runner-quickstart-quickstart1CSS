@@ -42,7 +42,7 @@ public class newDrive extends LinearOpMode {
 
         robot.init(hardwareMap);
         robot.planeS.setPosition(.61);
-
+;
         waitForStart();
 
         runtime.reset();
@@ -101,10 +101,10 @@ public class newDrive extends LinearOpMode {
             if(gamepad2.dpad_down){
                 target = -45;
             }
-            else if(gamepad2.dpad_right){
+            else if(gamepad2.dpad_left){
                 target = 2000;
             }
-            else if(gamepad2.dpad_left){
+            else if(gamepad2.dpad_right){
                 target = 3000;
             }
             else if(gamepad2.dpad_up){
@@ -113,7 +113,12 @@ public class newDrive extends LinearOpMode {
             if(gamepad2.right_bumper){
                 target -= 3;
             }
+            if(gamepad1.right_trigger > .1){
 
+                    robot.planeS.setPosition(0);
+
+
+            }
 
             /////////////INTAKE PROGRAMMING///////////////////
             if(gamepad2.right_trigger > .1){
