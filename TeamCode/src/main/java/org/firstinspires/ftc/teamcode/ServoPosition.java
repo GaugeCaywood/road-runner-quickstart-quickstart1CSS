@@ -43,7 +43,7 @@ BotHardwareNew robot = new BotHardwareNew();
                 servo2Position -= 0.0003;
             }
 
-            robot.planeS.setPosition(servoPosition);
+            robot.autonHeightControlS.setPosition(servoPosition);
 
             telemetry.addData("position", servoPosition);
             telemetry.addData("position2", servo2Position);

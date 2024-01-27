@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -28,15 +29,17 @@ public class BotHardwareNew
     public DcMotor liftA = null;
     public DcMotor liftB = null;
     public DcMotor intake = null;
-    public DistanceSensor ds = null;
-
+    //SENSORS
+    public DistanceSensor backDS = null;
+    public ColorSensor frontColorSensor = null;
     //HARVESTER SERVOS
     public Servo    L1;
     public Servo   L2;
     public Servo planeS = null;
     public Servo wristL;
     public Servo wristR;
-
+    public Servo autonHeightControlS;
+    public CRServo autonIntake;
 
     /* local OpMode members. */
     //DECLARING HARDWARE MAP AND A TIME SYSTEM
@@ -64,19 +67,24 @@ public class BotHardwareNew
         bl  = hwMap.get(DcMotor.class, "bl");
         liftA = hwMap.get(DcMotor.class, "liftA");
         liftB = hwMap.get(DcMotor.class, "liftB");
-//        planeS = hwMap.get(Servo.class, "plane");
         intake = hwMap.get(DcMotor.class, "intake");
+        //SERVOS
         wristL = hwMap.get(Servo.class, "wristL");
         wristR = hwMap.get(Servo.class, "wristR");
-        ds = hwMap.get(DistanceSensor.class, "ds");
         planeS = hwMap.get(Servo.class, "plane");
+        autonIntake = hwMap.get(CRServo.class, "autoIntake");
+        autonHeightControlS = hwMap.get(Servo.class, "autonHeight");
+
+        //SENSORS
+        backDS = hwMap.get(DistanceSensor.class, "backColorSensor");
+        frontColorSensor = hwMap.get(ColorSensor.class, "frontColorSensor");
         //SETING MOTOR DIRECTIONS
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);
         fr.setDirection(DcMotor.Direction.FORWARD);
         br.setDirection(DcMotor.Direction.FORWARD);
         liftA.setDirection(DcMotor.Direction.FORWARD);
-        liftB.setDirection(DcMotor.Direction.REVERSE);
+      liftB.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(DcMotor.Direction.FORWARD);
 //        liftA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        liftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

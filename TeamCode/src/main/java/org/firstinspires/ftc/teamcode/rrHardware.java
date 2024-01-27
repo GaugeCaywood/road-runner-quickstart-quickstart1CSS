@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -21,18 +22,24 @@ public class rrHardware
 
     /* Public OpMode members. */
     //MOTOR NULE DECLARATION
+    public DcMotor  fr   = null;
+    public DcMotor  br   = null;
+    public DcMotor  fl   = null;
+    public DcMotor  bl   = null;
     public DcMotor liftA = null;
     public DcMotor liftB = null;
     public DcMotor intake = null;
-    public DistanceSensor ds = null;
-
+    //SENSORS
+    public DistanceSensor backDS = null;
+    public ColorSensor frontColorSensor = null;
     //HARVESTER SERVOS
     public Servo    L1;
     public Servo   L2;
     public Servo planeS = null;
     public Servo wristL;
     public Servo wristR;
-
+    public Servo autonHeightControlS;
+    public CRServo autonIntake;
 
     /* local OpMode members. */
     //DECLARING HARDWARE MAP AND A TIME SYSTEM
@@ -54,28 +61,48 @@ public class rrHardware
 //        revBlinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, LED)
         // Define and Initialize Motors
         ElapsedTime waitTime = new ElapsedTime();
+        fr  = hwMap.get(DcMotor.class, "fr");
+        br = hwMap.get(DcMotor.class, "br");
+        fl    = hwMap.get(DcMotor.class, "fl");
+        bl  = hwMap.get(DcMotor.class, "bl");
         liftA = hwMap.get(DcMotor.class, "liftA");
         liftB = hwMap.get(DcMotor.class, "liftB");
-//        planeS = hwMap.get(Servo.class, "plane");
         intake = hwMap.get(DcMotor.class, "intake");
+        //SERVOS
         wristL = hwMap.get(Servo.class, "wristL");
         wristR = hwMap.get(Servo.class, "wristR");
-        ds = hwMap.get(DistanceSensor.class, "ds");
         planeS = hwMap.get(Servo.class, "plane");
+        autonIntake = hwMap.get(CRServo.class, "autoIntake");
+        autonHeightControlS = hwMap.get(Servo.class, "autonHeight");
+
+        //SENSORS
+        backDS = hwMap.get(DistanceSensor.class, "backColorSensor");
+        frontColorSensor = hwMap.get(ColorSensor.class, "frontColorSensor");
         //SETING MOTOR DIRECTIONS
-
-
+        fl.setDirection(DcMotor.Direction.REVERSE);
+        bl.setDirection(DcMotor.Direction.REVERSE);
+        fr.setDirection(DcMotor.Direction.FORWARD);
+        br.setDirection(DcMotor.Direction.FORWARD);
         liftA.setDirection(DcMotor.Direction.FORWARD);
         liftB.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(DcMotor.Direction.FORWARD);
 //        liftA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        liftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+        // Set all MOTOR zero power
+        fr.setPower(0);
+        br.setPower(0);
+        fl.setPower(0);
+        bl.setPower(0);
         liftA.setPower(0);
         liftB.setPower(0);
         intake.setPower(0);
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
+        fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //HARVESTER SERVOS
@@ -112,7 +139,7 @@ public class rrHardware
     /////////WRIST VALUES//////////////////
     public static final double WRIST_UP = 0.600;
     public static final double WRIST_DOWN = 0.40;
-    public static final double LIFTENCODERTRIGGER = 1000;
+    public static final double LIFTENCODERTRIGGER = 1500;
 
     ////////DRIVE VALUE/////////////////////
     public static double x= 1.0;
@@ -183,6 +210,59 @@ public class rrHardware
     }
 
     //SET MOTOR SPEEDS AND DIRECTIONS USUALLY WITH MATH ABS
+    public void forward(double speed) {
+        fr.setPower(Math.abs(speed));
+        fl.setPower(Math.abs(speed));
+        br.setPower(Math.abs(speed));
+        bl.setPower(Math.abs(speed));
+    }
+
+    public void backward(double speed) {
+        fr.setPower(-Math.abs(speed));
+        fl.setPower(-Math.abs(speed));
+        br.setPower(-Math.abs(speed));
+        bl.setPower(-Math.abs(speed));
+    }
+
+    public void left(double speed) {
+        fr.setPower(-Math.abs(speed));
+        fl.setPower(Math.abs(speed));
+        br.setPower(Math.abs(speed));
+        bl.setPower(-Math.abs(speed));
+    }
+
+    public void right(double speed) {
+        fr.setPower(Math.abs(speed));
+        fl.setPower(-Math.abs(speed));
+        br.setPower(-Math.abs(speed));
+        bl.setPower(Math.abs(speed));
+    }
+
+    public void turnLeft(double speed) {
+        fr.setPower(Math.abs(speed));
+        fl.setPower(-Math.abs(speed));
+        br.setPower(Math.abs(speed));
+        bl.setPower(-Math.abs(speed));
+    }
+
+    public void turnRight(double speed) {
+        fr.setPower(-Math.abs(speed));
+        fl.setPower(Math.abs(speed));
+        br.setPower(-Math.abs(speed));
+        bl.setPower(Math.abs(speed));
+    }
+    public void BackwardLeft (double speed) {
+        fr.setPower(-Math.abs(speed));
+        fl.setPower(0);
+        br.setPower(0);
+        bl.setPower(-Math.abs(speed));
+    }
+    public void stop(){
+        fr.setPower(0);
+        fl.setPower(0);
+        br.setPower(0);
+        bl.setPower(0);
+    }
     public void wristUp(){
         wristL.setPosition(WRIST_UP);
         wristR.setPosition(WRIST_UP);

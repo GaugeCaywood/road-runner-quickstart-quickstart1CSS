@@ -25,9 +25,9 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 //Last Edited 2/19/2021 10:10PM AE
 
 @Config
-@TeleOp(name="New Drive", group="Pushbot")
+@TeleOp(name="Manual Drive", group="Pushbot")
 
-public class newDrive extends LinearOpMode {
+public class manualDrive extends LinearOpMode {
     /* Declare OpMode members. */
     BotHardwareNew robot = new BotHardwareNew();
     ElapsedTime runtime = new ElapsedTime();
@@ -126,7 +126,7 @@ public class newDrive extends LinearOpMode {
             ///////////9.11 programming/////////////////
             if(gamepad1.right_trigger > .1){
 
-                    robot.planeS.setPosition(0);
+                robot.planeS.setPosition(0);
 
 
             }
@@ -159,11 +159,7 @@ public class newDrive extends LinearOpMode {
                 robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
                 robot.L2.setPosition(robot.OUTTAKEB_CLOSE);
             }
-
-            switch(claw){
-                case open:
-                    telemetry.addData("IN: ", newDrive.Claw.values());
-                    if(gamepad2.x){
+                                if(gamepad2.x){
                         robot.L1.setPosition(robot.OUTTAKEA_OPEN);
                     }
                     else if(gamepad2.a){
@@ -173,32 +169,46 @@ public class newDrive extends LinearOpMode {
                     else if(gamepad2.b){
                         robot.L2.setPosition(robot.OUTTAKEB_OPEN);
                     }
-                    else if(robot.backDS.getDistance(DistanceUnit.MM) < 33 && robot.liftA.getCurrentPosition() < 300){
-                        claw = Claw.servo1;
-                    }
-                    break;
-                case servo1:
 
-                    telemetry.addData("BS: ", robot.backDS.getDistance(DistanceUnit.MM));
-                    telemetry.addData("FS: ", robot.frontColorSensor.alpha());
-                    if(robot.backDS.getDistance(DistanceUnit.MM) < 32 && robot.backDS.getDistance(DistanceUnit.MM) > 29){
-                        robot.L1.setPosition(robot.OUTTAKEB_CLOSE);
-                        claw = Claw.servo2;
-                    }
-                    if(robot.liftA.getCurrentPosition() > 300){
-                        claw = Claw.open;
-                    }
-                    break;
-                case servo2:
-                    telemetry.addData("IN: ", newDrive.Claw.values());
-                    if(robot.frontColorSensor.alpha() > 600 && robot.liftA.getCurrentPosition() <300){
-                        robot.L2.setPosition(robot.OUTTAKEA_CLOSE);
-                    }
-                    if(robot.liftA.getCurrentPosition() > 300){
-                        claw = Claw.open;
-                    }
-                    break;
-            }
+//            switch(claw){
+//                case open:
+//                    telemetry.addData("IN: ", newDrive.Claw.values());
+//                    if(gamepad2.x){
+//                        robot.L1.setPosition(robot.OUTTAKEA_OPEN);
+//                    }
+//                    else if(gamepad2.a){
+//                        robot.L1.setPosition(robot.OUTTAKEA_OPEN);
+//                        robot.L2.setPosition(robot.OUTTAKEB_OPEN);
+//                    }
+//                    else if(gamepad2.b){
+//                        robot.L2.setPosition(robot.OUTTAKEB_OPEN);
+//                    }
+//                    else if(robot.backDS.getDistance(DistanceUnit.MM) < 33 && robot.liftA.getCurrentPosition() < 300){
+//                        claw = Claw.servo1;
+//                    }
+//                    break;
+//                case servo1:
+//
+//                    telemetry.addData("BS: ", robot.backDS.getDistance(DistanceUnit.MM));
+//                    telemetry.addData("FS: ", robot.frontColorSensor.alpha());
+//                    if(robot.backDS.getDistance(DistanceUnit.MM) < 32 && robot.backDS.getDistance(DistanceUnit.MM) > 29){
+//                        robot.L1.setPosition(robot.OUTTAKEB_CLOSE);
+//                        claw = Claw.servo2;
+//                    }
+//                    if(robot.liftA.getCurrentPosition() > 300){
+//                        claw = Claw.open;
+//                    }
+//                    break;
+//                case servo2:
+//                    telemetry.addData("IN: ", newDrive.Claw.values());
+//                    if(robot.frontColorSensor.alpha() > 600 && robot.liftA.getCurrentPosition() <300){
+//                        robot.L2.setPosition(robot.OUTTAKEA_CLOSE);
+//                    }
+//                    if(robot.liftA.getCurrentPosition() > 300){
+//                        claw = Claw.open;
+//                    }
+//                    break;
+//            }
             //////////////WRIST CODE//////////////////
             if(robot.liftA.getCurrentPosition() > robot.LIFTENCODERTRIGGER){
                 robot.wristUp();
