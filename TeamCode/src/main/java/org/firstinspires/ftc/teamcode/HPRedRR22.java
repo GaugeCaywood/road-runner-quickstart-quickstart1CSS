@@ -78,7 +78,7 @@ public class HPRedRR22 extends LinearOpMode {
                 .setTangent(Math.toRadians(200))
                 .splineToLinearHeading(new Pose2d(-50, -11, Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(34, -11, Math.toRadians(180)), Math.toRadians(-10))
+                .splineToLinearHeading(new Pose2d(34, -13, Math.toRadians(180)), Math.toRadians(-10))
                 .build();
 
 
@@ -89,7 +89,7 @@ public class HPRedRR22 extends LinearOpMode {
                 .setTangent(Math.toRadians(160))
                 .splineToLinearHeading(new Pose2d(-57, -11, Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(34, -11, Math.toRadians(180)), Math.toRadians(-10))
+                .splineToLinearHeading(new Pose2d(34, -13, Math.toRadians(180)), Math.toRadians(-10))
 
                 .build();
         TrajectorySequence PPreloadLeft = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
@@ -99,29 +99,29 @@ public class HPRedRR22 extends LinearOpMode {
                 .setTangent(Math.toRadians(120))
                 .splineToLinearHeading(new Pose2d(-55, -11, Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(34, -11, Math.toRadians(180)), Math.toRadians(-10))
+                .splineToLinearHeading(new Pose2d(34, -13, Math.toRadians(180)), Math.toRadians(-10))
 
                 .build();
         TrajectorySequence DriveToBackBoardMiddle = drive.trajectorySequenceBuilder(DriveToStackMiddle.end())
-                .splineToLinearHeading(new Pose2d(54.5, -40.5, Math.toRadians(180)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(54, -40.5, Math.toRadians(180)), Math.toRadians(-30))
                 .build();
         TrajectorySequence DriveToBackBoardLeft = drive.trajectorySequenceBuilder(DriveToStackLeft.end())
-                .splineToLinearHeading(new Pose2d(54.5, -20, Math.toRadians(180)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(54, -20, Math.toRadians(180)), Math.toRadians(-30))
 
 
                 .build();
         TrajectorySequence DriveToBackBoardRight = drive.trajectorySequenceBuilder(DriveToStackRight.end())
-                .splineToLinearHeading(new Pose2d(54.5, -46, Math.toRadians(180)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(54, -46, Math.toRadians(180)), Math.toRadians(-30))
                 .build();
 
         TrajectorySequence DriveBackFromBBR = drive.trajectorySequenceBuilder(DriveToBackBoardRight.end())
-                .lineToLinearHeading(new Pose2d(-37.5, -11, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(37.5, -23, Math.toRadians(180)))
                 .build();
         TrajectorySequence DriveBackFromBBL = drive.trajectorySequenceBuilder(DriveToBackBoardLeft.end())
-                .lineToLinearHeading(new Pose2d(-37.5, -11, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(37.5, -23, Math.toRadians(180)))
                 .build();
         TrajectorySequence DriveBackFromBBM = drive.trajectorySequenceBuilder(DriveToBackBoardMiddle.end())
-                .lineToLinearHeading(new Pose2d(-37.5, -11, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(37.5, -23, Math.toRadians(180)))
                 .build();
         ///park
         TrajectorySequence DriveToBackParkM = drive.trajectorySequenceBuilder(DriveToStackMiddle.end())
@@ -138,7 +138,7 @@ public class HPRedRR22 extends LinearOpMode {
         ///Collect and Score white first
         TrajectorySequence DriveToCollectFirst = drive.trajectorySequenceBuilder(DriveBackFromBBM.end())
                 .setTangent(Math.toRadians(120))
-                .splineToSplineHeading(new Pose2d(-57, -11, Math.toRadians(180)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-57, -7.5, Math.toRadians(180)), Math.toRadians(180))
                 .build();
         TrajectorySequence DriveToPlaceBeforeLift = drive.trajectorySequenceBuilder(DriveToCollectFirst.end())
                 .setTangent(Math.toRadians(0))
@@ -197,7 +197,7 @@ public class HPRedRR22 extends LinearOpMode {
                 target = 4000;
 
             }
-            if(robot.liftA.getCurrentPosition() < 1800){
+            if(robot.liftA.getCurrentPosition() < 1200){
                 robot.wristDown();
             }
 
@@ -312,25 +312,35 @@ public class HPRedRR22 extends LinearOpMode {
                     break;
                 case backCollect:
                     if(preloadpos == 1){
-                        target = -45;
-                        robot.autonHeightControlS.setPosition(.7);
-                        robot.autonIntake.setPower(1);
+
+                        robot.autonHeightControlS.setPosition(.9);
+                        robot.autonIntake.setPower(-1);
+                        robot.intake.setPower(.75);
                         drive.followTrajectorySequenceAsync(DriveBackFromBBL);
-                        stage = Stage.end;
+                        stage = Stage.collect;
                     }
                     else if(preloadpos ==2){
-                        target = -45;
-                        robot.autonHeightControlS.setPosition(.7);
-                        robot.autonIntake.setPower(1);
+
+                        robot.autonHeightControlS.setPosition(.9);
+                        robot.autonIntake.setPower(-1);
+                        robot.intake.setPower(.75);
                         drive.followTrajectorySequenceAsync(DriveBackFromBBM);
-                        stage = Stage.end;
+                        stage = Stage.collect;
                     }
                     else if(preloadpos == 3){
-                        target = -45;
-                        robot.autonHeightControlS.setPosition(.7);
-                        robot.autonIntake.setPower(1);
+                        robot.autonHeightControlS.setPosition(.9);
+                        robot.autonIntake.setPower(-1);
+                        robot.intake.setPower(.75);
                         drive.followTrajectorySequenceAsync(DriveBackFromBBR);
+                        stage = Stage.collect;
+                    }
+                    break;
+                case collect:
+                    target = -100;
+                    if(!drive.isBusy() && robot.liftA.getCurrentPosition() < 100) {
+                        drive.followTrajectorySequenceAsync(DriveToCollectFirst);
                         stage = Stage.end;
+
                     }
                     break;
                 case park:
