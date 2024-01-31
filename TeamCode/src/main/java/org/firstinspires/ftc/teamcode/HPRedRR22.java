@@ -75,7 +75,6 @@ public class HPRedRR22 extends LinearOpMode {
                 .build();
 
         TrajectorySequence DriveToStackRight = drive.trajectorySequenceBuilder(PPreloadRight.end())
-                .waitSeconds(10)
                 .setTangent(Math.toRadians(200))
                 .splineToLinearHeading(new Pose2d(-50, -11, Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(0))
@@ -87,7 +86,6 @@ public class HPRedRR22 extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(-40, -23, Math.toRadians(180)))
                 .build();
         TrajectorySequence DriveToStackMiddle = drive.trajectorySequenceBuilder(PPreloadMiddle.end())
-                .waitSeconds(10)
                 .setTangent(Math.toRadians(160))
                 .splineToLinearHeading(new Pose2d(-57, -11, Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(0))
@@ -98,7 +96,6 @@ public class HPRedRR22 extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(-48, -22, Math.toRadians(90)) )
                 .build();
         TrajectorySequence DriveToStackLeft = drive.trajectorySequenceBuilder(PPreloadLeft.end())
-                .waitSeconds(10)
                 .setTangent(Math.toRadians(120))
                 .splineToLinearHeading(new Pose2d(-55, -11, Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(0))
