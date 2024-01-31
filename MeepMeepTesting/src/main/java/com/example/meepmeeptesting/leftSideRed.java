@@ -22,13 +22,8 @@ public class leftSideRed {
                 .setConstraints(80, 80, Math.toRadians(180), Math.toRadians(180), 18)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-37, -61.2, Math.toRadians(90)))
-                                .lineToLinearHeading(new Pose2d(-40, -23, Math.toRadians(180)))
-                                .setTangent(Math.toRadians(160))
-                                .splineToLinearHeading(new Pose2d(-57, -11, Math.toRadians(180)), Math.toRadians(180))
                                 .setTangent(Math.toRadians(0))
-                                .splineToLinearHeading(new Pose2d(34, -11, Math.toRadians(180)), Math.toRadians(-10))
-                                .splineToLinearHeading(new Pose2d(54.5, -39, Math.toRadians(180)), Math.toRadians(-30))
-                                .splineToLinearHeading(new Pose2d(51.5, -38, Math.toRadians(180)), Math.toRadians(-30))
+                                .splineToLinearHeading(new Pose2d(48, -35, Math.toRadians(180)), Math.toRadians(-60))
                                 .build()
                 );
         RoadRunnerBotEntity left = new DefaultBotBuilder(meepMeep)
@@ -53,15 +48,8 @@ public class leftSideRed {
                 .setConstraints(50, 50, Math.toRadians(180), Math.toRadians(180), 18)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-35, -60, Math.toRadians(-90)))
-                                .setTangent(Math.toRadians(120))
-                                .splineToLinearHeading(new Pose2d(-29, -34, Math.toRadians(180)), Math.toRadians(50))
-                                .waitSeconds(10)
-                                .setTangent(Math.toRadians(200))
-                                .splineToLinearHeading(new Pose2d(-50, -11, Math.toRadians(180)), Math.toRadians(180))
                                 .setTangent(Math.toRadians(0))
-                                .splineToLinearHeading(new Pose2d(34, -11, Math.toRadians(180)), Math.toRadians(-10))
-                                .splineToLinearHeading(new Pose2d(54.5, -46, Math.toRadians(180)), Math.toRadians(-30))
-                                .splineToLinearHeading(new Pose2d(51.5, -46, Math.toRadians(180)), Math.toRadians(-30))
+                                .splineToLinearHeading(new Pose2d(48, -35, Math.toRadians(180)), Math.toRadians(-60))
                                 .build()
                 );
 
