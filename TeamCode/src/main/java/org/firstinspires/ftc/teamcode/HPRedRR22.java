@@ -41,9 +41,9 @@ public class HPRedRR22 extends LinearOpMode {
     private int preloadpos = 0;
 
     enum Stage {firststage, preLoadTravel,scorepreload, drivetostack, placePixel,
-        liftUp, park, liftDown, backUp, backCollect, collect, end}
+        liftUp, park, liftDown, backUp, backCollect, collect, liftUpPlaceTwo, end}
     Stage stage = Stage.firststage;
-    int pixels = -1;
+
 
     int liftPos = -1;
     int target = -45;
@@ -103,7 +103,7 @@ public class HPRedRR22 extends LinearOpMode {
 
                 .build();
         TrajectorySequence DriveToBackBoardMiddle = drive.trajectorySequenceBuilder(DriveToStackMiddle.end())
-                .splineToLinearHeading(new Pose2d(54.5, -39, Math.toRadians(180)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(54.5, -40.5, Math.toRadians(180)), Math.toRadians(-30))
                 .build();
         TrajectorySequence DriveToBackBoardLeft = drive.trajectorySequenceBuilder(DriveToStackLeft.end())
                 .splineToLinearHeading(new Pose2d(54.5, -20, Math.toRadians(180)), Math.toRadians(-30))
@@ -115,13 +115,13 @@ public class HPRedRR22 extends LinearOpMode {
                 .build();
 
         TrajectorySequence DriveBackFromBBR = drive.trajectorySequenceBuilder(DriveToBackBoardRight.end())
-                .lineToLinearHeading(new Pose2d(-37.5, -23, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(-37.5, -11, Math.toRadians(180)))
                 .build();
         TrajectorySequence DriveBackFromBBL = drive.trajectorySequenceBuilder(DriveToBackBoardLeft.end())
-                .lineToLinearHeading(new Pose2d(-37.5, -23, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(-37.5, -11, Math.toRadians(180)))
                 .build();
         TrajectorySequence DriveBackFromBBM = drive.trajectorySequenceBuilder(DriveToBackBoardMiddle.end())
-                .lineToLinearHeading(new Pose2d(-37.5, -23, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(-37.5, -11, Math.toRadians(180)))
                 .build();
         ///park
         TrajectorySequence DriveToBackParkM = drive.trajectorySequenceBuilder(DriveToStackMiddle.end())
@@ -136,7 +136,8 @@ public class HPRedRR22 extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(51.5, -46, Math.toRadians(180)), Math.toRadians(-30))
                 .build();
         ///Collect and Score white first
-        TrajectorySequence DriveToCollectFirst = drive.trajectorySequenceBuilder(DriveBackFromBBL.end())
+        TrajectorySequence DriveToCollectFirst = drive.trajectorySequenceBuilder(DriveBackFromBBM.end())
+                .setTangent(Math.toRadians(120))
                 .splineToSplineHeading(new Pose2d(-57, -11, Math.toRadians(180)), Math.toRadians(180))
                 .build();
         TrajectorySequence DriveToPlaceBeforeLift = drive.trajectorySequenceBuilder(DriveToCollectFirst.end())
@@ -196,13 +197,13 @@ public class HPRedRR22 extends LinearOpMode {
                 target = 4000;
 
             }
-            if(robot.liftA.getCurrentPosition() < 1500){
+            if(robot.liftA.getCurrentPosition() < 1800){
                 robot.wristDown();
             }
 
             switch (stage) {
                 case firststage:
-                    pixels = 0;
+
 //                    put your vision processor in here
                     switch (recordedPropPosition) {
                         case LEFT:
@@ -216,7 +217,7 @@ public class HPRedRR22 extends LinearOpMode {
                             break;
                         case MIDDLE:
                             preloadpos = 2;
-                            stage = Stage.preLoadTravel;
+                            stage =Stage.preLoadTravel;
                             // code to do if we saw the prop on the middle
                             break;
                         case RIGHT:
@@ -248,7 +249,7 @@ public class HPRedRR22 extends LinearOpMode {
                         telemetry.addData("Lift Is: ", robot.liftA.getCurrentPosition());
                         telemetry.addData("Target: ", target);
                         telemetry.update();
-                        robot.L2.setPosition(robot.OUTTAKEB_OPEN);
+                        robot.L1.setPosition(robot.OUTTAKEA_OPEN);
 
                         stage = Stage.drivetostack;
                     }
@@ -271,40 +272,22 @@ public class HPRedRR22 extends LinearOpMode {
                 case liftUp:
 
                     if(!drive.isBusy()) {
-                        if(pixels == 0) {
-                            if (preloadpos == 1) {
-                                target = 1800;
-                                drive.followTrajectorySequenceAsync(DriveToBackBoardLeft);
-                                target = 1800;
-                                servo.reset();
-                                stage = Stage.placePixel;
-                            } else if (preloadpos == 2) {
-                                drive.followTrajectorySequenceAsync(DriveToBackBoardMiddle);
-                                target = 1800;
-                                servo.reset();
-                                stage = Stage.placePixel;
-                            } else if (preloadpos == 3) {
-                                drive.followTrajectorySequenceAsync(DriveToBackBoardRight);
-                                target = 1800;
-                                servo.reset();
-                                stage = Stage.placePixel;
+                        if (preloadpos == 1) {
+                            target = 2300;
+                            drive.followTrajectorySequenceAsync(DriveToBackBoardLeft);
+                            target = 2300;
+                            servo.reset();
+                            stage = Stage.placePixel;
+                        } else if (preloadpos == 2) {
+                            drive.followTrajectorySequenceAsync(DriveToBackBoardMiddle);
+                            target = 2300;
+                            servo.reset();
+                            stage = Stage.placePixel;
+                        } else if (preloadpos == 3) {
+                            drive.followTrajectorySequenceAsync(DriveToBackBoardRight);
+                            target = 2300;                            servo.reset();
+                            stage = Stage.placePixel;
 
-                            }
-                        }
-                        else if(pixels == 1){
-                            if(!drive.isBusy()) {
-                                target = 2500;
-                            }
-                            if(robot.liftA.getCurrentPosition() > 2400 && !servoUp){
-                                servo.reset();
-                                servoUp = true;
-                            }
-                            if(servo.seconds() > 2){
-                                robot.servo(false, 2, true);
-                            }
-                            if(servo.seconds() >4){
-                                stage = Stage.liftDown;
-                            }
                         }
                     }
 
@@ -318,33 +301,37 @@ public class HPRedRR22 extends LinearOpMode {
                             servoUp = true;
                         }
                     }
-                    if(servoUp&& servo.seconds() > .5){
-                        robot.L1.setPosition(robot.OUTTAKEA_OPEN);
+                    if(servoUp&& servo.seconds() > 2){
+                        robot.L2.setPosition(robot.OUTTAKEB_OPEN);
                     }
-                    if(servo.seconds() > 1) {
+                    if(servo.seconds() > 4) {
                         if (!drive.isBusy() && servoUp) {
-                            stage = Stage.liftDown;
+                            stage = Stage.backCollect;
                         }
                     }
                     break;
-                case backUp:
-                    robot.autonIntake.setPower(-1);
-                    robot.autonHeightControlS.setPosition(.8);
-                    if(!drive.isBusy()){
-                        if(preloadpos == 1) {
-                            drive.followTrajectorySequenceAsync(DriveBackFromBBL);
-                            stage = Stage.backCollect;
-                        }
-                        else if(preloadpos == 2){
-                            drive.followTrajectorySequenceAsync(DriveBackFromBBM);
-                            stage = Stage.backCollect;
-                        }
-                        else if(preloadpos == 3){
-                            drive.followTrajectorySequenceAsync(DriveBackFromBBR);
-                            stage = Stage.backCollect;
-                        }
+                case backCollect:
+                    if(preloadpos == 1){
+                        target = -45;
+                        robot.autonHeightControlS.setPosition(.7);
+                        robot.autonIntake.setPower(1);
+                        drive.followTrajectorySequenceAsync(DriveBackFromBBL);
+                        stage = Stage.end;
                     }
-
+                    else if(preloadpos ==2){
+                        target = -45;
+                        robot.autonHeightControlS.setPosition(.7);
+                        robot.autonIntake.setPower(1);
+                        drive.followTrajectorySequenceAsync(DriveBackFromBBM);
+                        stage = Stage.end;
+                    }
+                    else if(preloadpos == 3){
+                        target = -45;
+                        robot.autonHeightControlS.setPosition(.7);
+                        robot.autonIntake.setPower(1);
+                        drive.followTrajectorySequenceAsync(DriveBackFromBBR);
+                        stage = Stage.end;
+                    }
                     break;
                 case park:
                     if(!drive.isBusy()) {
@@ -367,42 +354,17 @@ public class HPRedRR22 extends LinearOpMode {
                     break;
                 case liftDown:
                     if(!drive.isBusy()){
-                        servoUp = false;
-                        target = -30;
-                        if(pixels == 0){
-                            //drive.followTrajectorySequenceAsync();
-                            stage = Stage.backUp;
-                        }
-                        if(pixels == 1) {
-                            stage = Stage.park;
-                        }
+                        target = -100;
+                        stage = Stage.end;
                     }
                     break;
-
                 case end:
                     telemetry.addData("Lift Is: ", robot.liftA.getCurrentPosition());
                     telemetry.addData("Target: ", target);
                     telemetry.update();
                     break;
-                case backCollect:
-                    robot.autonIntake.setPower(-1);
-                    robot.autonHeightControlS.setPosition(.8);
-                    robot.intake.setPower(1);
-                    if(!drive.isBusy()){
-                        drive.followTrajectorySequenceAsync(DriveToCollectFirst);
-                        servo.reset();
-                        stage = Stage.collect;
-                    }
-                    break;
-                case collect:
-                    if(servo.seconds() > 2){
-                        robot.servo(true, 2, true);
-                        pixels = 1;
-                        drive.followTrajectorySequenceAsync(DriveToPlaceBeforeLift);
-                        stage = Stage.liftUp;
-                    }
 
-                    break;
+
 
             }
 
@@ -411,6 +373,7 @@ public class HPRedRR22 extends LinearOpMode {
 
         }
     }
+
 
     ///// TRAJECTORIES /////
     //FORWARD

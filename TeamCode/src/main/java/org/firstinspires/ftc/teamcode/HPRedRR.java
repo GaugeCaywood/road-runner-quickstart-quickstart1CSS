@@ -177,7 +177,7 @@ public class HPRedRR extends LinearOpMode {
                 target = 4000;
 
             }
-            if(robot.liftA.getCurrentPosition() < 1500){
+            if(robot.liftA.getCurrentPosition() < 1800){
                 robot.wristDown();
             }
 
@@ -276,7 +276,7 @@ public class HPRedRR extends LinearOpMode {
 
 
                     if(!drive.isBusy()) {
-                        if (!servoUp && robot.liftA.getCurrentPosition() > 1500) {
+                        if (!servoUp && robot.liftA.getCurrentPosition() > 1800) {
                             robot.wristUp();
                             servoUp = true;
                         }
