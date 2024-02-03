@@ -131,17 +131,7 @@ public class newDrive extends LinearOpMode {
 
             }
             /////////////INTAKE HEIGHT CONTROL////////////////
-            if(gamepad2.right_stick_y >.1){
-                servoPos += .01;
-                robot.autonHeightControlS.setPosition(servoPos);
-            }
-            else if(gamepad2.right_stick_y < .1){
-                servoPos -= .01;
-                robot.autonHeightControlS.setPosition(servoPos);
-            }
-            if(gamepad2.right_bumper){
-                robot.autonIntake.setPower(1);
-            }
+
             /////////////INTAKE PROGRAMMING///////////////////
             if(gamepad2.right_trigger > .1){
                 robot.intake.setPower(robot.INTAKE_OUT);

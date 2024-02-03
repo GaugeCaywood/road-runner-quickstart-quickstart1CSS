@@ -70,15 +70,14 @@ public class HPRedRR extends LinearOpMode {
 
         TrajectorySequence PPreloadRight = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
                 .setTangent(Math.toRadians(120))
-                .splineToLinearHeading(new Pose2d(-29, -34, Math.toRadians(180)), Math.toRadians(50))
+                .splineToLinearHeading(new Pose2d(-28, -30, Math.toRadians(180)), Math.toRadians(50))
                 .build();
 
         TrajectorySequence DriveToStackRight = drive.trajectorySequenceBuilder(PPreloadRight.end())
-                .waitSeconds(10)
                 .setTangent(Math.toRadians(200))
                 .splineToLinearHeading(new Pose2d(-57, -11, Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(34, -11, Math.toRadians(180)), Math.toRadians(-10))
+                .splineToLinearHeading(new Pose2d(34, -14, Math.toRadians(180)), Math.toRadians(-10))
                 .build();
 
 
@@ -89,41 +88,40 @@ public class HPRedRR extends LinearOpMode {
                 .setTangent(Math.toRadians(190))
                 .splineToLinearHeading(new Pose2d(-57, -12, Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(34, -12, Math.toRadians(180)), Math.toRadians(-10))
+                .splineToLinearHeading(new Pose2d(34, -9, Math.toRadians(180)), Math.toRadians(-10))
 
                 .build();
         TrajectorySequence PPreloadLeft = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
                 .lineToLinearHeading(new Pose2d(-48, -22, Math.toRadians(90)) )
                 .build();
         TrajectorySequence DriveToStackLeft = drive.trajectorySequenceBuilder(PPreloadLeft.end())
-                .waitSeconds(10)
                 .setTangent(Math.toRadians(120))
                 .splineToLinearHeading(new Pose2d(-65, -11, Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(34, -11, Math.toRadians(180)), Math.toRadians(-10))
+                .splineToLinearHeading(new Pose2d(34, -9, Math.toRadians(180)), Math.toRadians(-10))
 
                         .build();
         TrajectorySequence DriveToBackBoardMiddle = drive.trajectorySequenceBuilder(DriveToStackMiddle.end())
                 .splineToLinearHeading(new Pose2d(53, -40.5, Math.toRadians(180)), Math.toRadians(-30))
                         .build();
         TrajectorySequence DriveToBackBoardLeft = drive.trajectorySequenceBuilder(DriveToStackLeft.end())
-                .splineToLinearHeading(new Pose2d(54.5, -20, Math.toRadians(180)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(53, -20, Math.toRadians(180)), Math.toRadians(-30))
 
 
                 .build();
         TrajectorySequence DriveToBackBoardRight = drive.trajectorySequenceBuilder(DriveToStackRight.end())
-                .splineToLinearHeading(new Pose2d(54.5, -46, Math.toRadians(180)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(53, -46, Math.toRadians(180)), Math.toRadians(-30))
                 .build();
         TrajectorySequence DriveToBackParkM = drive.trajectorySequenceBuilder(DriveToStackMiddle.end())
-                .splineToLinearHeading(new Pose2d(51.5, -38, Math.toRadians(180)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(50.5, -38, Math.toRadians(180)), Math.toRadians(-30))
                 .build();
         TrajectorySequence DriveToBackBoardL = drive.trajectorySequenceBuilder(DriveToStackLeft.end())
-                .splineToLinearHeading(new Pose2d(51.5, -21, Math.toRadians(180)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(50.5, -21, Math.toRadians(180)), Math.toRadians(-30))
 
 
                 .build();
         TrajectorySequence DriveToBackBoardR = drive.trajectorySequenceBuilder(DriveToStackRight.end())
-                .splineToLinearHeading(new Pose2d(51.5, -46, Math.toRadians(180)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(50.5, -46, Math.toRadians(180)), Math.toRadians(-30))
                 .build();
         robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
         robot.L2.setPosition(robot.OUTTAKEB_CLOSE);
@@ -281,10 +279,10 @@ public class HPRedRR extends LinearOpMode {
                             servoUp = true;
                         }
                     }
-                    if(servoUp&& servo.seconds() > 2){
+                    if(servoUp&& servo.seconds() > 3){
                         robot.L2.setPosition(robot.OUTTAKEB_OPEN);
                     }
-                    if(servo.seconds() > 4) {
+                    if(servo.seconds() > 6) {
                         if (!drive.isBusy() && servoUp) {
                             stage = Stage.park;
                         }

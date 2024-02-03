@@ -294,8 +294,8 @@ public class BotHardwareNew
                 L2.setPosition(OUTTAKEB_CLOSE);
             }
             else{
-                L1.setPosition(OUTTAKEA_CLOSE);
-                L2.setPosition(OUTTAKEB_CLOSE);
+                L1.setPosition(OUTTAKEA_OPEN);
+                L2.setPosition(OUTTAKEB_OPEN);
             }
         }
     }
