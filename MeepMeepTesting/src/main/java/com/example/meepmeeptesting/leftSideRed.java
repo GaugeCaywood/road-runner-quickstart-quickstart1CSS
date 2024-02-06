@@ -21,9 +21,9 @@ public class leftSideRed {
                 .setColorScheme(new ColorSchemeRedDark())
                 .setConstraints(80, 80, Math.toRadians(180), Math.toRadians(180), 18)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(-37.5, -23, Math.toRadians(90)))
-                                .setTangent(Math.toRadians(-120))
-                                .splineToSplineHeading(new Pose2d(-56, -6, Math.toRadians(180)), Math.toRadians(180))
+                        drive.trajectorySequenceBuilder(new Pose2d(51.5, -46, Math.toRadians(180)))
+                                .setTangent(Math.toRadians(0))
+                                .splineToLinearHeading(new Pose2d(44.5, -50, Math.toRadians(180)), Math.toRadians(-30))
                                 .build()
                 );
         RoadRunnerBotEntity left = new DefaultBotBuilder(meepMeep)
