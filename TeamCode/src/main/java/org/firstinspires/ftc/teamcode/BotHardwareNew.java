@@ -89,6 +89,10 @@ public class BotHardwareNew
 //        liftA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        liftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         // Set all MOTOR zero power
+        fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setPower(0);
         br.setPower(0);
         fl.setPower(0);

@@ -89,14 +89,14 @@ public class HPBlueRR extends LinearOpMode {
 
         TrajectorySequence PPreloadMiddle = drive.trajectorySequenceBuilder(new Pose2d(-34, 61.2, Math.toRadians(90)))
                 .setTangent(Math.toRadians(-120))
-                .splineToLinearHeading(new Pose2d(-46, 22, Math.toRadians(-180)), Math.toRadians(-180))
+                .splineToLinearHeading(new Pose2d(-46, 22.5, Math.toRadians(-180)), Math.toRadians(-180))
                 .build();
         TrajectorySequence DriveToStackMiddle = drive.trajectorySequenceBuilder(PPreloadMiddle.end())
 
                 .setTangent(Math.toRadians(-160))
-                .splineToLinearHeading(new Pose2d(-57, 6, Math.toRadians(-180)), Math.toRadians(-180))
+                .splineToLinearHeading(new Pose2d(-59, 10, Math.toRadians(-180)), Math.toRadians(-180))
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(25, 13, Math.toRadians(-180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(25, 14, Math.toRadians(-180)), Math.toRadians(0))
 
                 .build();
         TrajectorySequence PPreloadLeft = drive.trajectorySequenceBuilder(new Pose2d(-34, 61.2, Math.toRadians(90)))
@@ -112,28 +112,28 @@ public class HPBlueRR extends LinearOpMode {
                 .build();
         TrajectorySequence DriveToBackBoardMiddle = drive.trajectorySequenceBuilder(DriveToStackMiddle.end())
                 .setTangent(Math.toRadians(-30))
-                .splineToLinearHeading(new Pose2d(55.5, 43, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53, 42, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToBackBoardLeft = drive.trajectorySequenceBuilder(DriveToStackLeft.end())
                 .setTangent(Math.toRadians(70))
-                .splineToLinearHeading(new Pose2d(55, 47, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53, 47, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToBackBoardRight = drive.trajectorySequenceBuilder(DriveToStackRight.end())
                 .setTangent(Math.toRadians(-30))
-                .splineToLinearHeading(new Pose2d(55, 34.5, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53, 34.5, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToBackParkM = drive.trajectorySequenceBuilder(DriveToStackMiddle.end())
-                .splineToLinearHeading(new Pose2d(52, 38, Math.toRadians(180)), Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(48, 43, Math.toRadians(180)))
                 .build();
         TrajectorySequence DriveToBackBoardL = drive.trajectorySequenceBuilder(DriveToStackLeft.end())
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(45, 11, Math.toRadians(180)), Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(45, 20, Math.toRadians(180)))
 
 
                 .build();
         TrajectorySequence DriveToBackBoardR = drive.trajectorySequenceBuilder(DriveToStackRight.end())
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(48, 12, Math.toRadians(180)), Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(48, 12, Math.toRadians(180)))
                 .build();
         robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
         robot.L2.setPosition(robot.OUTTAKEB_CLOSE);
@@ -238,7 +238,7 @@ public class HPBlueRR extends LinearOpMode {
                         telemetry.addData("Lift Is: ", robot.liftA.getCurrentPosition());
                         telemetry.addData("Target: ", target);
                         telemetry.update();
-                        robot.L2.setPosition(robot.OUTTAKEB_OPEN);
+                        robot.L1.setPosition(robot.OUTTAKEA_OPEN);
 
                         stage = Stage.drivetostack;
                     }
@@ -262,19 +262,19 @@ public class HPBlueRR extends LinearOpMode {
 
                     if(!drive.isBusy()) {
                         if (preloadpos == 1) {
-                            target = 1800;
+                            target = 2300;
                             drive.followTrajectorySequenceAsync(DriveToBackBoardLeft);
-                            target = 1800;
+                            target = 2300;
                             servo.reset();
                             stage = Stage.placePixel;
                         } else if (preloadpos == 2) {
                             drive.followTrajectorySequenceAsync(DriveToBackBoardMiddle);
-                            target = 1800;
+                            target = 2300;
                             servo.reset();
                             stage = Stage.placePixel;
                         } else if (preloadpos == 3) {
                             drive.followTrajectorySequenceAsync(DriveToBackBoardRight);
-                            target = 1800;                            servo.reset();
+                            target = 2300;                            servo.reset();
                             stage = Stage.placePixel;
 
                         }
@@ -291,7 +291,7 @@ public class HPBlueRR extends LinearOpMode {
                         }
                     }
                     if(servoUp&& servo.seconds() > 3){
-                        robot.L1.setPosition(robot.OUTTAKEA_OPEN);
+                        robot.L2.setPosition(robot.OUTTAKEB_OPEN);
                     }
                     if(servo.seconds() > 4) {
                         if (!drive.isBusy() && servoUp) {

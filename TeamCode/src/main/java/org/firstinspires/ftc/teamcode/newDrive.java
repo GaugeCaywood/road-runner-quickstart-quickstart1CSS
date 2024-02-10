@@ -36,14 +36,10 @@ public class newDrive extends LinearOpMode {
     public static double p = 0.007, i = 0, d = 0.000;
     public static double f = 0.001;
     public static int target = -15;
-    public static double servoPos = .5;
+
     private final double ticks_in_degree = 751.8 / 180;
-    public enum Claw{
-        servo1,
-        servo2,
-        open
-    }
-    Claw claw = Claw.open;
+
+
     @Override
     public void runOpMode() {
 
@@ -56,10 +52,7 @@ public class newDrive extends LinearOpMode {
 
         runtime.reset();
         while (opModeIsActive()) {
-            robot.fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            robot.fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            robot.br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            robot.bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
             controller = new PIDController(p, i, d);
             telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
             int armPoz = robot.liftA.getCurrentPosition();
@@ -67,13 +60,7 @@ public class newDrive extends LinearOpMode {
             double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
             double power = pid + ff;
             /*ENCODER TELEMETRY*/
-            robot.liftA.setPower(power);
-            robot.liftB.setPower(power);
-            telemetry.addData("Current time: ", runtime.seconds());
-            telemetry.addData(" ", " ");
-            telemetry.addData("LiftA", robot.liftA.getCurrentPosition());
 
-            telemetry.addData("Target: ", target);
 
 
             /*DRIVE PROGRAMING*/
@@ -120,9 +107,21 @@ public class newDrive extends LinearOpMode {
             else if(gamepad2.dpad_up){
                 target = 4500;
             }
-            if(gamepad2.left_stick_x > .1){
+            else if(gamepad2.left_bumper && target >=    100){
+                target -= 50;
+            }
+            else if (gamepad2.right_bumper&& target <= 4500) {
+                target += 50;
+            }
+            else if(gamepad2.left_stick_x > .1){
                 target -= 3;
             }
+
+            else if (gamepad2.touchpad) {
+                robot.liftA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.liftA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            }
+
             ///////////9.11 programming/////////////////
             if(gamepad1.right_trigger > .1){
 
@@ -147,7 +146,7 @@ public class newDrive extends LinearOpMode {
                 robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
                 robot.L2.setPosition(robot.OUTTAKEB_CLOSE);
             }
-            if(gamepad2.x){
+            else if(gamepad2.x){
                 robot.L1.setPosition(robot.OUTTAKEA_OPEN);
             }
             else if(gamepad2.a){
@@ -162,7 +161,7 @@ public class newDrive extends LinearOpMode {
             if(robot.liftA.getCurrentPosition() > robot.LIFTENCODERTRIGGER){
                 robot.wristUp();
             }
-            if(robot.liftA.getCurrentPosition() < robot.LIFTENCODERTRIGGER){
+            else if(robot.liftA.getCurrentPosition() < robot.LIFTENCODERTRIGGER){
                 robot.wristDown();
             }
             //////////////////////RUMBLE CODE/////////////////////////////
@@ -171,13 +170,12 @@ public class newDrive extends LinearOpMode {
                 gamepad2.rumbleBlips(5);
             }
 
-            if ((runtime.seconds() > 90) && (runtime.seconds() < 91) && !gamepad1.isRumbling()) {
+            else if ((runtime.seconds() > 90) && (runtime.seconds() < 91) && !gamepad1.isRumbling()) {
                 gamepad1.rumble(1000);
                 gamepad2.rumble(1000);
             }
-            telemetry.addData("LIFTA IS ", robot.liftA.getCurrentPosition());
-            telemetry.addData("LIFTB IS ", robot.liftB.getCurrentPosition());
-//            telemetry.addData("Target ", target);
+            telemetry.addData("Target: ", target);
+            telemetry.addData("LiftA: ", robot.liftA.getCurrentPosition());
             telemetry.update();
         }
     }
