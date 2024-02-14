@@ -116,7 +116,9 @@ public class newDrive extends LinearOpMode {
             else if(gamepad2.left_stick_x > .1){
                 target -= 3;
             }
-
+            else if(gamepad1.dpad_up){
+                target =2650;
+            }
             else if (gamepad2.touchpad) {
                 robot.liftA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.liftA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
