@@ -96,7 +96,7 @@ public class newDrive extends LinearOpMode {
             robot.liftA.setPower(power);
             robot.liftB.setPower(power);
             if(gamepad2.dpad_down){
-                target = -45;
+                target = -20;
             }
             else if(gamepad2.dpad_left){
                 target = 2000;
@@ -108,7 +108,7 @@ public class newDrive extends LinearOpMode {
                 target = 4500;
             }
             else if(gamepad2.left_bumper && target >=    100){
-                target -= 50;
+                target -=  50;
             }
             else if (gamepad2.right_bumper&& target <= 4500) {
                 target += 50;

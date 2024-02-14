@@ -85,15 +85,15 @@ public class BBCblue extends LinearOpMode {
         TrajectorySequence DriveToBackBoardR = drive.trajectorySequenceBuilder(DriveToPreloadR.end())
 
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(55, 31, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53, 31, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToBackBoardM = drive.trajectorySequenceBuilder(DriveToPreloadM.end())
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(55, 35, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53, 35, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToBackBoardL = drive.trajectorySequenceBuilder(DriveToPreloadL.end())
                 .setTangent(Math.toRadians(60))
-                .splineToLinearHeading(new Pose2d(53.5, 43, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(52, 43, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToParkR = drive.trajectorySequenceBuilder(DriveToBackBoardR.end())
                 .splineToLinearHeading(new Pose2d(56, 59, Math.toRadians(180)), Math.toRadians(0))
@@ -218,19 +218,19 @@ public class BBCblue extends LinearOpMode {
 
                     if(!drive.isBusy()) {
                         if (preloadpos == 1) {
-                            target = 2300;
+                            target = 2400;
                             drive.followTrajectorySequenceAsync(DriveToBackBoardL);
-                            target = 2300;
+                            target = 2400;
                             servo.reset();
                             stage = Stage.placePixel;
                         } else if (preloadpos == 2) {
                             drive.followTrajectorySequenceAsync(DriveToBackBoardM);
-                            target = 2300;
+                            target = 2400;
                             servo.reset();
                             stage = Stage.placePixel;
                         } else if (preloadpos == 3) {
                             drive.followTrajectorySequenceAsync(DriveToBackBoardR);
-                            target = 2000;                            servo.reset();
+                            target = 2400;                            servo.reset();
                             stage = Stage.placePixel;
 
                         }

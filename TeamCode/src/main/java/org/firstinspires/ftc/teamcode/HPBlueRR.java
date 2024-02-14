@@ -123,17 +123,18 @@ public class HPBlueRR extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(53, 34.5, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToBackParkM = drive.trajectorySequenceBuilder(DriveToStackMiddle.end())
-                .lineToLinearHeading(new Pose2d(48, 43, Math.toRadians(180)))
+                .setTangent(Math.toRadians(180))
+                .lineToLinearHeading(new Pose2d(46, 42, Math.toRadians(180)))
                 .build();
         TrajectorySequence DriveToBackBoardL = drive.trajectorySequenceBuilder(DriveToStackLeft.end())
                 .setTangent(Math.toRadians(180))
-                .lineToLinearHeading(new Pose2d(45, 20, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(46, 47, Math.toRadians(180)))
 
 
                 .build();
         TrajectorySequence DriveToBackBoardR = drive.trajectorySequenceBuilder(DriveToStackRight.end())
                 .setTangent(Math.toRadians(180))
-                .lineToLinearHeading(new Pose2d(48, 12, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(44, 33.5, Math.toRadians(180)))
                 .build();
         robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
         robot.L2.setPosition(robot.OUTTAKEB_CLOSE);

@@ -78,7 +78,7 @@ public class BBCred extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(23, -21, Math.toRadians(0)), Math.toRadians(70))
                 .build();
         TrajectorySequence DriveToPreloadL = drive.trajectorySequenceBuilder(new Pose2d(12, -61.2, Math.toRadians(-90)))
-                .setTangent(Math.toRadians(20)).splineToLinearHeading(new Pose2d(7, -28, Math.toRadians(0)), Math.toRadians(70))
+                .setTangent(Math.toRadians(70)).splineToLinearHeading(new Pose2d(6.5, -30, Math.toRadians(0)), Math.toRadians(140))
                 .build();
         TrajectorySequence DriveToBackBoardR = drive.trajectorySequenceBuilder(DriveToPreloadR.end())
 
@@ -91,7 +91,7 @@ public class BBCred extends LinearOpMode {
                 .build();
         TrajectorySequence DriveToBackBoardL = drive.trajectorySequenceBuilder(DriveToPreloadL.end())
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(53, -26, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(52.5, -25, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToParkR = drive.trajectorySequenceBuilder(DriveToBackBoardR.end())
                 .splineToLinearHeading(new Pose2d(54, -59, Math.toRadians(180)), Math.toRadians(0))

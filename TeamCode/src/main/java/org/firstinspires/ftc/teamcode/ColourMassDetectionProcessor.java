@@ -9,6 +9,8 @@ import android.text.TextPaint;
 
 import androidx.annotation.NonNull;
 
+import com.acmerobotics.dashboard.config.Config;
+
 import org.firstinspires.ftc.robotcore.external.function.Consumer;
 import org.firstinspires.ftc.robotcore.external.function.Continuation;
 import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
@@ -27,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.DoubleSupplier;
-
+@Config
 public class ColourMassDetectionProcessor implements VisionProcessor, CameraStreamSource {
     private final DoubleSupplier minArea, left, right;
     private final Scalar upper; // lower bounds for masking

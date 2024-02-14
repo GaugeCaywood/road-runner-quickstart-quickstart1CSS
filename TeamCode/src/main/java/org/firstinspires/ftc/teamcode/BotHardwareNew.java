@@ -30,16 +30,14 @@ public class BotHardwareNew
     public DcMotor liftB = null;
     public DcMotor intake = null;
     //SENSORS
-    public DistanceSensor backDS = null;
-    public ColorSensor frontColorSensor = null;
+
     //HARVESTER SERVOS
     public Servo    L1;
     public Servo   L2;
     public Servo planeS = null;
     public Servo wristL;
     public Servo wristR;
-    public Servo autonHeightControlS;
-    public CRServo autonIntake;
+
 
     /* local OpMode members. */
     //DECLARING HARDWARE MAP AND A TIME SYSTEM
@@ -72,12 +70,10 @@ public class BotHardwareNew
         wristL = hwMap.get(Servo.class, "wristL");
         wristR = hwMap.get(Servo.class, "wristR");
         planeS = hwMap.get(Servo.class, "plane");
-        autonIntake = hwMap.get(CRServo.class, "autoIntake");
-        autonHeightControlS = hwMap.get(Servo.class, "autonHeight");
+
 
         //SENSORS
-        backDS = hwMap.get(DistanceSensor.class, "backColorSensor");
-        frontColorSensor = hwMap.get(ColorSensor.class, "frontColorSensor");
+
         //SETING MOTOR DIRECTIONS
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);
@@ -108,6 +104,8 @@ public class BotHardwareNew
         fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //HARVESTER SERVOS
         L1  = hwMap.get(Servo.class, "LIntake");
