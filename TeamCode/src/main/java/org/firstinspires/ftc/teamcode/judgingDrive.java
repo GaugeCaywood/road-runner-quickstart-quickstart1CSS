@@ -25,9 +25,9 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 //Last Edited 2/19/2021 10:10PM AE
 
 @Config
-@TeleOp(name="New Drive", group="Pushbot")
+@TeleOp(name="JUDGING DRIVE DO NOT USE DURING MATCH", group="judging")
 
-public class newDrive extends LinearOpMode {
+public class judgingDrive extends LinearOpMode {
     /* Declare OpMode members. */
     BotHardwareNew robot = new BotHardwareNew();
     ElapsedTime runtime = new ElapsedTime();
@@ -36,24 +36,25 @@ public class newDrive extends LinearOpMode {
     public static double p = 0.007, i = 0, d = 0.000;
     public static double f = 0.001;
     public static int target = -15;
-    public static int manual = 150;
+
     private final double ticks_in_degree = 751.8 / 180;
-
-    public enum heightControl {
-        High,
-        Medium,
-        low
+ enum judging{
+        wait,
+        liftUp1,
+        liftUp2,
+        liftUp3,
+        wristUp,
+        claw
     }
-
-    heightControl Height = heightControl.High;
-
+    judging Judging = judging.wait;
     @Override
     public void runOpMode() {
 
 
+
         robot.init(hardwareMap);
         robot.planeS.setPosition(.61);
-        robot.heightS.setPosition(robot.heightSHigh);
+
         waitForStart();
 
         runtime.reset();
@@ -65,65 +66,43 @@ public class newDrive extends LinearOpMode {
             double pid = controller.calculate(armPoz, target);
             double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
             double power = pid + ff;
-            /*ENCODER TELEMETRY*/
 
 
-
-            /*DRIVE PROGRAMING*/
-            double y = -gamepad1.left_stick_y; // Remember, this is reversed!
-            double lx = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-            double rx = gamepad1.right_stick_x;
-
-            double denominator = Math.max(Math.abs(y) + Math.abs(lx) + Math.abs(rx), 1);
-            double frontLeftPower = (y + lx + rx) / denominator;
-            double backLeftPower = (y - lx + rx) / denominator;
-            double frontRightPower = (y - lx - rx) / denominator;
-            double backRightPower = (y + lx - rx) / denominator;
-
-            robot.fl.setPower(frontLeftPower * robot.x);
-            robot.bl.setPower(backLeftPower * robot.x);
-            robot.fr.setPower(frontRightPower * robot.x);
-            robot.br.setPower(backRightPower * robot.x);
-
-
-
-            /*SPEED VARIABLES FOR DRIVE*/
-            if (gamepad1.y || gamepad1.right_bumper) {
-                robot.x = 1;
-            } else if (gamepad1.a) {
-                robot.x = 0.5;
-            } else if (gamepad1.x) {
-                robot.x = 0.75;
-            } else if (gamepad1.b || gamepad1.left_bumper) {
-                robot.x = 0.25;
-            }
             //LIFTS PROGRAMMING SLAY!
 
             robot.liftA.setPower(power);
             robot.liftB.setPower(power);
-            if (gamepad2.dpad_down) {
+            if(gamepad2.dpad_down){
                 target = -20;
-            } else if (gamepad2.dpad_left) {
+            }
+            else if(gamepad2.dpad_left){
                 target = 2000;
-            } else if (gamepad2.dpad_right) {
+            }
+            else if(gamepad2.dpad_right){
                 target = 3000;
-            } else if (gamepad2.dpad_up) {
+            }
+            else if(gamepad2.dpad_up){
                 target = 4500;
-            } else if (gamepad2.left_bumper && target >= 100) {
-                target -= 150;
-            } else if (gamepad2.right_bumper && target <= 4500) {
-                target += manual;
-            } else if (gamepad2.left_stick_x > .1) {
-                target -= 50;
-            } else if (gamepad1.dpad_up) {
-                target = 2650;
-            } else if (gamepad2.touchpad) {
+            }
+            else if(gamepad2.left_bumper && target >=    100){
+                target -=  50;
+            }
+            else if (gamepad2.right_bumper&& target <= 4500) {
+                target += 50;
+            }
+            else if(gamepad2.left_stick_x > .1){
+                target -= 3;
+            }
+            else if(gamepad1.dpad_up){
+                target =2650;
+            }
+            else if (gamepad2.touchpad) {
                 robot.liftA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.liftA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             }
 
             ///////////9.11 programming/////////////////
-            if (gamepad1.right_trigger > .1) {
+            if(gamepad1.right_trigger > .1){
 
                 robot.planeS.setPosition(0);
 
@@ -132,56 +111,87 @@ public class newDrive extends LinearOpMode {
             /////////////INTAKE HEIGHT CONTROL////////////////
 
             /////////////INTAKE PROGRAMMING///////////////////
-            if (gamepad2.right_trigger > .1) {
+            if(gamepad2.right_trigger > .1){
                 robot.intake.setPower(robot.INTAKE_OUT);
-            } else if (gamepad2.left_trigger > .1) {
+            }
+            else if(gamepad2.left_trigger > .1){
                 robot.intake.setPower(robot.INTAKE_IN);
-            } else {
+            }
+            else{
                 robot.intake.setPower(0);
             }
             //////////////CLAW CODE////////////////
-            if (gamepad2.y) {
+            if(gamepad2.y){
                 robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
                 robot.L2.setPosition(robot.OUTTAKEB_CLOSE);
-                gamepad1.rumble(200);
-            } else if (gamepad2.x) {
+            }
+            else if(gamepad2.x){
                 robot.L1.setPosition(robot.OUTTAKEA_OPEN);
-            } else if (gamepad2.a) {
+            }
+            else if(gamepad2.a){
                 robot.L1.setPosition(robot.OUTTAKEA_OPEN);
                 robot.L2.setPosition(robot.OUTTAKEB_OPEN);
-            } else if (gamepad2.b) {
+            }
+            else if(gamepad2.b){
                 robot.L2.setPosition(robot.OUTTAKEB_OPEN);
             }
 
-            //////////////WRIST CODE//////////////////
-            if (robot.liftA.getCurrentPosition() > robot.LIFTENCODERTRIGGER) {
+            if(gamepad1.dpad_up){
                 robot.wristUp();
-            } else if (robot.liftA.getCurrentPosition() < robot.LIFTENCODERTRIGGER) {
+            }
+            if(gamepad1.dpad_down){
                 robot.wristDown();
             }
             //////////////////////RUMBLE CODE/////////////////////////////
             if ((runtime.seconds() > 85) && (runtime.seconds() < 86) && !gamepad1.isRumbling()) {
                 gamepad1.rumbleBlips(5);
                 gamepad2.rumbleBlips(5);
-            } else if ((runtime.seconds() > 90) && (runtime.seconds() < 91) && !gamepad1.isRumbling()) {
+            }
+
+            else if ((runtime.seconds() > 90) && (runtime.seconds() < 91) && !gamepad1.isRumbling()) {
                 gamepad1.rumble(1000);
                 gamepad2.rumble(1000);
             }
             telemetry.addData("Target: ", target);
             telemetry.addData("LiftA: ", robot.liftA.getCurrentPosition());
             telemetry.update();
-
-
-            //////////////Height Control////////
-            if(gamepad2.right_stick_y < 0){
-                robot.high();
-            }
-            if(gamepad2.right_stick_y > 0 && gamepad2.right_stick_y < .5){
-                robot.Medium();
-            }
-            if(gamepad2.right_stick_y> .5){
-                robot.low();
+            switch(Judging){
+                case wait:
+                    if(gamepad1.a){
+                        Judging = judging.liftUp1;
+                    }
+                    break;
+                case liftUp1:
+                    target = 2000;
+                    if(gamepad1.a){
+                        Judging = judging.liftUp2;
+                    }
+                    break;
+                case liftUp2:
+                    target = 3000;
+                    if(gamepad1.a){
+                        Judging = judging.liftUp3;
+                    }
+                    break;
+                case liftUp3:
+                    target =4000;
+                    if(gamepad1.a){
+                        Judging = judging.claw;
+                    }
+                    break;
+                case claw:
+                    robot.servo(false, 2,true);
+                    if(gamepad1.a){
+                        Judging = judging.wristUp;
+                    }
+                    break;
+                case wristUp:
+                    robot.wristUp();
+                    if(gamepad1.a){
+                        Judging = judging.wait;
+                    }
             }
         }
     }
 }
+

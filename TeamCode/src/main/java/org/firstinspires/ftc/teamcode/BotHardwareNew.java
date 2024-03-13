@@ -37,7 +37,7 @@ public class BotHardwareNew
     public Servo planeS = null;
     public Servo wristL;
     public Servo wristR;
-
+    public Servo heightS;
 
     /* local OpMode members. */
     //DECLARING HARDWARE MAP AND A TIME SYSTEM
@@ -70,7 +70,7 @@ public class BotHardwareNew
         wristL = hwMap.get(Servo.class, "wristL");
         wristR = hwMap.get(Servo.class, "wristR");
         planeS = hwMap.get(Servo.class, "plane");
-
+        heightS = hwMap.get(Servo.class, "heightS");
 
         //SENSORS
 
@@ -82,6 +82,7 @@ public class BotHardwareNew
         liftA.setDirection(DcMotor.Direction.FORWARD);
       liftB.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(DcMotor.Direction.FORWARD);
+
 //        liftA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        liftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         // Set all MOTOR zero power
@@ -116,6 +117,7 @@ public class BotHardwareNew
         L2.setPosition(.66);
         wristR.setPosition(.403);
         wristL.setPosition(.403);
+        heightS.setPosition(0);
     }
     ///////////AUTON VALUES////////////////
 
@@ -127,6 +129,11 @@ public class BotHardwareNew
     public static final int LIFTA_HIGH = 4500;
 
     public static double lift = 1;
+
+    ////////Height Positions///////////
+    public static final double heightSHigh = .70;
+    public static final double heightSMedium = .59;
+    public static final double heightSLow = .55;
 
     //////////CLAW VALUES//////////////////
     public static final double OUTTAKEA_OPEN = 0.735; //UPDATE THIS
@@ -301,6 +308,15 @@ public class BotHardwareNew
             }
         }
     }
-
+    ///////Height Control///////////
+    public void high(){
+        heightS.setPosition(heightSHigh);
+    }
+    public void Medium(){
+        heightS.setPosition(heightSMedium);
+    }
+    public void low(){
+        heightS.setPosition(heightSLow);
+    }
 
 }

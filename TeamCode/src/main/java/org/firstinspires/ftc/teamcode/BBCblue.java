@@ -72,7 +72,7 @@ public class BBCblue extends LinearOpMode {
         drive.setPoseEstimate(new Pose2d(14, 61.2, Math.toRadians(90)));
         TrajectorySequence DriveToPreloadR =  drive.trajectorySequenceBuilder(new Pose2d(14, 61.2, Math.toRadians(90)))
                 .setTangent(Math.toRadians(-40))
-                .splineToLinearHeading(new Pose2d(8, 30, Math.toRadians(0)), Math.toRadians(-100))
+                .splineToLinearHeading(new Pose2d(8, 32, Math.toRadians(0)), Math.toRadians(-100))
                 .build();
         TrajectorySequence DriveToPreloadM = drive.trajectorySequenceBuilder(new Pose2d(14, 61.2, Math.toRadians(90)))
                 .setTangent(Math.toRadians(-40))
@@ -88,12 +88,12 @@ public class BBCblue extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(53, 31, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToBackBoardM = drive.trajectorySequenceBuilder(DriveToPreloadM.end())
-                .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(53, 35, Math.toRadians(180)), Math.toRadians(0))
+                .setTangent(Math.toRadians(20))
+                .splineToLinearHeading(new Pose2d(53, 37, Math.toRadians(180)), Math.toRadians(90))
                 .build();
         TrajectorySequence DriveToBackBoardL = drive.trajectorySequenceBuilder(DriveToPreloadL.end())
                 .setTangent(Math.toRadians(60))
-                .splineToLinearHeading(new Pose2d(52, 43, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(52, 44.5, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToParkR = drive.trajectorySequenceBuilder(DriveToBackBoardR.end())
                 .splineToLinearHeading(new Pose2d(56, 59, Math.toRadians(180)), Math.toRadians(0))
@@ -218,19 +218,19 @@ public class BBCblue extends LinearOpMode {
 
                     if(!drive.isBusy()) {
                         if (preloadpos == 1) {
-                            target = 2400;
+
                             drive.followTrajectorySequenceAsync(DriveToBackBoardL);
-                            target = 2400;
+
                             servo.reset();
                             stage = Stage.placePixel;
                         } else if (preloadpos == 2) {
                             drive.followTrajectorySequenceAsync(DriveToBackBoardM);
-                            target = 2400;
+
                             servo.reset();
                             stage = Stage.placePixel;
                         } else if (preloadpos == 3) {
                             drive.followTrajectorySequenceAsync(DriveToBackBoardR);
-                            target = 2400;                            servo.reset();
+                       servo.reset();
                             stage = Stage.placePixel;
 
                         }
@@ -241,6 +241,7 @@ public class BBCblue extends LinearOpMode {
 
 
                     if(!drive.isBusy()) {
+                        target = 2000;
                         if (!servoUp && robot.liftA.getCurrentPosition() > 1800) {
                             robot.wristUp();
                             servoUp = true;

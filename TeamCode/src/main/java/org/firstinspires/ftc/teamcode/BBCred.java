@@ -83,7 +83,7 @@ public class BBCred extends LinearOpMode {
         TrajectorySequence DriveToBackBoardR = drive.trajectorySequenceBuilder(DriveToPreloadR.end())
 
                 .setTangent(Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(53, -39, Math.toRadians(180)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(53.5, -39, Math.toRadians(180)), Math.toRadians(0))
                         .build();
         TrajectorySequence DriveToBackBoardM = drive.trajectorySequenceBuilder(DriveToPreloadM.end())
                 .setTangent(Math.toRadians(0))
@@ -216,19 +216,19 @@ public class BBCred extends LinearOpMode {
 
                     if(!drive.isBusy()) {
                         if (preloadpos == 1) {
-                            target = 2000;
+
                             drive.followTrajectorySequenceAsync(DriveToBackBoardL);
-                            target = 2000;
+
                             servo.reset();
                             stage = Stage.placePixel;
                         } else if (preloadpos == 2) {
                             drive.followTrajectorySequenceAsync(DriveToBackBoardM);
-                            target = 2000;
+
                             servo.reset();
                             stage = Stage.placePixel;
                         } else if (preloadpos == 3) {
                             drive.followTrajectorySequenceAsync(DriveToBackBoardR);
-                            target = 2000;                            servo.reset();
+                            servo.reset();
                             stage = Stage.placePixel;
 
                         }
@@ -239,6 +239,7 @@ public class BBCred extends LinearOpMode {
 
 
                     if(!drive.isBusy()) {
+                        target = 2000;
                         if (!servoUp && robot.liftA.getCurrentPosition() > 1800) {
                             robot.wristUp();
                             servoUp = true;
