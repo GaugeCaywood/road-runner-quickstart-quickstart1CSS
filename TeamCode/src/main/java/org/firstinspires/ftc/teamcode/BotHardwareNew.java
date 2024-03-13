@@ -119,14 +119,11 @@ public class BotHardwareNew
         wristL.setPosition(.403);
         heightS.setPosition(0);
     }
-    ///////////AUTON VALUES////////////////
 
 
     //////////LIFT VALUES/////////////////
     public static double LIFT_POWER = 0.50;
-    public static final int LIFTA_LOW = 2000;
-    public static final int LIFTA_MED = 3000;
-    public static final int LIFTA_HIGH = 4500;
+
 
     public static double lift = 1;
 
@@ -136,14 +133,14 @@ public class BotHardwareNew
     public static final double heightSLow = .55;
 
     //////////CLAW VALUES//////////////////
-    public static final double OUTTAKEA_OPEN = 0.735; //UPDATE THIS
-    public static final double OUTTAKEB_OPEN = 0.66; //UPDATE THIS
-    public static final double OUTTAKEA_CLOSE = 0.193; //UPDATE THIS
-    public static final double OUTTAKEB_CLOSE = 0.1724; //UPDATE THIS
+    public static final double OUTTAKEA_OPEN = 0.735;
+    public static final double OUTTAKEB_OPEN = 0.66;
+    public static final double OUTTAKEA_CLOSE = 0.193;
+    public static final double OUTTAKEB_CLOSE = 0.1724;
 
     //////////INTAKE VALUES////////////////
-    public static final double INTAKE_IN = 1.00; //UPDATE THIS
-    public static final double INTAKE_OUT = -1.00; //UPDATE THIS
+    public static final double INTAKE_IN = 1.00;
+    public static final double INTAKE_OUT = -1.00;
 
     /////////WRIST VALUES//////////////////
     public static final double WRIST_UP = 0.600;
@@ -153,70 +150,7 @@ public class BotHardwareNew
     ////////DRIVE VALUE/////////////////////
     public static double x= 1.0;
 
-    public enum MotorStateA {
-        LVLA,
-        RESETA
-    }
-    public enum MotorStateB {
-        LVLB,
-        RESETB
-    }
-    boolean GoPosA = true;
-    boolean GoPosB = true;
-    MotorStateB motorStateB = MotorStateB.LVLB;
-    MotorStateA motorStateA = MotorStateA.LVLA;
-    public void UpdateA(int target) {
-//        drive.lift.switchToLevel(target);
-//        telemetry.update();
-        liftA.setPower(LIFT_POWER);
-        liftB.setPower(LIFT_POWER);
-        StateUpdateA(true, target);
-    }
 
-    public void SetTargetPositionA(int poz) {
-        liftA.setTargetPosition(poz);
-        liftA.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-
-    public void ResetA() {
-        liftA.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-    public boolean isBusyA() {
-        return liftA.isBusy();
-    }
-
-    public void StateUpdateA(boolean IsAuto, int target) {
-        switch (motorStateA) {
-            case LVLA:
-                Position_LvlA(target);
-                break;
-            case RESETA:
-                if (IsAuto)
-                    liftA.setPower(0);
-                    liftB.setPower(0);
-                ResetA();
-
-                break;
-        }
-        if (!GoPosA) {
-            motorStateA = MotorStateA.RESETA;
-        }
-    }
-
-    public void Position_LvlA(int poz2) {
-        SetTargetPositionA(poz2);
-        if (!isBusyA()) {
-            GoPosA = false;
-        }
-    }
-
-    // LIFT POSITIONS B
-
-
-    public void UpdateLifts(int target1) {
-        UpdateA(target1);
-    }
 
     //SET MOTOR SPEEDS AND DIRECTIONS USUALLY WITH MATH ABS
     public void forward(double speed) {
