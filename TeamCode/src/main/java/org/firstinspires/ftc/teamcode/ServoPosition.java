@@ -13,6 +13,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ServoPosition extends LinearOpMode {
 //    public Servo    L1  = null;
 //    public Servo   L2  = null;
+    public Servo wristL = null;
+    public Servo wristR = null;
     public static double servoPosition = 0.5;
     public static double servo2Position =0.5;
     public Servo heightS;
@@ -22,6 +24,8 @@ public class ServoPosition extends LinearOpMode {
 //        L1  = hardwareMap.get(Servo.class, "LIntake");
 //        L2  = hardwareMap.get(Servo.class, "RIntake");
             heightS = hardwareMap.get(Servo.class, "heightS");
+//        wristL = hardwareMap.get(Servo.class, "wristL");
+//        wristR = hardwareMap.get(Servo.class, "wristR");
         servoPosition = 0.5;
         servo2Position = 0.5;
 
@@ -44,7 +48,7 @@ public class ServoPosition extends LinearOpMode {
             }
 
             heightS.setPosition(servoPosition);
-
+//            wristR.setPosition(servo2Position);
             telemetry.addData("position", servoPosition);
             telemetry.addData("position2", servo2Position);
 

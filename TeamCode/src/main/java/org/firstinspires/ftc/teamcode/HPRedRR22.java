@@ -17,10 +17,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Scalar;
 import java.lang.Math;
 import java.util.ArrayList;
+
 
 
 @Autonomous(name="Human Player Side Red RR 2+2", group="Auton")
@@ -28,8 +28,8 @@ public class HPRedRR22 extends LinearOpMode {
     //////////////////VISION//////////////////////
     private VisionPortal visionPortal;
     private ColourMassDetectionProcessorRed colourMassDetectionProcessor;
-    Scalar lower = new Scalar(140, 60, 0); // the lower hsv threshold for your detection
-    Scalar upper = new Scalar(180, 255, 255);  // the upper hsv threshold for your detection
+    Scalar lower = new Scalar(0, 60, 0); // the lower hsv threshold for your detection
+    Scalar upper = new Scalar(30, 255, 255);  // the upper hsv threshold for your detection
     boolean servoUp = false;
     double minArea = 150;
     /////////////////////HARDWARE
@@ -54,6 +54,8 @@ public class HPRedRR22 extends LinearOpMode {
 
     public static double p = 0.01, i = 0, d = 0.000;
     public static double f = 0.2;
+    public boolean drop = false;
+    ElapsedTime initTime = new ElapsedTime();
     @Override
     public void runOpMode() {
 
@@ -103,7 +105,7 @@ public class HPRedRR22 extends LinearOpMode {
                 .build();
         TrajectorySequence DriveToStackLeft = drive.trajectorySequenceBuilder(PPreloadLeft.end())
                 .setTangent(Math.toRadians(120))
-                .splineToLinearHeading(new Pose2d(-65, -11, Math.toRadians(180)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-60, -11, Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(45, -14, Math.toRadians(180)), Math.toRadians(-10))
 
@@ -112,7 +114,7 @@ public class HPRedRR22 extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(50, -37, Math.toRadians(180)), Math.toRadians(-30))
                 .build();
         TrajectorySequence DriveToBackBoardLeft = drive.trajectorySequenceBuilder(DriveToStackLeft.end())
-                .splineToLinearHeading(new Pose2d(51, -20, Math.toRadians(180)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(51, -21, Math.toRadians(180)), Math.toRadians(-30))
 
 
                 .build();
@@ -124,7 +126,7 @@ public class HPRedRR22 extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(49, -38, Math.toRadians(180)), Math.toRadians(-30))
                 .build();
         TrajectorySequence DriveToBackBoardL = drive.trajectorySequenceBuilder(DriveToStackLeft.end())
-                .splineToLinearHeading(new Pose2d(51.5, -21, Math.toRadians(180)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(49, -21, Math.toRadians(180)), Math.toRadians(-30))
 
 
                 .build();
@@ -133,10 +135,10 @@ public class HPRedRR22 extends LinearOpMode {
                 .build();
         ///Collect and Score white first
         TrajectorySequence DriveToCollectFirstR = drive.trajectorySequenceBuilder(DriveToBackBoardR.end())
-                .splineToLinearHeading(new Pose2d(43,-10,Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(43,-4,Math.toRadians(180)), Math.toRadians(0))
                 .setTangent(Math.toRadians(180))
 
-                .splineToLinearHeading(new Pose2d(-57.5, -7.5, Math.toRadians(180)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-57, -9.25                                                                                                                                                                                                                                               , Math.toRadians(180)), Math.toRadians(180))
                 .build();
         TrajectorySequence DriveToCollectFirstM = drive.trajectorySequenceBuilder(DriveToBackBoardMiddle.end())
                 .setTangent(Math.toRadians(120))
@@ -144,18 +146,27 @@ public class HPRedRR22 extends LinearOpMode {
                 .build();
         TrajectorySequence DriveToCollectFirstL = drive.trajectorySequenceBuilder(DriveToBackBoardL.end())
                 .setTangent(Math.toRadians(120))
-                .splineToLinearHeading(new Pose2d(-57, -7, Math.toRadians(180)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-59, -8.5, Math.toRadians(180)), Math.toRadians(180))
                 .build();
-        TrajectorySequence DriveToPlaceBeforeLift = drive.trajectorySequenceBuilder(DriveToCollectFirstR.end())
+        TrajectorySequence DriveToPlaceBeforeLift = drive.trajectorySequenceBuilder(DriveToCollectFirstL.end())
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(52, -38, Math.toRadians(180)), Math.toRadians(-60))
+                .splineToLinearHeading(new Pose2d(53, -34, Math.toRadians(180)), Math.toRadians(-60))
                         .build();
+        TrajectorySequence DriveToPlaceBeforeLiftM = drive.trajectorySequenceBuilder(DriveToCollectFirstM.end())
+                .setTangent(Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53, -38, Math.toRadians(180)), Math.toRadians(-60))
+                .build();
+        TrajectorySequence DriveToPlaceBeforeLiftR = drive.trajectorySequenceBuilder(DriveToCollectFirstR.end())
+                .setTangent(Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53, -34, Math.toRadians(180)), Math.toRadians(-60))
+                .build();
 
         robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
         robot.L2.setPosition(robot.OUTTAKEB_CLOSE);
         ElapsedTime servo = new ElapsedTime();
         ElapsedTime collect = new ElapsedTime();
         ElapsedTime lift = new ElapsedTime();
+
         visionProcessor();
         while(!opModeIsActive()){
 
@@ -327,11 +338,11 @@ public class HPRedRR22 extends LinearOpMode {
                         if(preloadpos == 1) {
                             drive.followTrajectorySequenceAsync(DriveToCollectFirstL);
                             robot.intake.setPower(1);
-                            robot.Medium();
+                            robot.heightS.setPosition(.055);
                         } else if (preloadpos == 2) {
                             drive.followTrajectorySequenceAsync(DriveToCollectFirstM);
                             robot.intake.setPower(1);
-                            robot.Medium();
+                            robot.heightS.setPosition(.055);
                         }
                         else{
                             drive.followTrajectorySequenceAsync(DriveToCollectFirstR);
@@ -363,7 +374,17 @@ public class HPRedRR22 extends LinearOpMode {
 
                          robot.intake.setPower(0);
                         robot.servo(true, 2, true);
+                    if (preloadpos== 1) {
+
+
                         drive.followTrajectorySequenceAsync(DriveToPlaceBeforeLift);
+                    }
+                    else if(preloadpos ==2){
+                        drive.followTrajectorySequenceAsync(DriveToPlaceBeforeLiftM);
+                    }
+                    else {
+                        drive.followTrajectorySequenceAsync(DriveToPlaceBeforeLiftR);
+                    }
                         lift.reset();
                         stage = Stage.liftUpPlaceTwo;
 
@@ -371,12 +392,19 @@ public class HPRedRR22 extends LinearOpMode {
                 case liftUpPlaceTwo:
                     robot.intake.setPower(-1);
                     if(!drive.isBusy() && !liftUp){
+
                         robot.intake.setPower(0);
                         target = 3000;
                         liftUp = true;
                     }
-                    if(robot.liftA.getCurrentPosition() > 2900){
+                    if(robot.liftA.getCurrentPosition() > 2900&& !drop){
                         robot.servo(false, 2, false);
+                        robot.L1.setPosition(robot.OUTTAKEA_OPEN);
+                        robot.L2.setPosition(robot.OUTTAKEB_OPEN);
+                        lift.reset();
+                        drop = true;
+                    }
+                    if(lift.milliseconds() >500 && drop){
                         stage = Stage.park;
                     }
                     break;

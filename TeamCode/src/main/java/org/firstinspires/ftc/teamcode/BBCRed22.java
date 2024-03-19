@@ -31,8 +31,8 @@ public class BBCRed22 extends LinearOpMode {
     //////////////////VISION//////////////////////
     private VisionPortal visionPortal;
     private ColourMassDetectionProcessorRed colourMassDetectionProcessor;
-    Scalar lower = new Scalar(110, 70, 20); // the lower hsv threshold for your detection
-    Scalar upper = new Scalar(140, 255, 255);  // the upper hsv threshold for your detection
+    Scalar lower = new Scalar(140, 60, 0); // the lower hsv threshold for your detection
+    Scalar upper = new Scalar(180, 255, 255);   // the upper hsv threshold for your detection
     boolean servoUp = false;
     double minArea = 150;
     /////////////////////HARDWARE
@@ -100,21 +100,21 @@ public class BBCRed22 extends LinearOpMode {
         TrajectorySequence DriveToCollectFirstR = drive.trajectorySequenceBuilder(DriveToBackBoardR.end())
 
                 .splineToLinearHeading(new Pose2d(20, -58,Math.toRadians(180)),Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-50,-58,Math.toRadians(180)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-50,-59,Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-57, -34,Math.toRadians(180)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-54, -34,Math.toRadians(180)), Math.toRadians(90))
                 .build();
         TrajectorySequence DriveToCollectFirstM = drive.trajectorySequenceBuilder(DriveToBackBoardM.end())
                 .splineToLinearHeading(new Pose2d(20, -58,Math.toRadians(180)),Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-50,-58,Math.toRadians(180)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-50,-59,Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-57, -34,Math.toRadians(180)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-54, -34,Math.toRadians(180)), Math.toRadians(90))
                 .build();
         TrajectorySequence DriveToCollectFirstL = drive.trajectorySequenceBuilder(DriveToBackBoardL.end())
                 .splineToLinearHeading(new Pose2d(20, -58,Math.toRadians(180)),Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-50,-58,Math.toRadians(180)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-50,-59,Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-57, -34,Math.toRadians(180)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-54, -34,Math.toRadians(180)), Math.toRadians(90))
                 .build();
         TrajectorySequence DriveToPlaceFirst = drive.trajectorySequenceBuilder(DriveToCollectFirstL.end())
                 .setTangent(Math.toRadians(90))
@@ -276,7 +276,7 @@ public class BBCRed22 extends LinearOpMode {
                             servoUp = true;
                         }
                     }
-                    if(servoUp&& servo.seconds() > 2){
+                    if(servoUp){
                         robot.L2.setPosition(robot.OUTTAKEB_OPEN);
                     }
                     if(servo.seconds() > 2.5) {

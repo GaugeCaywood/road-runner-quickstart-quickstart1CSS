@@ -35,9 +35,9 @@ public class BotHardwareNew
     public Servo    L1;
     public Servo   L2;
     public Servo planeS = null;
-    public Servo wristL;
-    public Servo wristR;
-    public Servo heightS;
+    public Servo wristL = null;
+    public Servo wristR= null;
+    public Servo heightS = null;
 
     /* local OpMode members. */
     //DECLARING HARDWARE MAP AND A TIME SYSTEM
@@ -115,8 +115,8 @@ public class BotHardwareNew
         //wrist.setPosition(0);
         L1.setPosition(.735);
         L2.setPosition(.66);
-        wristR.setPosition(.403);
-        wristL.setPosition(.403);
+        wristR.setPosition(.406);
+        wristL.setPosition(.406);
         heightS.setPosition(0);
     }
 
@@ -128,8 +128,8 @@ public class BotHardwareNew
     public static double lift = 1;
 
     ////////Height Positions///////////
-    public static final double heightSHigh = .70;
-    public static final double heightSMedium = .59;
+    public static final double heightSHigh = .19;
+    public static final double heightSMedium = .055;
     public static final double heightSLow = .55;
 
     //////////CLAW VALUES//////////////////
@@ -144,7 +144,7 @@ public class BotHardwareNew
 
     /////////WRIST VALUES//////////////////
     public static final double WRIST_UP = 0.600;
-    public static final double WRIST_DOWN = 0.40;
+    public static final double WRIST_DOWN = 0.406;
     public static final double LIFTENCODERTRIGGER = 1500;
 
     ////////DRIVE VALUE/////////////////////

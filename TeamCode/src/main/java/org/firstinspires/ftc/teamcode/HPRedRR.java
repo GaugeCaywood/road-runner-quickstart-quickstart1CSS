@@ -28,8 +28,8 @@ public class HPRedRR extends LinearOpMode {
 //////////////////VISION//////////////////////
     private VisionPortal visionPortal;
     private ColourMassDetectionProcessorRed colourMassDetectionProcessor;
-    Scalar lower = new Scalar(140, 60, 0); // the lower hsv threshold for your detection
-    Scalar upper = new Scalar(180, 255, 255);  // the upper hsv threshold for your detection
+    Scalar lower = new Scalar(0, 60, 0); // the lower hsv threshold for your detection
+    Scalar upper = new Scalar(30, 255, 255);  // the upper hsv threshold for your detection
     boolean servoUp = false;
     double minArea = 150;
     /////////////////////HARDWARE
