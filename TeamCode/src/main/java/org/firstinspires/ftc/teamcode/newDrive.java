@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.arcrobotics.ftclib.controller.PIDController;
@@ -55,7 +56,7 @@ public class newDrive extends LinearOpMode {
         robot.planeS.setPosition(.61);
         robot.heightS.setPosition(robot.heightSHigh);
         waitForStart();
-
+        robot.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         runtime.reset();
         while (opModeIsActive()) {
 
@@ -141,15 +142,19 @@ public class newDrive extends LinearOpMode {
             }
             //////////////CLAW CODE////////////////
             if (gamepad2.y) {
+                robot.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
                 robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
                 robot.L2.setPosition(robot.OUTTAKEB_CLOSE);
                 gamepad1.rumble(200);
             } else if (gamepad2.x) {
+                robot.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED);
                 robot.L1.setPosition(robot.OUTTAKEA_OPEN);
             } else if (gamepad2.a) {
+                robot.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
                 robot.L1.setPosition(robot.OUTTAKEA_OPEN);
                 robot.L2.setPosition(robot.OUTTAKEB_OPEN);
             } else if (gamepad2.b) {
+                robot.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED);
                 robot.L2.setPosition(robot.OUTTAKEB_OPEN);
             }
 

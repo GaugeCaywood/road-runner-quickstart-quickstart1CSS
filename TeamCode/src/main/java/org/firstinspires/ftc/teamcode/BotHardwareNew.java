@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -39,6 +40,8 @@ public class BotHardwareNew
     public Servo wristR= null;
     public Servo heightS = null;
 
+    //Blinkin//
+    public RevBlinkinLedDriver lights;
     /* local OpMode members. */
     //DECLARING HARDWARE MAP AND A TIME SYSTEM
     HardwareMap hwMap           =  null;
@@ -74,6 +77,9 @@ public class BotHardwareNew
 
         //SENSORS
 
+        //Blinkin Driver
+        lights = hwMap.get(RevBlinkinLedDriver.class, "lights");
+
         //SETING MOTOR DIRECTIONS
         fl.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.REVERSE);
@@ -97,6 +103,7 @@ public class BotHardwareNew
         liftA.setPower(0);
         liftB.setPower(0);
         intake.setPower(0);
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.DARK_RED);
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
