@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode;
+import android.annotation.SuppressLint;
 import android.hardware.TriggerEvent;
 import android.hardware.TriggerEventListener;
 
@@ -50,9 +51,10 @@ public class commandOpMode extends CommandOpMode{
         new GamepadButton(secondaryGamepad, GamepadKeys.Button.X).whenPressed(() -> robot.servoOpenLightsL1());
         new GamepadButton(secondaryGamepad, GamepadKeys.Button.RIGHT_BUMPER).and(new Trigger(()->target >= 100)) .whenActive(()->target -= 150 );
         new GamepadButton(secondaryGamepad, GamepadKeys.Button.LEFT_BUMPER).and(new Trigger(()->target <= 5000)) .whenActive(()->target += manual );
+        new Trigger(()-> gamepad2.left_stick_x > .1).whenActive(()-> target -=50);
         new Trigger(() -> gamepad2.right_trigger> .1).whenActive(() ->robot.intake.setPower(robot.INTAKE_OUT));
         new Trigger(()-> gamepad2.left_trigger>.1).whenActive(() -> robot.intake.setPower(robot.INTAKE_IN));
-        new Trigger(()-> gamepad2.left_trigger> .1).and(new Trigger(()-> gamepad2.right_trigger>.1)) .whenInactive(()-> robot.intake.setPower(0));
+        new Trigger(()-> gamepad2.left_trigger< .1).and(new Trigger(()-> gamepad2.right_trigger<.1)) .whenActive(()-> robot.intake.setPower(0));
         new GamepadButton(firstGamepad, GamepadKeys.Button.A).whenPressed(()-> x = .5);
         new GamepadButton(firstGamepad,GamepadKeys.Button.X).whenPressed(() -> x =.75);
         new GamepadButton(firstGamepad,GamepadKeys.Button.B).whenPressed(() -> x =.25);
@@ -61,7 +63,7 @@ public class commandOpMode extends CommandOpMode{
         new Trigger(() -> gamepad1.right_trigger> .1).whenActive(() ->robot.planeS.setPosition(0));
         new Trigger(() -> robot.liftA.getCurrentPosition() > robot.LIFTENCODERTRIGGER).whenActive(()-> robot.wristUp());
         new Trigger(()-> robot.liftA.getCurrentPosition() < robot.LIFTENCODERTRIGGER).whenActive(()-> robot.wristDown());
-        new Trigger(()-> gamepad2.left_stick_x > .1).whenActive(()-> target -=50);
+
         new Trigger(()-> runtime.seconds()>85).and(new Trigger(()-> runtime.seconds()<86)).and(new Trigger(()-> !gamepad1.isRumbling())).whenActive(() -> gamepad1.rumbleBlips(5)).whenActive(()-> gamepad2.rumbleBlips(5));
         new Trigger(()-> runtime.seconds()>90).and(new Trigger(()-> runtime.seconds()<91)).and(new Trigger(()-> !gamepad1.isRumbling())).whenActive(() -> gamepad1.rumble(1000)).whenActive(()-> gamepad2.rumble(1000));
     }
@@ -71,12 +73,13 @@ public class commandOpMode extends CommandOpMode{
         robot.init(hardwareMap);
         waitForStart();
         while (opModeIsActive()) {
-
             super.run();
+            run();
             if (gamepad2.touchpad) {
                 robot.liftA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 robot.liftA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             }
+
             controller = new PIDController(p, i, d);
             telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
             int armPoz = robot.liftA.getCurrentPosition();
@@ -110,5 +113,7 @@ public class commandOpMode extends CommandOpMode{
 
         }
     }
+
+
 
 }
