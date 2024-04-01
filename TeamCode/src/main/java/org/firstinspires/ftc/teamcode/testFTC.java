@@ -12,7 +12,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.opencv.core.Scalar;
 
-@Disabled
+
 @TeleOp
 public class testFTC extends LinearOpMode{
     private ColourMassDetectionProcessorRed colourMassDetectionProcessor;

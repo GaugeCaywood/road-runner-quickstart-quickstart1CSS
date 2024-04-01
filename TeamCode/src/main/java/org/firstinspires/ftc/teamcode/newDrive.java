@@ -72,7 +72,7 @@ public class newDrive extends LinearOpMode {
 
             /*DRIVE PROGRAMING*/
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
-            double lx = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+            double lx = gamepad1.left_stick_x; // Counteract imperfect strafing
             double rx = gamepad1.right_stick_x;
 
             double denominator = Math.max(Math.abs(y) + Math.abs(lx) + Math.abs(rx), 1);
@@ -112,7 +112,7 @@ public class newDrive extends LinearOpMode {
                 target = 4500;
             } else if (gamepad2.left_bumper && target >= 100) {
                 target -= 150;
-            } else if (gamepad2.right_bumper && target <= 4500) {
+            } else if (gamepad2.right_bumper && target <= 5000) {
                 target += manual;
             } else if (gamepad2.left_stick_x > .1) {
                 target -= 50;
@@ -178,15 +178,7 @@ public class newDrive extends LinearOpMode {
 
 
             //////////////Height Control////////
-            if(gamepad2.right_stick_y < 0){
-                robot.high();
-            }
-            if(gamepad2.right_stick_y > 0 && gamepad2.right_stick_y < .5){
-                robot.Medium();
-            }
-            if(gamepad2.right_stick_y> .5){
-                robot.low();
-            }
+
         }
     }
 }

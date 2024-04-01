@@ -17,39 +17,37 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 //Last Edited 10/27/2022 6:59PM MST
 
-public class BotHardwareNew
-{
+public class BotHardwareNew {
     //constantsNew constants = new constantsNew();
 
     /* Public OpMode members. */
     //MOTOR NULE DECLARATION
-    public DcMotor  fr   = null;
-    public DcMotor  br   = null;
-    public DcMotor  fl   = null;
-    public DcMotor  bl   = null;
+    public DcMotor fr = null;
+    public DcMotor br = null;
+    public DcMotor fl = null;
+    public DcMotor bl = null;
     public DcMotor liftA = null;
     public DcMotor liftB = null;
     public DcMotor intake = null;
     //SENSORS
 
     //HARVESTER SERVOS
-    public Servo    L1;
-    public Servo   L2;
+    public Servo L1;
+    public Servo L2;
     public Servo planeS = null;
     public Servo wristL = null;
-    public Servo wristR= null;
+    public Servo wristR = null;
     public Servo heightS = null;
 
     //Blinkin//
     public RevBlinkinLedDriver lights;
     /* local OpMode members. */
     //DECLARING HARDWARE MAP AND A TIME SYSTEM
-    HardwareMap hwMap           =  null;
-
+    HardwareMap hwMap = null;
 
 
     /* Constructor */
-    public BotHardwareNew(){
+    public BotHardwareNew() {
 
     }
 
@@ -62,10 +60,10 @@ public class BotHardwareNew
 //        revBlinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, LED)
         // Define and Initialize Motors
         ElapsedTime waitTime = new ElapsedTime();
-        fr  = hwMap.get(DcMotor.class, "fr");
+        fr = hwMap.get(DcMotor.class, "fr");
         br = hwMap.get(DcMotor.class, "br");
-        fl    = hwMap.get(DcMotor.class, "fl");
-        bl  = hwMap.get(DcMotor.class, "bl");
+        fl = hwMap.get(DcMotor.class, "fl");
+        bl = hwMap.get(DcMotor.class, "bl");
         liftA = hwMap.get(DcMotor.class, "liftA");
         liftB = hwMap.get(DcMotor.class, "liftB");
         intake = hwMap.get(DcMotor.class, "intake");
@@ -86,7 +84,7 @@ public class BotHardwareNew
         fr.setDirection(DcMotor.Direction.FORWARD);
         br.setDirection(DcMotor.Direction.FORWARD);
         liftA.setDirection(DcMotor.Direction.FORWARD);
-      liftB.setDirection(DcMotor.Direction.REVERSE);
+        liftB.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(DcMotor.Direction.FORWARD);
 
 //        liftA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -95,7 +93,7 @@ public class BotHardwareNew
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-       bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setPower(0);
         br.setPower(0);
         fl.setPower(0);
@@ -116,8 +114,8 @@ public class BotHardwareNew
         liftA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //HARVESTER SERVOS
-        L1  = hwMap.get(Servo.class, "LIntake");
-        L2  = hwMap.get(Servo.class, "RIntake");
+        L1 = hwMap.get(Servo.class, "LIntake");
+        L2 = hwMap.get(Servo.class, "RIntake");
 
         //wrist.setPosition(0);
         L1.setPosition(.735);
@@ -155,8 +153,7 @@ public class BotHardwareNew
     public static final double LIFTENCODERTRIGGER = 1500;
 
     ////////DRIVE VALUE/////////////////////
-    public static double x= 1.0;
-
+    public static double x = 1.0;
 
 
     //SET MOTOR SPEEDS AND DIRECTIONS USUALLY WITH MATH ABS
@@ -201,63 +198,92 @@ public class BotHardwareNew
         br.setPower(-Math.abs(speed));
         bl.setPower(Math.abs(speed));
     }
-    public void BackwardLeft (double speed) {
+
+    public void BackwardLeft(double speed) {
         fr.setPower(-Math.abs(speed));
         fl.setPower(0);
         br.setPower(0);
         bl.setPower(-Math.abs(speed));
     }
-    public void stop(){
+
+    public void stop() {
         fr.setPower(0);
         fl.setPower(0);
         br.setPower(0);
         bl.setPower(0);
     }
-    public void wristUp(){
+
+    public void wristUp() {
         wristL.setPosition(WRIST_UP);
         wristR.setPosition(WRIST_UP);
     }
-    public void wristDown(){
+
+    public void wristDown() {
         wristL.setPosition(WRIST_DOWN);
         wristR.setPosition(WRIST_DOWN);
     }
+
     public void servo(boolean close, int servoNumber, boolean servoSideLeft) {
-        if(servoNumber == 1) {
-            if(!servoSideLeft) {
+        if (servoNumber == 1) {
+            if (!servoSideLeft) {
                 if (close) {
                     L2.setPosition(OUTTAKEB_CLOSE);
                 } else {
                     L2.setPosition(OUTTAKEB_OPEN);
                 }
             }
-            if(servoSideLeft) {
+            if (servoSideLeft) {
                 if (close) {
                     L1.setPosition(OUTTAKEA_CLOSE);
                 } else {
                     L1.setPosition(OUTTAKEA_OPEN);
                 }
             }
-        }
-        else if(servoNumber == 2){
-            if(close){
+        } else if (servoNumber == 2) {
+            if (close) {
                 L1.setPosition(OUTTAKEA_CLOSE);
                 L2.setPosition(OUTTAKEB_CLOSE);
-            }
-            else{
+            } else {
                 L1.setPosition(OUTTAKEA_OPEN);
                 L2.setPosition(OUTTAKEB_OPEN);
             }
         }
     }
+    public void servoOpenLightsBoth()
+    {
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+        L1.setPosition(OUTTAKEA_OPEN);
+        L2.setPosition(OUTTAKEB_OPEN);
+    }
+    public void servoOpenLightsL1()
+    {
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED);
+        L1.setPosition(OUTTAKEA_OPEN);
+    }
+    public void servoOpenLightsL2()
+    {
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED);
+        L2.setPosition(OUTTAKEB_OPEN);
+    }
+    public void servoCloseLights()
+    {
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+        L1.setPosition(OUTTAKEA_CLOSE);
+        L2.setPosition(OUTTAKEB_CLOSE);
+    }
     ///////Height Control///////////
-    public void high(){
+    public void high() {
         heightS.setPosition(heightSHigh);
     }
-    public void Medium(){
+
+    public void Medium() {
         heightS.setPosition(heightSMedium);
     }
-    public void low(){
+
+    public void low() {
         heightS.setPosition(heightSLow);
     }
 
+
 }
+
