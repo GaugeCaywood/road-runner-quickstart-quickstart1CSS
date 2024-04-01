@@ -40,7 +40,7 @@ public class commandOpMode extends CommandOpMode{
     secondaryGamepad = new GamepadEx(gamepad2);
     firstGamepad = new GamepadEx(gamepad1);
 
-        new GamepadButton(secondaryGamepad, GamepadKeys.Button.DPAD_DOWN).whenPressed(() -> target = -20);
+        new GamepadButton(secondaryGamepad,GamepadKeys.Button.DPAD_DOWN).whenPressed(()-> target = -20);
         new GamepadButton(secondaryGamepad,GamepadKeys.Button.DPAD_UP).whenPressed(()-> target = 4500);
         new GamepadButton(secondaryGamepad, GamepadKeys.Button.DPAD_LEFT).whenPressed(()-> target = 2000);
         new GamepadButton(secondaryGamepad, GamepadKeys.Button.DPAD_RIGHT).whenPressed(() -> target = 3000);
