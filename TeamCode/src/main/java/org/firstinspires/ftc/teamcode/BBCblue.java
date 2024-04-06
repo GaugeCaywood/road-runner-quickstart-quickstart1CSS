@@ -72,11 +72,11 @@ public class BBCblue extends LinearOpMode {
         drive.setPoseEstimate(new Pose2d(14, 61.2, Math.toRadians(90)));
         TrajectorySequence DriveToPreloadR =  drive.trajectorySequenceBuilder(new Pose2d(14, 61.2, Math.toRadians(90)))
                 .setTangent(Math.toRadians(-40))
-                .splineToLinearHeading(new Pose2d(8, 32, Math.toRadians(0)), Math.toRadians(-100))
+                .splineToLinearHeading(new Pose2d(9, 32, Math.toRadians(0)), Math.toRadians(-100))
                 .build();
         TrajectorySequence DriveToPreloadM = drive.trajectorySequenceBuilder(new Pose2d(14, 61.2, Math.toRadians(90)))
                 .setTangent(Math.toRadians(-40))
-                .splineToLinearHeading(new Pose2d(20, 25, Math.toRadians(0)), Math.toRadians(-100))
+                .splineToLinearHeading(new Pose2d(23, 24, Math.toRadians(0)), Math.toRadians(-100))
                 .build();
         TrajectorySequence DriveToPreloadL = drive.trajectorySequenceBuilder(new Pose2d(14, 61.2, Math.toRadians(90)))
                 .setTangent(Math.toRadians(-40))
@@ -85,24 +85,24 @@ public class BBCblue extends LinearOpMode {
         TrajectorySequence DriveToBackBoardR = drive.trajectorySequenceBuilder(DriveToPreloadR.end())
 
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(53, 31, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(54, 31, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToBackBoardM = drive.trajectorySequenceBuilder(DriveToPreloadM.end())
                 .setTangent(Math.toRadians(20))
-                .splineToLinearHeading(new Pose2d(53, 37, Math.toRadians(180)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(54, 38, Math.toRadians(180)), Math.toRadians(90))
                 .build();
         TrajectorySequence DriveToBackBoardL = drive.trajectorySequenceBuilder(DriveToPreloadL.end())
                 .setTangent(Math.toRadians(60))
-                .splineToLinearHeading(new Pose2d(52, 44.5, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53, 41, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToParkR = drive.trajectorySequenceBuilder(DriveToBackBoardR.end())
                 .splineToLinearHeading(new Pose2d(56, 59, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToParkM = drive.trajectorySequenceBuilder(DriveToBackBoardM.end())
-                .splineToLinearHeading(new Pose2d(56, 59, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(45, 59, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToParkL = drive.trajectorySequenceBuilder(DriveToBackBoardL.end())
-                .splineToLinearHeading(new Pose2d(56, 59, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(45, 59, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
         robot.L2.setPosition(robot.OUTTAKEB_CLOSE);
@@ -193,14 +193,16 @@ public class BBCblue extends LinearOpMode {
 
                     if (preloadpos == 3) {
                         drive.followTrajectorySequenceAsync(DriveToPreloadR);
+                        target = 300;
                     }
                     if (preloadpos == 2) {
                         drive.followTrajectorySequenceAsync(DriveToPreloadM);
+                        target = 450;
                     }
                     if (preloadpos == 1) {
                         drive.followTrajectorySequenceAsync(DriveToPreloadL);
+                        target = 500;
                     }
-                    target = 300;
                     stage = Stage.scorepreload;
                     break;
                 case scorepreload:

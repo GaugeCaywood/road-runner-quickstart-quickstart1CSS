@@ -67,44 +67,42 @@ public class BBCred extends LinearOpMode {
         //TRAJECTORIES FOR ROADRUNNER//
         //
         //
-
+        ElapsedTime servo = new ElapsedTime();
         drive.setPoseEstimate(new Pose2d(12, -61.2, Math.toRadians(-90)));
         TrajectorySequence DriveToPreloadR =  drive.trajectorySequenceBuilder(new Pose2d(12, -61.2, Math.toRadians(-90)))
                 .setTangent(Math.toRadians(40))
                 .splineToLinearHeading(new Pose2d(29.5, -29, Math.toRadians(0)), Math.toRadians(70))
+                .addDisplacementMarker(()-> {robot.L1.setPosition(robot.OUTTAKEA_OPEN);})
+                .setTangent(Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(53.5, -39, Math.toRadians(180)), Math.toRadians(0))
+
                         .build();
         TrajectorySequence DriveToPreloadM = drive.trajectorySequenceBuilder(new Pose2d(12, -61.2, Math.toRadians(-90)))
                 .setTangent(Math.toRadians(40))
                 .splineToLinearHeading(new Pose2d(23, -21, Math.toRadians(0)), Math.toRadians(70))
-                .build();
-        TrajectorySequence DriveToPreloadL = drive.trajectorySequenceBuilder(new Pose2d(12, -61.2, Math.toRadians(-90)))
-                .setTangent(Math.toRadians(70)).splineToLinearHeading(new Pose2d(6.5, -30, Math.toRadians(0)), Math.toRadians(140))
-                .build();
-        TrajectorySequence DriveToBackBoardR = drive.trajectorySequenceBuilder(DriveToPreloadR.end())
-
-                .setTangent(Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(53.5, -39, Math.toRadians(180)), Math.toRadians(0))
-                        .build();
-        TrajectorySequence DriveToBackBoardM = drive.trajectorySequenceBuilder(DriveToPreloadM.end())
+                .addDisplacementMarker(()-> {robot.L1.setPosition(robot.OUTTAKEA_OPEN);})
                 .setTangent(Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(53, -29, Math.toRadians(180)), Math.toRadians(0))
                 .build();
-        TrajectorySequence DriveToBackBoardL = drive.trajectorySequenceBuilder(DriveToPreloadL.end())
+        TrajectorySequence DriveToPreloadL = drive.trajectorySequenceBuilder(new Pose2d(12, -61.2, Math.toRadians(-90)))
+                .setTangent(Math.toRadians(70)).splineToLinearHeading(new Pose2d(6.5, -30, Math.toRadians(0)), Math.toRadians(140))
+                .addDisplacementMarker(()-> {robot.L1.setPosition(robot.OUTTAKEA_OPEN);})
                 .setTangent(Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(52.5, -25, Math.toRadians(180)), Math.toRadians(0))
+
                 .build();
-        TrajectorySequence DriveToParkR = drive.trajectorySequenceBuilder(DriveToBackBoardR.end())
+
+        TrajectorySequence DriveToParkR = drive.trajectorySequenceBuilder(DriveToPreloadR.end())
                 .splineToLinearHeading(new Pose2d(54, -59, Math.toRadians(180)), Math.toRadians(0))
                         .build();
-        TrajectorySequence DriveToParkM = drive.trajectorySequenceBuilder(DriveToBackBoardM.end())
+        TrajectorySequence DriveToParkM = drive.trajectorySequenceBuilder(DriveToPreloadM.end())
                 .splineToLinearHeading(new Pose2d(56, -59, Math.toRadians(180)), Math.toRadians(0))
                         .build();
-        TrajectorySequence DriveToParkL = drive.trajectorySequenceBuilder(DriveToBackBoardL.end())
+        TrajectorySequence DriveToParkL = drive.trajectorySequenceBuilder(DriveToPreloadL.end())
                 .splineToLinearHeading(new Pose2d(56, -59, Math.toRadians(180)), Math.toRadians(0))
                         .build();
         robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
         robot.L2.setPosition(robot.OUTTAKEB_CLOSE);
-        ElapsedTime servo = new ElapsedTime();
         visionProcessor();
         while(!opModeIsActive()){
 
@@ -191,14 +189,17 @@ public class BBCred extends LinearOpMode {
 
                     if (preloadpos == 3) {
                         drive.followTrajectorySequenceAsync(DriveToPreloadR);
+                        target = 300;
                     }
                     if (preloadpos == 2) {
                         drive.followTrajectorySequenceAsync(DriveToPreloadM);
+                        target = 600;
                     }
                     if (preloadpos == 1) {
                         drive.followTrajectorySequenceAsync(DriveToPreloadL);
+                        target = 300;
                     }
-                    target = 300;
+
                     stage = Stage.scorepreload;
                     break;
                 case scorepreload:
@@ -206,33 +207,18 @@ public class BBCred extends LinearOpMode {
                         telemetry.addData("Lift Is: ", robot.liftA.getCurrentPosition());
                         telemetry.addData("Target: ", target);
                         telemetry.update();
-                        robot.L1.setPosition(robot.OUTTAKEA_OPEN);
+
 
                         stage = Stage.liftUp;
                     }
                     break;
 
                 case liftUp:
-
-                    if(!drive.isBusy()) {
-                        if (preloadpos == 1) {
-
-                            drive.followTrajectorySequenceAsync(DriveToBackBoardL);
-
-                            servo.reset();
-                            stage = Stage.placePixel;
-                        } else if (preloadpos == 2) {
-                            drive.followTrajectorySequenceAsync(DriveToBackBoardM);
-
-                            servo.reset();
-                            stage = Stage.placePixel;
-                        } else if (preloadpos == 3) {
-                            drive.followTrajectorySequenceAsync(DriveToBackBoardR);
-                            servo.reset();
-                            stage = Stage.placePixel;
-
-                        }
+                    if(!drive.isBusy()){
+                        servo.reset();
+                        stage = Stage.placePixel;
                     }
+
 
                     break;
                 case placePixel:
@@ -245,10 +231,10 @@ public class BBCred extends LinearOpMode {
                             servoUp = true;
                         }
                     }
-                    if(servoUp&& servo.seconds() > 5){
+                    if(servoUp&& servo.seconds() > 1){
                         robot.L2.setPosition(robot.OUTTAKEB_OPEN);
                     }
-                    if(servo.seconds() > 6) {
+                    if(servo.seconds() > 2) {
                         if (!drive.isBusy() && servoUp) {
                             stage = Stage.park;
                         }

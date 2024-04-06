@@ -21,7 +21,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.arcrobotics.ftclib.gamepad.TriggerReader;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "TestDrive", group = "Test")
+@TeleOp(name = "TestDrive")
 public class commandOpMode extends CommandOpMode{
     //LIFT PIDF
     PIDController controller;
@@ -57,8 +57,7 @@ public class commandOpMode extends CommandOpMode{
         //PLANE
         new Trigger(() -> gamepad1.right_trigger> .1).whenActive(() ->robot.planeS.setPosition(0));
         //WRIST TRIGGERS
-        new Trigger(() -> robot.liftA.getCurrentPosition() > robot.LIFTENCODERTRIGGER).whenActive(()-> robot.wristUp());
-        new Trigger(()-> robot.liftA.getCurrentPosition() < robot.LIFTENCODERTRIGGER).whenActive(()-> robot.wristDown());
+
         //Gamepad 2
         //LIFT CONTROL
         new GamepadButton(secondaryGamepad,GamepadKeys.Button.DPAD_DOWN).whenPressed(()-> target = -20);
@@ -84,9 +83,12 @@ public class commandOpMode extends CommandOpMode{
     @Override
     public  void run() {
         //PLANESCLOSE
-        robot.planeS.setPosition(.61);
+
         //START HARDWAREMAP
         robot.init(hardwareMap);
+
+        new Trigger(() -> robot.liftA.getCurrentPosition() > robot.LIFTENCODERTRIGGER).whenActive(()-> robot.wristUp());
+        new Trigger(()-> robot.liftA.getCurrentPosition() < robot.LIFTENCODERTRIGGER).whenActive(()-> robot.wristDown());
         //WAIT FOR START AKA PLAY BUTTON
         waitForStart();
         while (opModeIsActive()) {

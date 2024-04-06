@@ -347,7 +347,7 @@ public class HPRedRR22 extends LinearOpMode {
                         else{
                             drive.followTrajectorySequenceAsync(DriveToCollectFirstR);
                             robot.intake.setPower(1);
-                            robot.Medium();
+                            robot.firstPixel();
                         }
                         backUp = true;
                         collect.reset();

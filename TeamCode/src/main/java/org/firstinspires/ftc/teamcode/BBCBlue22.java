@@ -313,7 +313,7 @@ public boolean backUp = false;
                 case collect:
                     if(!drive.isBusy()){
                         robot.intake.setPower(1);
-                        robot.Medium();
+                        robot.firstPixel();
                         collecting.reset();
                         stage = Stage.collecting;
                     }

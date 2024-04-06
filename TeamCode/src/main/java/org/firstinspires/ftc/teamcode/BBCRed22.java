@@ -69,69 +69,77 @@ public class BBCRed22 extends LinearOpMode {
         //
         //
 
+        ElapsedTime collect = new ElapsedTime();
         drive.setPoseEstimate(new Pose2d(12, -61.2, Math.toRadians(-90)));
         TrajectorySequence DriveToPreloadR =  drive.trajectorySequenceBuilder(new Pose2d(12, -61.2, Math.toRadians(-90)))
                 .setTangent(Math.toRadians(40))
                 .splineToLinearHeading(new Pose2d(29.5, -29, Math.toRadians(0)), Math.toRadians(70))
+                .addDisplacementMarker(()-> {robot.L1.setPosition(robot.OUTTAKEA_OPEN);})
+                .setTangent(Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(53.5, -39, Math.toRadians(180)), Math.toRadians(0))
+                .addDisplacementMarker(()->{collect.reset();})
+
                 .build();
         TrajectorySequence DriveToPreloadM = drive.trajectorySequenceBuilder(new Pose2d(12, -61.2, Math.toRadians(-90)))
                 .setTangent(Math.toRadians(40))
                 .splineToLinearHeading(new Pose2d(23, -21, Math.toRadians(0)), Math.toRadians(70))
-                .build();
-        TrajectorySequence DriveToPreloadL = drive.trajectorySequenceBuilder(new Pose2d(12, -61.2, Math.toRadians(-90)))
-                .setTangent(Math.toRadians(70)).splineToLinearHeading(new Pose2d(6.5, -30, Math.toRadians(0)), Math.toRadians(140))
-                .build();
-        TrajectorySequence DriveToBackBoardR = drive.trajectorySequenceBuilder(DriveToPreloadR.end())
-
-                .setTangent(Math.toRadians(0))
-                .splineToSplineHeading(new Pose2d(53.5, -39, Math.toRadians(180)), Math.toRadians(0))
-                .build();
-        TrajectorySequence DriveToBackBoardM = drive.trajectorySequenceBuilder(DriveToPreloadM.end())
+                .addDisplacementMarker(()-> {robot.L1.setPosition(robot.OUTTAKEA_OPEN);})
                 .setTangent(Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(53, -29, Math.toRadians(180)), Math.toRadians(0))
+                .addDisplacementMarker(()->{collect.reset();})
                 .build();
-        TrajectorySequence DriveToBackBoardL = drive.trajectorySequenceBuilder(DriveToPreloadL.end())
+        TrajectorySequence DriveToPreloadL = drive.trajectorySequenceBuilder(new Pose2d(12, -61.2, Math.toRadians(-90)))
+                .setTangent(Math.toRadians(0)).splineToLinearHeading(new Pose2d(6, -32, Math.toRadians(0)), Math.toRadians(180))
+                .addDisplacementMarker(()-> {robot.L1.setPosition(robot.OUTTAKEA_OPEN);})
+                .waitSeconds(.2)
                 .setTangent(Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(52.5, -25, Math.toRadians(180)), Math.toRadians(0))
+                .addDisplacementMarker(()->{collect.reset();})
+
                 .build();
 
 
         //collect
-        TrajectorySequence DriveToCollectFirstR = drive.trajectorySequenceBuilder(DriveToBackBoardR.end())
+        TrajectorySequence DriveToCollectFirstR = drive.trajectorySequenceBuilder(DriveToPreloadR.end())
 
-                .splineToLinearHeading(new Pose2d(20, -58,Math.toRadians(180)),Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-50,-59,Math.toRadians(180)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(20, -64,Math.toRadians(180)),Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-50,-64,Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-54, -34,Math.toRadians(180)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-57, -38,Math.toRadians(180)), Math.toRadians(90))
                 .build();
-        TrajectorySequence DriveToCollectFirstM = drive.trajectorySequenceBuilder(DriveToBackBoardM.end())
-                .splineToLinearHeading(new Pose2d(20, -58,Math.toRadians(180)),Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-50,-59,Math.toRadians(180)), Math.toRadians(180))
+        TrajectorySequence DriveToCollectFirstM = drive.trajectorySequenceBuilder(DriveToPreloadM.end())
+                .splineToLinearHeading(new Pose2d(20, -66,Math.toRadians(180)),Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-50,-66,Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-54, -34,Math.toRadians(180)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-57, -38,Math.toRadians(180)), Math.toRadians(90))
                 .build();
-        TrajectorySequence DriveToCollectFirstL = drive.trajectorySequenceBuilder(DriveToBackBoardL.end())
-                .splineToLinearHeading(new Pose2d(20, -58,Math.toRadians(180)),Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-50,-59,Math.toRadians(180)), Math.toRadians(180))
+        TrajectorySequence DriveToCollectFirstL = drive.trajectorySequenceBuilder(DriveToPreloadL.end())
+                .splineToLinearHeading(new Pose2d(20, -66,Math.toRadians(180)),Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-45,-66,Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-54, -34,Math.toRadians(180)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-58, -38,Math.toRadians(180)), Math.toRadians(90))
                 .build();
         TrajectorySequence DriveToPlaceFirst = drive.trajectorySequenceBuilder(DriveToCollectFirstL.end())
-                .setTangent(Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-50,-58,Math.toRadians(180)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(20,-58,Math.toRadians(180)), Math.toRadians(0))
+
+
+                .waitSeconds(2)                .addDisplacementMarker(()->{target= 100;})
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(-50,-49,Math.toRadians(185)), Math.toRadians(0))
+                .addDisplacementMarker(()->{robot.intake.setPower(0);})
+                .splineToLinearHeading(new Pose2d(10,-49,Math.toRadians(185)), Math.toRadians(0))
+                .addDisplacementMarker(()->{target = 2500;})
                 .splineToLinearHeading(new Pose2d(52.5,-25,Math.toRadians(180)), Math.toRadians(0))
-                .build();
-        //park
-        TrajectorySequence DriveToPark = drive.trajectorySequenceBuilder(DriveToBackBoardR.end())
+                .addDisplacementMarker(()->{robot.servo(false,2,true);})
+                .waitSeconds(2)
                 .splineToLinearHeading(new Pose2d(54, -59, Math.toRadians(180)), Math.toRadians(0))
                 .build();
+        //park
 
 
         robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
         robot.L2.setPosition(robot.OUTTAKEB_CLOSE);
         ElapsedTime servo = new ElapsedTime();
-        ElapsedTime collect = new ElapsedTime();
+
         ElapsedTime collecting = new ElapsedTime();
         visionProcessor();
         while(!opModeIsActive()){
@@ -230,7 +238,7 @@ public class BBCRed22 extends LinearOpMode {
                         drive.followTrajectorySequenceAsync(DriveToPreloadL);
                     }
                     target = 300;
-                    stage = Stage.scorepreload;
+                    stage = Stage.liftUp;
                     break;
                 case scorepreload:
                     if (!drive.isBusy()) {
@@ -246,23 +254,8 @@ public class BBCRed22 extends LinearOpMode {
                 case liftUp:
 
                     if(!drive.isBusy()) {
-                        if (preloadpos == 1) {
-
-                            drive.followTrajectorySequenceAsync(DriveToBackBoardL);
-
-                            servo.reset();
-                            stage = Stage.placePixel;
-                        } else if (preloadpos == 2) {
-                            drive.followTrajectorySequenceAsync(DriveToBackBoardM);
-
-                            servo.reset();
-                            stage = Stage.placePixel;
-                        } else if (preloadpos == 3) {
-                            drive.followTrajectorySequenceAsync(DriveToBackBoardR);
-                            servo.reset();
-                            stage = Stage.placePixel;
-
-                        }
+                       servo.reset();
+                       stage = Stage.placePixel;
                     }
 
                     break;
@@ -276,14 +269,12 @@ public class BBCRed22 extends LinearOpMode {
                             servoUp = true;
                         }
                     }
-                    if(servoUp){
+                    if(servoUp&& servo.seconds() > 1){
                         robot.L2.setPosition(robot.OUTTAKEB_OPEN);
                     }
-                    if(servo.seconds() > 2.5) {
+                    if(servo.seconds() > 2) {
                         if (!drive.isBusy() && servoUp) {
-                            collect.reset();
                             stage = Stage.liftDownCollect;
-
                         }
                     }
                     break;
@@ -299,24 +290,27 @@ public class BBCRed22 extends LinearOpMode {
                         }
                         backUp = true;
                     }
-                    if(collect.milliseconds() > 500 && backUp){
-                        target = -100;
+                    if(collect.milliseconds() > 3000 && backUp){
+                        target = -50;
                         stage = Stage.collect;
                     }
                     break;
                 case collect:
                     if(!drive.isBusy()){
                         robot.intake.setPower(1);
-                        robot.Medium();
+                        robot.firstPixel();
                         collecting.reset();
                         stage = Stage.collecting;
                     }
                     break;
                 case collecting:
-                    if (collecting.milliseconds()> 1500){
+                    if (collecting.milliseconds()> 1000){
+                        robot.secondPixel();
+                    }
+                    if(collecting.milliseconds() > 2500){
                         robot.servo(true,2,true);
                         robot.intake.setPower(-1);
-                        robot.high();
+
                         stage = Stage.drivetoplace;
                     }
                     break;
@@ -324,7 +318,7 @@ public class BBCRed22 extends LinearOpMode {
                     if(!drive.isBusy()){
                         drive.followTrajectorySequenceAsync(DriveToPlaceFirst);
 
-                        stage = Stage.reachedtarge;
+                        stage = Stage.liftDown;
                     }
                     break;
                 case reachedtarge:
@@ -342,7 +336,7 @@ public class BBCRed22 extends LinearOpMode {
                     break;
                 case park:
                     if(!drive.isBusy()) {
-                        drive.followTrajectorySequenceAsync(DriveToPark);
+
                         stage = Stage.liftDown;
                     }
                     break;

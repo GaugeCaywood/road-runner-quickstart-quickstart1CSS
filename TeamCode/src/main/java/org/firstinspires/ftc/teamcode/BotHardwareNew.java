@@ -122,7 +122,7 @@ public class BotHardwareNew {
         L2.setPosition(.66);
         wristR.setPosition(.406);
         wristL.setPosition(.406);
-        heightS.setPosition(0);
+        heightS.setPosition(.10);
     }
 
 
@@ -133,9 +133,12 @@ public class BotHardwareNew {
     public static double lift = 1;
 
     ////////Height Positions///////////
-    public static final double heightSHigh = .19;
-    public static final double heightSMedium = .055;
-    public static final double heightSLow = .55;
+    public static final double heightSHigh = .186;
+    public static final double firstPixel = 0.60;
+    public static final double secondPixel = .62;
+    public static final double thirdPixel = 0;
+    public static final double fourthPixel = 0;
+    public static final double heightSLow = .7;
 
     //////////CLAW VALUES//////////////////
     public static final double OUTTAKEA_OPEN = 0.735;
@@ -275,11 +278,10 @@ public class BotHardwareNew {
     public void high() {
         heightS.setPosition(heightSHigh);
     }
-
-    public void Medium() {
-        heightS.setPosition(heightSMedium);
-    }
-
+    public void firstPixel(){heightS.setPosition(firstPixel);}
+    public void secondPixel(){heightS.setPosition(secondPixel);}
+    public void thirdPixel(){heightS.setPosition(thirdPixel);}
+    public void fourthPixel(){heightS.setPosition(fourthPixel);}
     public void low() {
         heightS.setPosition(heightSLow);
     }
