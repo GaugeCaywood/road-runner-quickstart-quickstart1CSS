@@ -53,9 +53,8 @@ public class newDrive extends LinearOpMode {
 
 
         robot.init(hardwareMap);
-        robot.planeS.setPosition(.61);
+        robot.planeS.setPosition(.945);
         waitForStart();
-        robot.heightS.setPosition(robot.heightSHigh);
         robot.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         runtime.reset();
         while (opModeIsActive()) {
@@ -126,7 +125,7 @@ public class newDrive extends LinearOpMode {
             ///////////9.11 programming/////////////////
             if (gamepad1.right_trigger > .1) {
 
-                robot.planeS.setPosition(0);
+                robot.planeS.setPosition(.846);
 
 
             }
@@ -137,10 +136,14 @@ public class newDrive extends LinearOpMode {
                 robot.intake.setPower(robot.INTAKE_OUT);
             } else if (gamepad2.left_trigger > .3) {
                 robot.intake.setPower(robot.INTAKE_IN);
-                robot.heightS.setPosition(robot.heightSLow);
             } else {
                 robot.intake.setPower(0);
-                robot.heightS.setPosition(robot.heightSHigh);
+            }
+            if(gamepad2.right_trigger> .3){
+                robot.low();
+            }
+            else{
+                robot.high();
             }
             //////////////CLAW CODE////////////////
             if (gamepad2.y) {

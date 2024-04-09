@@ -22,8 +22,28 @@ public class leftSideRed {
                 .setConstraints(50, 50, Math.toRadians(180), Math.toRadians(180), 17)
                 .followTrajectorySequence(drive ->
 drive.trajectorySequenceBuilder(new Pose2d(-57, -38,Math.toRadians(180)))
-        .setTangent(Math.toRadians(-90))
-        .splineToLinearHeading(new Pose2d(-50,-68,Math.toRadians(180)), Math.toRadians(0))
+
+
+        .setTangent(Math.toRadians(40))
+        .splineToLinearHeading(new Pose2d(29.5, -29, Math.toRadians(0)), Math.toRadians(70))
+        .addDisplacementMarker(()-> {})
+
+        .setTangent(Math.toRadians(0))
+        .splineToLinearHeading(new Pose2d(53.5, -39, Math.toRadians(180)), Math.toRadians(0))
+        .addDisplacementMarker(()->{})
+        .splineToLinearHeading(new Pose2d(20, -64,Math.toRadians(180)),Math.toRadians(180))
+        .splineToLinearHeading(new Pose2d(-35,-64,Math.toRadians(180)), Math.toRadians(180))
+        .addDisplacementMarker(()->{})
+
+
+        .setTangent(Math.toRadians(180))
+        .splineToLinearHeading(new Pose2d(-57, -38,Math.toRadians(180)), Math.toRadians(90))
+        .waitSeconds(1)
+        .addDisplacementMarker(()->{
+            })
+        .waitSeconds(1)
+        .addDisplacementMarker(()->{})
+
         .build()
                 );
         RoadRunnerBotEntity left = new DefaultBotBuilder(meepMeep)

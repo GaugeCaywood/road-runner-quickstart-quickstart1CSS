@@ -150,15 +150,15 @@ public class HPRedRR22 extends LinearOpMode {
                 .build();
         TrajectorySequence DriveToPlaceBeforeLift = drive.trajectorySequenceBuilder(DriveToCollectFirstL.end())
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(53, -34, Math.toRadians(180)), Math.toRadians(-60))
+                .splineToLinearHeading(new Pose2d(53, -30, Math.toRadians(180)), Math.toRadians(-70))
                         .build();
         TrajectorySequence DriveToPlaceBeforeLiftM = drive.trajectorySequenceBuilder(DriveToCollectFirstM.end())
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(53, -38, Math.toRadians(180)), Math.toRadians(-60))
+                .splineToLinearHeading(new Pose2d(53, -30, Math.toRadians(180)), Math.toRadians(-70))
                 .build();
         TrajectorySequence DriveToPlaceBeforeLiftR = drive.trajectorySequenceBuilder(DriveToCollectFirstR.end())
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(53, -34, Math.toRadians(180)), Math.toRadians(-60))
+                .splineToLinearHeading(new Pose2d(53, -30, Math.toRadians(180)), Math.toRadians(-70))
                 .build();
 
         robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
@@ -338,11 +338,11 @@ public class HPRedRR22 extends LinearOpMode {
                         if(preloadpos == 1) {
                             drive.followTrajectorySequenceAsync(DriveToCollectFirstL);
                             robot.intake.setPower(1);
-                            robot.heightS.setPosition(.055);
+                            robot.firstPixel();
                         } else if (preloadpos == 2) {
                             drive.followTrajectorySequenceAsync(DriveToCollectFirstM);
                             robot.intake.setPower(1);
-                            robot.heightS.setPosition(.055);
+                            robot.firstPixel();
                         }
                         else{
                             drive.followTrajectorySequenceAsync(DriveToCollectFirstR);
@@ -366,7 +366,10 @@ public class HPRedRR22 extends LinearOpMode {
                     }
                     break;
                 case collecting:
-                    if(collect.milliseconds() > 2000) {
+                    if(collect.milliseconds()> 1000){
+                        robot.secondPixel();
+                    }
+                    if(collect.milliseconds() > 2500) {
                         stage = Stage.grab;
                     }
                     break;

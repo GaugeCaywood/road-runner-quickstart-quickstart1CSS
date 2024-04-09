@@ -122,7 +122,7 @@ public class BotHardwareNew {
         L2.setPosition(.66);
         wristR.setPosition(.406);
         wristL.setPosition(.406);
-        heightS.setPosition(.10);
+        heightS.setPosition(.425);
     }
 
 
@@ -133,7 +133,7 @@ public class BotHardwareNew {
     public static double lift = 1;
 
     ////////Height Positions///////////
-    public static final double heightSHigh = .186;
+    public static final double heightSHigh = .425;
     public static final double firstPixel = 0.60;
     public static final double secondPixel = .62;
     public static final double thirdPixel = 0;
@@ -147,8 +147,8 @@ public class BotHardwareNew {
     public static final double OUTTAKEB_CLOSE = 0.1724;
 
     //////////INTAKE VALUES////////////////
-    public static final double INTAKE_IN = 1.00;
-    public static final double INTAKE_OUT = -1.00;
+    public static final double INTAKE_IN = -1.00;
+    public static final double INTAKE_OUT = 1.00;
 
     /////////WRIST VALUES//////////////////
     public static final double WRIST_UP = 0.600;
