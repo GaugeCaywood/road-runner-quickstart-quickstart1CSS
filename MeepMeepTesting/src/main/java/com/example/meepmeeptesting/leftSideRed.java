@@ -19,31 +19,53 @@ public class leftSideRed {
         RoadRunnerBotEntity middle = new DefaultBotBuilder(meepMeep)
                 // We set this bot to be blue
                 .setColorScheme(new ColorSchemeRedDark())
-                .setConstraints(50, 50, Math.toRadians(180), Math.toRadians(180), 17)
+                .setConstraints(70, 60, Math.toRadians(180), Math.toRadians(180), 17)
                 .followTrajectorySequence(drive ->
-drive.trajectorySequenceBuilder(new Pose2d(-57, -38,Math.toRadians(180)))
-
+drive.trajectorySequenceBuilder(new Pose2d(12, -61.2, Math.toRadians(-90)))
 
         .setTangent(Math.toRadians(40))
-        .splineToLinearHeading(new Pose2d(29.5, -29, Math.toRadians(0)), Math.toRadians(70))
+        .splineToSplineHeading(new Pose2d(29.5, -29, Math.toRadians(0)), Math.toRadians(70))
         .addDisplacementMarker(()-> {})
 
         .setTangent(Math.toRadians(0))
-        .splineToLinearHeading(new Pose2d(53.5, -39, Math.toRadians(180)), Math.toRadians(0))
+        .splineToSplineHeading(new Pose2d(53.5, -39, Math.toRadians(180)), Math.toRadians(0))
+        .waitSeconds(.1)
         .addDisplacementMarker(()->{})
-        .splineToLinearHeading(new Pose2d(20, -64,Math.toRadians(180)),Math.toRadians(180))
-        .splineToLinearHeading(new Pose2d(-35,-64,Math.toRadians(180)), Math.toRadians(180))
-        .addDisplacementMarker(()->{})
-
-
         .setTangent(Math.toRadians(180))
+        .splineToLinearHeading(new Pose2d(20, -64,Math.toRadians(180)),Math.toRadians(180))
+
+        .splineToLinearHeading(new Pose2d(-35,-64,Math.toRadians(180)), Math.toRadians(180))
+        .addDisplacementMarker(()->{                       })
+
         .splineToLinearHeading(new Pose2d(-57, -38,Math.toRadians(180)), Math.toRadians(90))
         .waitSeconds(1)
         .addDisplacementMarker(()->{
-            })
-        .waitSeconds(1)
+})
+        .waitSeconds(1.5)
         .addDisplacementMarker(()->{})
 
+        .setTangent(Math.toRadians(-90))
+        .splineToSplineHeading(new Pose2d(-50,-51,Math.toRadians(185)), Math.toRadians(0))
+        .addDisplacementMarker(()->{})
+        .splineToSplineHeading(new Pose2d(10,-51,Math.toRadians(185)), Math.toRadians(0))
+        .addDisplacementMarker(()->{})
+        .splineToSplineHeading(new Pose2d(52.5,-40,Math.toRadians(180)), Math.toRadians(0))
+        .waitSeconds(.5)
+        .addDisplacementMarker(()->{})
+        .addTemporalMarker(1,()->{})
+        .splineToLinearHeading(new Pose2d(20, -62,Math.toRadians(180)),Math.toRadians(180))
+        .addDisplacementMarker(()-> {})
+        .splineToLinearHeading(new Pose2d(-35,-62,Math.toRadians(180)), Math.toRadians(180))
+
+        .splineToLinearHeading(new Pose2d(-57, -38,Math.toRadians(180)), Math.toRadians(90))
+        .waitSeconds(1)
+        .setTangent(Math.toRadians(-90))
+        .splineToSplineHeading(new Pose2d(-50,-50,Math.toRadians(185)), Math.toRadians(0))
+        .addDisplacementMarker(()->{})
+        .splineToSplineHeading(new Pose2d(10,-50,Math.toRadians(185)), Math.toRadians(0))
+        .addDisplacementMarker(()->{})
+        .splineToSplineHeading(new Pose2d(52.5,-40,Math.toRadians(180)), Math.toRadians(0))
+        .addDisplacementMarker(()->{})
         .build()
                 );
         RoadRunnerBotEntity left = new DefaultBotBuilder(meepMeep)

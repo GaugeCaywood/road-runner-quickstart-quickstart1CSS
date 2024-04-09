@@ -78,6 +78,7 @@ public class BBCRed24 extends LinearOpMode {
 
                 .setTangent(Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(53.5, -39, Math.toRadians(180)), Math.toRadians(0))
+                .setTangent(Math.toRadians(180))
                 .addDisplacementMarker(()->{collect.reset();robot.L2.setPosition(robot.OUTTAKEB_OPEN);})
                 .splineToLinearHeading(new Pose2d(20, -64,Math.toRadians(180)),Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(-35,-64,Math.toRadians(180)), Math.toRadians(180))
@@ -121,6 +122,7 @@ public class BBCRed24 extends LinearOpMode {
                 .setTangent(Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(52.5, -25, Math.toRadians(180)), Math.toRadians(0))
                 .addDisplacementMarker(()->{collect.reset();robot.L2.setPosition(robot.OUTTAKEB_OPEN);})
+                .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(20, -64,Math.toRadians(180)),Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(-35,-64,Math.toRadians(180)), Math.toRadians(180))
                 .addDisplacementMarker(()->{                        robot.intake.setPower(1);
