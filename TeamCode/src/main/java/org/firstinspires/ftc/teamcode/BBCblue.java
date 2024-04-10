@@ -88,10 +88,14 @@ public class BBCblue extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(54, 31, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToBackBoardM = drive.trajectorySequenceBuilder(DriveToPreloadM.end())
+                .splineToLinearHeading(new Pose2d(25,25,Math.toRadians(0)),Math.toRadians(180))
                 .setTangent(Math.toRadians(20))
                 .splineToLinearHeading(new Pose2d(54, 38, Math.toRadians(180)), Math.toRadians(90))
                 .build();
         TrajectorySequence DriveToBackBoardL = drive.trajectorySequenceBuilder(DriveToPreloadL.end())
+                .splineToLinearHeading(new Pose2d(38,28,Math.toRadians(0)),Math.toRadians(180))
+                .setTangent(Math.toRadians(60))
+                .splineToLinearHeading(new Pose2d(53, 42.5, Math.toRadians(180)), Math.toRadians(0))
                 .setTangent(Math.toRadians(60))
                 .splineToLinearHeading(new Pose2d(53, 41, Math.toRadians(180)), Math.toRadians(0))
                 .build();
