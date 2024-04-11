@@ -21,15 +21,21 @@ public class leftSideRed {
                 .setColorScheme(new ColorSchemeRedDark())
                 .setConstraints(70, 60, Math.toRadians(180), Math.toRadians(180), 17)
                 .followTrajectorySequence(drive ->
-drive.trajectorySequenceBuilder(new Pose2d(-57, -38,Math.toRadians(180)))
+drive.trajectorySequenceBuilder(new Pose2d(52.5, -25, Math.toRadians(180)))
+        .splineToLinearHeading(new Pose2d(20, -64,Math.toRadians(180)),Math.toRadians(180))
+        .splineToLinearHeading(new Pose2d(-35,-64,Math.toRadians(180)), Math.toRadians(180))
+
+        .splineToLinearHeading(new Pose2d(-57, -38,Math.toRadians(180)), Math.toRadians(90))
+
         .waitSeconds(1)
-        .setTangent(Math.toRadians(-90))
-        .splineToLinearHeading(new Pose2d(-50,-50,Math.toRadians(180)), Math.toRadians(0))
+
+        .splineToLinearHeading(new Pose2d(-50,-60,Math.toRadians(185)), Math.toRadians(0))
         .addDisplacementMarker(()->{})
-        .splineToLinearHeading(new Pose2d(10,-50,Math.toRadians(180)), Math.toRadians(0))
+        .splineToLinearHeading(new Pose2d(10,-60,Math.toRadians(185)), Math.toRadians(0))
         .addDisplacementMarker(()->{})
         .splineToLinearHeading(new Pose2d(52.5,-25,Math.toRadians(180)), Math.toRadians(0))
         .addDisplacementMarker(()->{})
+        .waitSeconds(.25)
 
         .build()
                 );

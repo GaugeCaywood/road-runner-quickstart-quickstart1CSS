@@ -308,7 +308,7 @@ public class BBCRed22 extends LinearOpMode {
                     }
                     break;
                 case collecting:
-                    if (collecting.milliseconds()> 1000){
+                    if (collecting.milliseconds()> 1500){
                         robot.secondPixel();
                     }
                     if(collecting.milliseconds() > 2500){
