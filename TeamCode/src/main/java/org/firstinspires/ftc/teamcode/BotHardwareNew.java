@@ -138,7 +138,7 @@ public class BotHardwareNew {
     public static final double secondPixel = .62;
     public static final double thirdPixel = 0;
     public static final double fourthPixel = 0;
-    public static final double heightSLow = .7;
+    public static final double heightSLow = .68;
 
     //////////CLAW VALUES//////////////////
     public static final double OUTTAKEA_OPEN = 0.735;

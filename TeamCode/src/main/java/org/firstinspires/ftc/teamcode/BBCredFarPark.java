@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.drive.Drive;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
@@ -22,14 +25,14 @@ import org.opencv.core.Scalar;
 import java.lang.Math;
 import java.util.ArrayList;
 
-
-@Autonomous(name="Wait Human Player Side Red RR", group="Auton")
-public class HPRedRRWait extends LinearOpMode {
+@Config
+@Autonomous(name="Park Background side Blue 2+0 ", group="Auton")
+public class BBCredFarPark extends LinearOpMode {
     //////////////////VISION//////////////////////
     private VisionPortal visionPortal;
     private ColourMassDetectionProcessorRed colourMassDetectionProcessor;
-    Scalar lower = new Scalar(140, 60, 0); // the lower hsv threshold for your detection
-    Scalar upper = new Scalar(180, 255, 255);  // the upper hsv threshold for your detection
+    Scalar lower = new Scalar(110, 70, 20); // the lower hsv threshold for your detection
+    Scalar upper = new Scalar(140, 255, 255);  // the upper hsv threshold for your detection
     boolean servoUp = false;
     double minArea = 150;
     /////////////////////HARDWARE
@@ -66,71 +69,42 @@ public class HPRedRRWait extends LinearOpMode {
         //
         //
 
-        drive.setPoseEstimate(new Pose2d(-35.8, -61.2, Math.toRadians(-90)));
-
-        TrajectorySequence PPreloadRight = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
-                .setTangent(Math.toRadians(120))
-                .splineToLinearHeading(new Pose2d(-28, -30, Math.toRadians(180)), Math.toRadians(50))
+        drive.setPoseEstimate(new Pose2d(14, 61.2, Math.toRadians(90)));
+        TrajectorySequence DriveToPreloadR =  drive.trajectorySequenceBuilder(new Pose2d(14, 61.2, Math.toRadians(90)))
+                .setTangent(Math.toRadians(-40))
+                .splineToLinearHeading(new Pose2d(10, 32, Math.toRadians(0)), Math.toRadians(-100))
                 .build();
+        TrajectorySequence DriveToPreloadM = drive.trajectorySequenceBuilder(new Pose2d(14, 61.2, Math.toRadians(90)))
+                .setTangent(Math.toRadians(-40))
+                .splineToLinearHeading(new Pose2d(23, 23, Math.toRadians(0)), Math.toRadians(-100))
+                .build();
+        TrajectorySequence DriveToPreloadL = drive.trajectorySequenceBuilder(new Pose2d(14, 61.2, Math.toRadians(90)))
+                .setTangent(Math.toRadians(-40))
+                .splineToLinearHeading(new Pose2d(31, 28, Math.toRadians(0)), Math.toRadians(-100))
+                .build();
+        TrajectorySequence DriveToBackBoardR = drive.trajectorySequenceBuilder(DriveToPreloadR.end())
 
-        TrajectorySequence DriveToStackRight = drive.trajectorySequenceBuilder(PPreloadRight.end())
-                .waitSeconds(12)
-                .setTangent(Math.toRadians(200))
-                .splineToLinearHeading(new Pose2d(-56, -11, Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(45, -14, Math.toRadians(180)), Math.toRadians(-10))
+                .splineToLinearHeading(new Pose2d(54.5, 30, Math.toRadians(180)), Math.toRadians(0))
                 .build();
-
-
-        TrajectorySequence PPreloadMiddle = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
-                .lineToLinearHeading(new Pose2d(-40, -23, Math.toRadians(180)))
-
+        TrajectorySequence DriveToBackBoardM = drive.trajectorySequenceBuilder(DriveToPreloadM.end())
+                .splineToLinearHeading(new Pose2d(30,23,Math.toRadians(0)),Math.toRadians(180))
+                .setTangent(Math.toRadians(20))
+                .splineToLinearHeading(new Pose2d(54, 38, Math.toRadians(180)), Math.toRadians(90))
                 .build();
-        TrajectorySequence DriveToStackMiddle = drive.trajectorySequenceBuilder(PPreloadMiddle.end())
-                .waitSeconds(12)
-                .setTangent(Math.toRadians(190))
-                .splineToLinearHeading(new Pose2d(-57, -12, Math.toRadians(180)), Math.toRadians(180))
-                .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(40, -14, Math.toRadians(180)), Math.toRadians(-10))
-
+        TrajectorySequence DriveToBackBoardL = drive.trajectorySequenceBuilder(DriveToPreloadL.end())
+                .splineToLinearHeading(new Pose2d(38,28,Math.toRadians(0)),Math.toRadians(180))
+                .setTangent(Math.toRadians(60))
+                .splineToLinearHeading(new Pose2d(54, 41, Math.toRadians(180)), Math.toRadians(0))
                 .build();
-        TrajectorySequence PPreloadLeft = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
-                .lineToLinearHeading(new Pose2d(-48, -22, Math.toRadians(90)) )
+        TrajectorySequence DriveToParkR = drive.trajectorySequenceBuilder(DriveToBackBoardR.end())
+                .splineToLinearHeading(new Pose2d(52, 10, Math.toRadians(180)), Math.toRadians(0))
                 .build();
-        TrajectorySequence DriveToStackLeft = drive.trajectorySequenceBuilder(PPreloadLeft.end())
-                .waitSeconds(12)
-                .setTangent(Math.toRadians(120))
-                .splineToLinearHeading(new Pose2d(-65, -11, Math.toRadians(180)), Math.toRadians(180))
-                .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(45, -14, Math.toRadians(180)), Math.toRadians(-10))
-
+        TrajectorySequence DriveToParkM = drive.trajectorySequenceBuilder(DriveToBackBoardM.end())
+                .splineToLinearHeading(new Pose2d(45, 10, Math.toRadians(180)), Math.toRadians(0))
                 .build();
-        TrajectorySequence DriveToBackBoardMiddle = drive.trajectorySequenceBuilder(DriveToStackMiddle.end())
-
-                .splineToLinearHeading(new Pose2d(50.5, -37, Math.toRadians(180)), Math.toRadians(-30))
-                .build();
-        TrajectorySequence DriveToBackBoardLeft = drive.trajectorySequenceBuilder(DriveToStackLeft.end())
-
-                .splineToLinearHeading(new Pose2d(51, -19, Math.toRadians(180)), Math.toRadians(-30))
-
-
-                .build();
-        TrajectorySequence DriveToBackBoardRight = drive.trajectorySequenceBuilder(DriveToStackRight.end())
-                .splineToLinearHeading(new Pose2d(50.5, -46, Math.toRadians(180)), Math.toRadians(-30))
-                .build();
-        TrajectorySequence DriveToBackParkM = drive.trajectorySequenceBuilder(DriveToStackMiddle.end())
-                .setTangent(Math.toRadians(180))
-                .lineToLinearHeading(new Pose2d(45,-41, Math.toRadians(180)))
-                .build();
-        TrajectorySequence DriveToBackBoardL = drive.trajectorySequenceBuilder(DriveToStackLeft.end())
-
-                .setTangent(Math.toRadians(180))
-                .lineToLinearHeading(new Pose2d(46,-20, Math.toRadians(180)))
-
-                .build();
-        TrajectorySequence DriveToBackBoardR = drive.trajectorySequenceBuilder(DriveToStackRight.end())
-                .setTangent(Math.toRadians(180))
-                .lineToLinearHeading(new Pose2d(46,-46, Math.toRadians(180)))
+        TrajectorySequence DriveToParkL = drive.trajectorySequenceBuilder(DriveToBackBoardL.end())
+                .splineToLinearHeading(new Pose2d(45, 10, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
         robot.L2.setPosition(robot.OUTTAKEB_CLOSE);
@@ -220,15 +194,17 @@ public class HPRedRRWait extends LinearOpMode {
                 case preLoadTravel:
 
                     if (preloadpos == 3) {
-                        drive.followTrajectorySequenceAsync(PPreloadRight);
+                        drive.followTrajectorySequenceAsync(DriveToPreloadR);
+                        target = 300;
                     }
                     if (preloadpos == 2) {
-                        drive.followTrajectorySequenceAsync(PPreloadMiddle);
+                        drive.followTrajectorySequenceAsync(DriveToPreloadM);
+                        target = 450;
                     }
                     if (preloadpos == 1) {
-                        drive.followTrajectorySequenceAsync(PPreloadLeft);
+                        drive.followTrajectorySequenceAsync(DriveToPreloadL);
+                        target = 500;
                     }
-                    target = 300;
                     stage = Stage.scorepreload;
                     break;
                 case scorepreload:
@@ -238,41 +214,27 @@ public class HPRedRRWait extends LinearOpMode {
                         telemetry.update();
                         robot.L1.setPosition(robot.OUTTAKEA_OPEN);
 
-                        stage = Stage.drivetostack;
+                        stage = Stage.liftUp;
                     }
-
-
                     break;
-                case drivetostack:
-                    if(!drive.isBusy()) {
-                        if (preloadpos == 1) {
-                            drive.followTrajectorySequenceAsync(DriveToStackLeft);
-                        } else if (preloadpos == 2) {
-                            drive.followTrajectorySequenceAsync(DriveToStackMiddle);
-                        } else if (preloadpos == 3) {
-                            drive.followTrajectorySequenceAsync(DriveToStackRight);
-                        }
-                    }
 
-                    stage = Stage.liftUp;
-                    break;
                 case liftUp:
 
                     if(!drive.isBusy()) {
                         if (preloadpos == 1) {
-                            target = 2350;
-                            drive.followTrajectorySequenceAsync(DriveToBackBoardLeft);
-                            target = 2300;
+
+                            drive.followTrajectorySequenceAsync(DriveToBackBoardL);
+
                             servo.reset();
                             stage = Stage.placePixel;
                         } else if (preloadpos == 2) {
-                            drive.followTrajectorySequenceAsync(DriveToBackBoardMiddle);
-                            target = 2300;
+                            drive.followTrajectorySequenceAsync(DriveToBackBoardM);
+
                             servo.reset();
                             stage = Stage.placePixel;
                         } else if (preloadpos == 3) {
-                            drive.followTrajectorySequenceAsync(DriveToBackBoardRight);
-                            target = 2300;                            servo.reset();
+                            drive.followTrajectorySequenceAsync(DriveToBackBoardR);
+                            servo.reset();
                             stage = Stage.placePixel;
 
                         }
@@ -283,12 +245,13 @@ public class HPRedRRWait extends LinearOpMode {
 
 
                     if(!drive.isBusy()) {
+                        target = 2000;
                         if (!servoUp && robot.liftA.getCurrentPosition() > 1800) {
                             robot.wristUp();
                             servoUp = true;
                         }
                     }
-                    if(servoUp&& servo.seconds() > 3){
+                    if(servoUp&& servo.seconds() > 5){
                         robot.L2.setPosition(robot.OUTTAKEB_OPEN);
                     }
                     if(servo.seconds() > 6) {
@@ -300,16 +263,16 @@ public class HPRedRRWait extends LinearOpMode {
                 case park:
                     if(!drive.isBusy()) {
                         if (preloadpos == 1) {
-                            drive.followTrajectorySequenceAsync(DriveToBackBoardL);
+                            drive.followTrajectorySequenceAsync(DriveToParkL);
                             servo.reset();
                             stage = Stage.liftDown;
                         } else if (preloadpos == 2) {
-                            drive.followTrajectorySequenceAsync(DriveToBackParkM);
+                            drive.followTrajectorySequenceAsync(DriveToParkM);
 
                             servo.reset();
                             stage = Stage.liftDown;
                         } else if (preloadpos == 3) {
-                            drive.followTrajectorySequenceAsync(DriveToBackBoardR);
+                            drive.followTrajectorySequenceAsync(DriveToParkR);
                             servo.reset();
                             stage = Stage.liftDown;
 

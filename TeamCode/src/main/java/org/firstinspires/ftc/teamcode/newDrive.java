@@ -37,6 +37,7 @@ public class newDrive extends LinearOpMode {
     public static double p = 0.007, i = 0, d = 0.000;
     public static double f = 0.001;
     public static int target = -15;
+    public static double downpos = .65;
     public static int manual = 150;
     private final double ticks_in_degree = 751.8 / 180;
 
@@ -53,6 +54,7 @@ public class newDrive extends LinearOpMode {
 
 
         robot.init(hardwareMap);
+
         robot.planeS.setPosition(.945);
         waitForStart();
         robot.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
@@ -140,7 +142,7 @@ public class newDrive extends LinearOpMode {
                 robot.intake.setPower(0);
             }
             if(gamepad2.right_trigger> .3){
-                robot.low();
+                robot.heightS.setPosition(downpos);
             }
             else{
                 robot.high();

@@ -21,22 +21,32 @@ public class leftSideRed {
                 .setColorScheme(new ColorSchemeRedDark())
                 .setConstraints(70, 60, Math.toRadians(180), Math.toRadians(180), 17)
                 .followTrajectorySequence(drive ->
-drive.trajectorySequenceBuilder(new Pose2d(52.5, -25, Math.toRadians(180)))
-        .splineToLinearHeading(new Pose2d(20, -64,Math.toRadians(180)),Math.toRadians(180))
-        .splineToLinearHeading(new Pose2d(-35,-64,Math.toRadians(180)), Math.toRadians(180))
-
-        .splineToLinearHeading(new Pose2d(-57, -38,Math.toRadians(180)), Math.toRadians(90))
-
+drive.trajectorySequenceBuilder(new Pose2d(30, 28, Math.toRadians(0)))
+        .splineToLinearHeading(new Pose2d(38.5,28,Math.toRadians(0)),Math.toRadians(0))
+        .splineToLinearHeading(new Pose2d(53, 42.5, Math.toRadians(180)), Math.toRadians(0))
         .waitSeconds(1)
+        .splineToLinearHeading(new Pose2d(20, 63, Math.toRadians(180)), Math.toRadians(180))
+        .splineToLinearHeading(new Pose2d(-50,63,Math.toRadians(180)), Math.toRadians(180))
 
-        .splineToLinearHeading(new Pose2d(-50,-60,Math.toRadians(185)), Math.toRadians(0))
-        .addDisplacementMarker(()->{})
-        .splineToLinearHeading(new Pose2d(10,-60,Math.toRadians(185)), Math.toRadians(0))
-        .addDisplacementMarker(()->{})
-        .splineToLinearHeading(new Pose2d(52.5,-25,Math.toRadians(180)), Math.toRadians(0))
-        .addDisplacementMarker(()->{})
-        .waitSeconds(.25)
+        .splineToLinearHeading(new Pose2d(-57,34, Math.toRadians(180)),Math.toRadians(-90))
+        .waitSeconds(3)
+        .setTangent(Math.toRadians(0))
+        .splineToLinearHeading(new Pose2d(-35,68,Math.toRadians(180)), Math.toRadians(0))
+        .splineToLinearHeading(new Pose2d(20,68,Math.toRadians(180)), Math.toRadians(0))
 
+        .splineToLinearHeading(new Pose2d(53, 31, Math.toRadians(180)), Math.toRadians(0))
+        .waitSeconds(1)
+        .setTangent(Math.toRadians(180))
+        .splineToLinearHeading(new Pose2d(20, 63, Math.toRadians(180)), Math.toRadians(180))
+        .splineToLinearHeading(new Pose2d(-50,63,Math.toRadians(180)), Math.toRadians(180))
+
+        .splineToLinearHeading(new Pose2d(-57,34, Math.toRadians(180)),Math.toRadians(-90))
+        .waitSeconds(3)
+        .setTangent(Math.toRadians(0))
+        .splineToLinearHeading(new Pose2d(-35,68,Math.toRadians(180)), Math.toRadians(0))
+        .splineToLinearHeading(new Pose2d(20,68,Math.toRadians(180)), Math.toRadians(0))
+
+        .splineToLinearHeading(new Pose2d(53, 31, Math.toRadians(180)), Math.toRadians(0))
         .build()
                 );
         RoadRunnerBotEntity left = new DefaultBotBuilder(meepMeep)

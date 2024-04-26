@@ -30,8 +30,8 @@ public class BBCred extends LinearOpMode {
     //////////////////VISION//////////////////////
     private VisionPortal visionPortal;
     private ColourMassDetectionProcessorRed colourMassDetectionProcessor;
-    Scalar lower = new Scalar(0, 60, 0); // the lower hsv threshold for your detection
-    Scalar upper = new Scalar(30, 255, 255);  // the upper hsv threshold for your detection
+    Scalar lower = new Scalar(140, 60, 0); // the lower hsv threshold for your detection
+    Scalar upper = new Scalar(180, 255, 255);  // the upper hsv threshold for your detection
     boolean servoUp = false;
     double minArea = 150;
     /////////////////////HARDWARE
@@ -79,27 +79,30 @@ public class BBCred extends LinearOpMode {
                         .build();
         TrajectorySequence DriveToPreloadM = drive.trajectorySequenceBuilder(new Pose2d(12, -61.2, Math.toRadians(-90)))
                 .setTangent(Math.toRadians(40))
-                .splineToLinearHeading(new Pose2d(23, -21, Math.toRadians(0)), Math.toRadians(70))
+                .splineToLinearHeading(new Pose2d(17, -23, Math.toRadians(0)), Math.toRadians(70))
                 .addDisplacementMarker(()-> {robot.L1.setPosition(robot.OUTTAKEA_OPEN);})
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(53, -29, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(23,-23,Math.toRadians(0)),Math.toRadians(0))
+                .setTangent(Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53.5, -30, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToPreloadL = drive.trajectorySequenceBuilder(new Pose2d(12, -61.2, Math.toRadians(-90)))
-                .setTangent(Math.toRadians(70)).splineToLinearHeading(new Pose2d(6.5, -30, Math.toRadians(0)), Math.toRadians(140))
+                .setTangent(Math.toRadians(0)).splineToLinearHeading(new Pose2d(6, -32, Math.toRadians(0)), Math.toRadians(180))
                 .addDisplacementMarker(()-> {robot.L1.setPosition(robot.OUTTAKEA_OPEN);})
+                .waitSeconds(.2)
                 .setTangent(Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(52.5, -25, Math.toRadians(180)), Math.toRadians(0))
 
                 .build();
 
         TrajectorySequence DriveToParkR = drive.trajectorySequenceBuilder(DriveToPreloadR.end())
-                .splineToLinearHeading(new Pose2d(54, -59, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(52, -59, Math.toRadians(180)), Math.toRadians(0))
                         .build();
         TrajectorySequence DriveToParkM = drive.trajectorySequenceBuilder(DriveToPreloadM.end())
-                .splineToLinearHeading(new Pose2d(56, -59, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(52, -59, Math.toRadians(180)), Math.toRadians(0))
                         .build();
         TrajectorySequence DriveToParkL = drive.trajectorySequenceBuilder(DriveToPreloadL.end())
-                .splineToLinearHeading(new Pose2d(56, -59, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(52, -59, Math.toRadians(180)), Math.toRadians(0))
                         .build();
         robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
         robot.L2.setPosition(robot.OUTTAKEB_CLOSE);

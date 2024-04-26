@@ -93,7 +93,7 @@ public class BBCRed22 extends LinearOpMode {
         TrajectorySequence DriveToPreloadL = drive.trajectorySequenceBuilder(new Pose2d(12, -61.2, Math.toRadians(-90)))
                 .setTangent(Math.toRadians(0)).splineToLinearHeading(new Pose2d(6, -32, Math.toRadians(0)), Math.toRadians(180))
                 .addDisplacementMarker(()-> {robot.L1.setPosition(robot.OUTTAKEA_OPEN);})
-                .waitSeconds(.2)
+
                 .setTangent(Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(52.5, -25, Math.toRadians(180)), Math.toRadians(0))
                 .addDisplacementMarker(()->{collect.reset();})
@@ -104,36 +104,35 @@ public class BBCRed22 extends LinearOpMode {
         //collect
         TrajectorySequence DriveToCollectFirstR = drive.trajectorySequenceBuilder(DriveToPreloadR.end())
 
-                .splineToLinearHeading(new Pose2d(20, -64,Math.toRadians(180)),Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-35,-64,Math.toRadians(180)), Math.toRadians(180))
-                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(20, -66,Math.toRadians(180)),Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-35,-66,Math.toRadians(180)), Math.toRadians(180))
+
                 .splineToLinearHeading(new Pose2d(-57, -38,Math.toRadians(180)), Math.toRadians(90))
                 .build();
         TrajectorySequence DriveToCollectFirstM = drive.trajectorySequenceBuilder(DriveToPreloadM.end())
-                .splineToLinearHeading(new Pose2d(20, -64,Math.toRadians(180)),Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-20,-64,Math.toRadians(180)), Math.toRadians(180))
-                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(20, -70,Math.toRadians(180)),Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-35,-70,Math.toRadians(180)), Math.toRadians(180))
+
                 .splineToLinearHeading(new Pose2d(-57, -38,Math.toRadians(180)), Math.toRadians(90))
                 .build();
         TrajectorySequence DriveToCollectFirstL = drive.trajectorySequenceBuilder(DriveToPreloadL.end())
-                .splineToLinearHeading(new Pose2d(20, -64,Math.toRadians(180)),Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-35,-64,Math.toRadians(180)), Math.toRadians(180))
-                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(20, -68,Math.toRadians(180)),Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-35,-68,Math.toRadians(180)), Math.toRadians(180))
+
                 .splineToLinearHeading(new Pose2d(-57, -38,Math.toRadians(180)), Math.toRadians(90))
                 .build();
         TrajectorySequence DriveToPlaceFirst = drive.trajectorySequenceBuilder(DriveToCollectFirstL.end())
 
 
-                .waitSeconds(1)
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(-50,-50,Math.toRadians(185)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-50,-66,Math.toRadians(180)), Math.toRadians(0))
                 .addDisplacementMarker(()->{robot.intake.setPower(0);})
-                .splineToLinearHeading(new Pose2d(10,-50,Math.toRadians(185)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(10,-65,Math.toRadians(180)), Math.toRadians(0))
                 .addDisplacementMarker(()->{target = 2500;})
                 .splineToLinearHeading(new Pose2d(52.5,-25,Math.toRadians(180)), Math.toRadians(0))
                 .addDisplacementMarker(()->{robot.servo(false,2,true);})
                 .waitSeconds(.25)
-                .splineToLinearHeading(new Pose2d(54, -60, Math.toRadians(180)), Math.toRadians(0))
+                .addDisplacementMarker(()->{collect.reset();})
                 .build();
         //park
 

@@ -97,39 +97,40 @@ public boolean backUp = false;
                 .splineToLinearHeading(new Pose2d(53, 37, Math.toRadians(180)), Math.toRadians(90))
                 .build();
         TrajectorySequence DriveToBackBoardL = drive.trajectorySequenceBuilder(DriveToPreloadL.end())
-                .splineToLinearHeading(new Pose2d(38,28,Math.toRadians(0)),Math.toRadians(180))
-                .setTangent(Math.toRadians(60))
-                .splineToLinearHeading(new Pose2d(53, 42.5, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(38.5,28,Math.toRadians(0)),Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(54.5, 40, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         //collect
         TrajectorySequence DriveToCollectFirstR = drive.trajectorySequenceBuilder(DriveToBackBoardR.end())
 
 
                 .splineToLinearHeading(new Pose2d(20, 62, Math.toRadians(180)), Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-50,62,Math.toRadians(180)), Math.toRadians(180))
-                .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(-57,36, Math.toRadians(180)),Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(-40,62,Math.toRadians(180)), Math.toRadians(180))
+
+                .splineToLinearHeading(new Pose2d(-57,32, Math.toRadians(180)),Math.toRadians(-90))
                 .build();
         TrajectorySequence DriveToCollectFirstM = drive.trajectorySequenceBuilder(DriveToBackBoardM.end())
 
 
-                .splineToLinearHeading(new Pose2d(20, 61, Math.toRadians(180)), Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-50,61,Math.toRadians(180)), Math.toRadians(180))
-                .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(-57,36, Math.toRadians(180)),Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(20, 62, Math.toRadians(180)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-40,62,Math.toRadians(180)), Math.toRadians(180))
+
+                .splineToLinearHeading(new Pose2d(-57,32, Math.toRadians(180)),Math.toRadians(-90))
                 .build();
         TrajectorySequence DriveToCollectFirstL = drive.trajectorySequenceBuilder(DriveToBackBoardL.end())
-                .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(20, 63, Math.toRadians(180)), Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-50,63,Math.toRadians(180)), Math.toRadians(180))
-                .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(-57,34, Math.toRadians(180)),Math.toRadians(-90))
+
+                .splineToLinearHeading(new Pose2d(20, 62, Math.toRadians(180)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-40,62,Math.toRadians(180)), Math.toRadians(180))
+
+                .splineToLinearHeading(new Pose2d(-57,32, Math.toRadians(180)),Math.toRadians(-90))
                 .build();
         TrajectorySequence DriveToPlaceFirst = drive.trajectorySequenceBuilder(DriveToCollectFirstL.end())
-                .splineToLinearHeading(new Pose2d(-35,65,Math.toRadians(180)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(20,65,Math.toRadians(180)), Math.toRadians(0))
-
-                .splineToLinearHeading(new Pose2d(53, 31, Math.toRadians(180)), Math.toRadians(0))
+                .setTangent(Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-35,66,Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(20,58,Math.toRadians(180)), Math.toRadians(0))
+                .addDisplacementMarker(()->{target= 2500;})
+                .splineToLinearHeading(new Pose2d(53.5, 41, Math.toRadians(180)), Math.toRadians(0))
+                .addDisplacementMarker(()->{robot.intake.setPower(0);})
                 .build();
         //park
         TrajectorySequence DriveToPark = drive.trajectorySequenceBuilder(DriveToBackBoardR.end())
@@ -158,7 +159,7 @@ public boolean backUp = false;
         // now we can use recordedPropPosition to determine where the prop is! if we never saw a prop, your recorded position will be UNFOUND.
         // if it is UNFOUND, you can manually set it to any of the other positions to guess
         if (recordedPropPosition == ColourMassDetectionProcessorRed.PropPositions.UNFOUND) {
-            recordedPropPosition = ColourMassDetectionProcessorRed.PropPositions.MIDDLE;
+            recordedPropPosition = ColourMassDetectionProcessorRed.PropPositions.LEFT;
         }
         visionPortal.stopLiveView();
         visionPortal.stopStreaming();
@@ -198,7 +199,8 @@ public boolean backUp = false;
             if(robot.liftA.getCurrentPosition() > robot.LIFTENCODERTRIGGER){
                 robot.wristUp();
             }
-
+telemetry.addData("Collecting seconds: ", collecting.seconds());
+            telemetry.update();
             switch (stage) {
                 case firststage:
 
@@ -324,10 +326,10 @@ public boolean backUp = false;
                     }
                     break;
                 case collecting:
-                    if(collecting.milliseconds()>3000){
+                    if(collecting.milliseconds()>1000){
                         robot.secondPixel();
                     }
-                    if (collecting.milliseconds()> 4500){
+                    if (collecting.milliseconds()> 2500){
                         robot.servo(true,2,true);
                         robot.intake.setPower(-1);
                         robot.high();

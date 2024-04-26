@@ -72,41 +72,39 @@ public class BBCblue extends LinearOpMode {
         drive.setPoseEstimate(new Pose2d(14, 61.2, Math.toRadians(90)));
         TrajectorySequence DriveToPreloadR =  drive.trajectorySequenceBuilder(new Pose2d(14, 61.2, Math.toRadians(90)))
                 .setTangent(Math.toRadians(-40))
-                .splineToLinearHeading(new Pose2d(9, 32, Math.toRadians(0)), Math.toRadians(-100))
+                .splineToLinearHeading(new Pose2d(10, 32, Math.toRadians(0)), Math.toRadians(-100))
                 .build();
         TrajectorySequence DriveToPreloadM = drive.trajectorySequenceBuilder(new Pose2d(14, 61.2, Math.toRadians(90)))
                 .setTangent(Math.toRadians(-40))
-                .splineToLinearHeading(new Pose2d(23, 24, Math.toRadians(0)), Math.toRadians(-100))
+                .splineToLinearHeading(new Pose2d(23, 23, Math.toRadians(0)), Math.toRadians(-100))
                 .build();
         TrajectorySequence DriveToPreloadL = drive.trajectorySequenceBuilder(new Pose2d(14, 61.2, Math.toRadians(90)))
                 .setTangent(Math.toRadians(-40))
-                .splineToLinearHeading(new Pose2d(30, 28, Math.toRadians(0)), Math.toRadians(-100))
+                .splineToLinearHeading(new Pose2d(31, 28, Math.toRadians(0)), Math.toRadians(-100))
                 .build();
         TrajectorySequence DriveToBackBoardR = drive.trajectorySequenceBuilder(DriveToPreloadR.end())
 
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(54, 31, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(54.5, 31, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToBackBoardM = drive.trajectorySequenceBuilder(DriveToPreloadM.end())
-                .splineToLinearHeading(new Pose2d(25,25,Math.toRadians(0)),Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(30,23,Math.toRadians(0)),Math.toRadians(180))
                 .setTangent(Math.toRadians(20))
                 .splineToLinearHeading(new Pose2d(54, 38, Math.toRadians(180)), Math.toRadians(90))
                 .build();
         TrajectorySequence DriveToBackBoardL = drive.trajectorySequenceBuilder(DriveToPreloadL.end())
                 .splineToLinearHeading(new Pose2d(38,28,Math.toRadians(0)),Math.toRadians(180))
                 .setTangent(Math.toRadians(60))
-                .splineToLinearHeading(new Pose2d(53, 42.5, Math.toRadians(180)), Math.toRadians(0))
-                .setTangent(Math.toRadians(60))
-                .splineToLinearHeading(new Pose2d(53, 41, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(54, 41, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToParkR = drive.trajectorySequenceBuilder(DriveToBackBoardR.end())
-                .splineToLinearHeading(new Pose2d(56, 59, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(52, 59, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToParkM = drive.trajectorySequenceBuilder(DriveToBackBoardM.end())
                 .splineToLinearHeading(new Pose2d(45, 59, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         TrajectorySequence DriveToParkL = drive.trajectorySequenceBuilder(DriveToBackBoardL.end())
-                .splineToLinearHeading(new Pose2d(45, 59, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(48, 59, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         robot.L1.setPosition(robot.OUTTAKEA_CLOSE);
         robot.L2.setPosition(robot.OUTTAKEB_CLOSE);
