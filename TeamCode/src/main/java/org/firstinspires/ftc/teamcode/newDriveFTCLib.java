@@ -1,0 +1,186 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.subsystems.*;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.gamepad.ButtonReader;
+
+@Config
+@TeleOp(name="New Drive FTC LIB", group="Pushbot")
+public class newDriveFTCLib extends LinearOpMode {
+    /* Declare OpMode members. */
+    private DriveSubsystem driveSubsystem;
+    private LiftSubsystem liftSubsystem;
+    private IntakeSubsystem intakeSubsystem;
+    private ServoSubsystem servoSubsystem;
+    private ElapsedTime runtime = new ElapsedTime();
+    public static double p = 0.007, i = 0, d = 0.000, f = 0.001;
+    public static int target = -15;
+    public static double downpos = .65;
+    public static int manual = 150;
+    private final double ticks_in_degree = 751.8 / 180;
+public double first=0;
+public double end =0;
+public double loopTime=0;
+    // GamepadEx and ButtonReaders
+    private GamepadEx gamepadEx1, gamepadEx2;
+    private ButtonReader yButton1, aButton1, xButton1, bButton1, rightBumper1, leftBumper1;
+    private ButtonReader dpadUp1, dpadUp2, dpadDown2, dpadLeft2, dpadRight2;
+    private ButtonReader leftBumper2, rightBumper2, touchpad2, yButton2, xButton2, aButton2, bButton2;
+
+    @Override
+    public void runOpMode() {
+        driveSubsystem = new DriveSubsystem(hardwareMap);
+        liftSubsystem = new LiftSubsystem(hardwareMap, p, i, d, f, ticks_in_degree);
+        intakeSubsystem = new IntakeSubsystem(hardwareMap);
+        servoSubsystem = new ServoSubsystem(hardwareMap);
+
+        // Initialize GamepadEx and ButtonReaders
+        gamepadEx1 = new GamepadEx(gamepad1);
+        gamepadEx2 = new GamepadEx(gamepad2);
+
+        yButton1 = new ButtonReader(gamepadEx1, GamepadKeys.Button.Y);
+        aButton1 = new ButtonReader(gamepadEx1, GamepadKeys.Button.A);
+        xButton1 = new ButtonReader(gamepadEx1, GamepadKeys.Button.X);
+        bButton1 = new ButtonReader(gamepadEx1, GamepadKeys.Button.B);
+        rightBumper1 = new ButtonReader(gamepadEx1, GamepadKeys.Button.RIGHT_BUMPER);
+        leftBumper1 = new ButtonReader(gamepadEx1, GamepadKeys.Button.LEFT_BUMPER);
+
+        dpadUp1 = new ButtonReader(gamepadEx1, GamepadKeys.Button.DPAD_UP);
+        dpadUp2 = new ButtonReader(gamepadEx2, GamepadKeys.Button.DPAD_UP);
+        dpadDown2 = new ButtonReader(gamepadEx2, GamepadKeys.Button.DPAD_DOWN);
+        dpadLeft2 = new ButtonReader(gamepadEx2, GamepadKeys.Button.DPAD_LEFT);
+        dpadRight2 = new ButtonReader(gamepadEx2, GamepadKeys.Button.DPAD_RIGHT);
+
+        leftBumper2 = new ButtonReader(gamepadEx2, GamepadKeys.Button.LEFT_BUMPER);
+        rightBumper2 = new ButtonReader(gamepadEx2, GamepadKeys.Button.RIGHT_BUMPER);
+
+        yButton2 = new ButtonReader(gamepadEx2, GamepadKeys.Button.Y);
+        xButton2 = new ButtonReader(gamepadEx2, GamepadKeys.Button.X);
+        aButton2 = new ButtonReader(gamepadEx2, GamepadKeys.Button.A);
+        bButton2 = new ButtonReader(gamepadEx2, GamepadKeys.Button.B);
+        touchpad2 = new ButtonReader(gamepadEx2, GamepadKeys.Button.START);
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
+        waitForStart();
+        runtime.reset();
+
+        while (opModeIsActive()) {
+            first = runtime.milliseconds();
+            // Update gamepad buttons
+            gamepadEx1.readButtons();
+            gamepadEx2.readButtons();
+
+            double y = -gamepad1.left_stick_y; // Remember, this is reversed!
+            double lx = gamepad1.left_stick_x; // Counteract imperfect strafing
+            double rx = gamepad1.right_stick_x;
+
+            driveSubsystem.drive(y, lx, rx);
+
+            // Speed control
+            if (yButton1.isDown() || rightBumper1.isDown()) {
+                driveSubsystem.setSpeedModifier(1);
+            } else if (aButton1.isDown()) {
+                driveSubsystem.setSpeedModifier(0.5);
+            } else if (xButton1.isDown()) {
+                driveSubsystem.setSpeedModifier(0.75);
+            } else if (bButton1.isDown() || leftBumper1.isDown()) {
+                driveSubsystem.setSpeedModifier(0.25);
+            }
+
+            // Lift control
+            if (dpadDown2.isDown()) {
+                telemetry.addData("Gamepad2", "dpad_down pressed");
+                liftSubsystem.setTarget(-20);
+            } else if (dpadLeft2.isDown()) {
+                telemetry.addData("Gamepad2", "dpad_left pressed");
+                liftSubsystem.setTarget(2000);
+            } else if (dpadRight2.isDown()) {
+                telemetry.addData("Gamepad2", "dpad_right pressed");
+                liftSubsystem.setTarget(3000);
+            } else if (dpadUp2.isDown()) {
+                telemetry.addData("Gamepad2", "dpad_up pressed");
+                liftSubsystem.setTarget(4500);
+            } else if (leftBumper2.isDown()) {
+                telemetry.addData("Gamepad2", "left_bumper pressed");
+                liftSubsystem.setTarget(liftSubsystem.target - 150);
+            } else if (rightBumper2.isDown()) {
+                telemetry.addData("Gamepad2", "right_bumper pressed");
+                liftSubsystem.setTarget(target + manual);
+            } else if (gamepad2.left_stick_x > .1) {
+                telemetry.addData("Gamepad2", "left_stick_x > 0.1");
+                liftSubsystem.setTarget(liftSubsystem.target - 50);
+            } else if (dpadUp1.isDown()) {
+                telemetry.addData("Gamepad1", "dpad_up pressed");
+                liftSubsystem.setTarget(2650);
+            } else if (touchpad2.isDown()) {
+                telemetry.addData("Gamepad2", "touchpad pressed");
+                liftSubsystem.resetEncoder();
+            }
+            liftSubsystem.update();
+
+            // Intake control
+            if (gamepad2.right_trigger > .3) {
+                telemetry.addData("Gamepad2", "right_trigger > 0.3");
+                intakeSubsystem.intakeOut();
+            } else if (gamepad2.left_trigger > .3) {
+                telemetry.addData("Gamepad2", "left_trigger > 0.3");
+                intakeSubsystem.intakeIn();
+            } else {
+                intakeSubsystem.stop();
+            }
+
+            if (gamepad2.right_trigger > .3) {
+                servoSubsystem.setHeightSPosition(downpos);
+            } else {
+                servoSubsystem.setHeightSPosition(Constants.heightSHigh);
+            }
+
+            // Claw control
+            if (yButton2.isDown()) {
+                telemetry.addData("Gamepad2", "y pressed");
+                servoSubsystem.closeClaw();
+                gamepad1.rumble(200);
+            } else if (xButton2.isDown()) {
+                telemetry.addData("Gamepad2", "x pressed");
+                servoSubsystem.openClaw();
+            } else if (aButton2.isDown()) {
+                telemetry.addData("Gamepad2", "a pressed");
+                servoSubsystem.openClaw();
+            } else if (bButton2.isDown()) {
+                telemetry.addData("Gamepad2", "b pressed");
+                servoSubsystem.openClaw();
+            }
+
+            // Wrist control
+            if (liftSubsystem.getLiftPosition() > liftSubsystem.LIFT_ENCODER_TRIGGER) {
+                servoSubsystem.wristUp();
+            } else {
+                servoSubsystem.wristDown();
+            }
+
+            // Rumble warnings
+            if ((runtime.seconds() > 85) && (runtime.seconds() < 86) && !gamepad1.isRumbling()) {
+                gamepad1.rumbleBlips(5);
+                gamepad2.rumbleBlips(5);
+            } else if ((runtime.seconds() > 90) && (runtime.seconds() < 91) && !gamepad1.isRumbling()) {
+                gamepad1.rumble(1000);
+                gamepad2.rumble(1000);
+            }
+
+            telemetry.addData("Target: ", liftSubsystem.target);
+            telemetry.addData("LiftA: ", liftSubsystem.getLiftPosition());
+            end = runtime.milliseconds();
+            loopTime=end - first ;
+            telemetry.addData("looptime: ", loopTime);
+            telemetry.addData("target: ", liftSubsystem.target);
+            telemetry.update();
+        }
+    }
+}

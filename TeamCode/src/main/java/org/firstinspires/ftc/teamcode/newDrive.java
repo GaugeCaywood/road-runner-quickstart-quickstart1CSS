@@ -40,6 +40,9 @@ public class newDrive extends LinearOpMode {
     public static double downpos = .65;
     public static int manual = 150;
     private final double ticks_in_degree = 751.8 / 180;
+    public double first=0;
+    public double end =0;
+    public double loopTime=0;
 
     public enum heightControl {
         High,
@@ -60,7 +63,7 @@ public class newDrive extends LinearOpMode {
         robot.lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         runtime.reset();
         while (opModeIsActive()) {
-
+            first =runtime.milliseconds();
             controller = new PIDController(p, i, d);
             telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
             int armPoz = robot.liftA.getCurrentPosition();
@@ -181,6 +184,9 @@ public class newDrive extends LinearOpMode {
             }
             telemetry.addData("Target: ", target);
             telemetry.addData("LiftA: ", robot.liftA.getCurrentPosition());
+            end = runtime.milliseconds();
+            loopTime= end -first;
+            telemetry.addData("looptime: ", loopTime);
             telemetry.update();
 
 
