@@ -21,25 +21,11 @@ public class blueSideAuto {
                 .setColorScheme(new ColorSchemeRedDark())
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 18)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(-37, 61.2, Math.toRadians(90)))
-                                .setTangent(Math.toRadians(-120))
-                                .splineToLinearHeading(new Pose2d(-45, 23, Math.toRadians(-90)), Math.toRadians(-90))
-                                .waitSeconds(0.5)
-
-                                .setTangent(Math.toRadians(-100))
-                                .splineToLinearHeading(new Pose2d(-54, 11, Math.toRadians(180)), Math.toRadians(-180))
-
-
-
-
-                                .setTangent(Math.toRadians(0))
-                                .splineToLinearHeading(new Pose2d(34, 11, Math.toRadians(180)), Math.toRadians(0))
-
-                                .setTangent(Math.toRadians(-30))
-                                .splineToLinearHeading(new Pose2d(55, 33.5, Math.toRadians(180)), Math.toRadians(0))
-
-                                .waitSeconds(0.5)
-
+                        drive.trajectorySequenceBuilder(new Pose2d(45, 45, Math.toRadians(90)))
+                                .setTangent(Math.toRadians(180))
+                                .splineToLinearHeading(new Pose2d(10,0,Math.toRadians(-90)),Math.toRadians(180))
+                                .splineToLinearHeading(new Pose2d(-30,0,Math.toRadians(-90)),Math.toRadians(180))
+                                .splineToLinearHeading(new Pose2d(-50,-45,Math.toRadians(-90)),Math.toRadians(180))
                                 .build()
                 );
         RoadRunnerBotEntity left = new DefaultBotBuilder(meepMeep)

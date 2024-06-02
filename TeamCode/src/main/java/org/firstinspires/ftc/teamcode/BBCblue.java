@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
@@ -289,6 +292,14 @@ public class BBCblue extends LinearOpMode {
                     telemetry.addData("Lift Is: ", robot.liftA.getCurrentPosition());
                     telemetry.addData("Target: ", target);
                     telemetry.update();
+                    Pose2d endPose = drive.getPoseEstimate();
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(hardwareMap.appContext);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putFloat("endPositionX",(float) endPose.getX());
+                    editor.putFloat("endPositionY",(float) endPose.getY());
+                    editor.putFloat("endPosition_Heading",(float) endPose.getHeading());
+                    editor.putString("color", "blue");
+                    editor.apply();
                     break;
 
 

@@ -21,7 +21,8 @@ import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Scalar;
 import java.lang.Math;
 import java.util.ArrayList;
-
+import android.preference.PreferenceManager;
+import android.content.SharedPreferences;
 
 @Autonomous(name="Human Player Side Blue RR", group="Auton")
 public class HPBlueRR extends LinearOpMode {
@@ -334,6 +335,14 @@ public class HPBlueRR extends LinearOpMode {
                     telemetry.addData("Lift Is: ", robot.liftA.getCurrentPosition());
                     telemetry.addData("Target: ", target);
                     telemetry.update();
+                        Pose2d endPose = drive.getPoseEstimate();
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(hardwareMap.appContext);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putFloat("endPositionX",(float) endPose.getX());
+                    editor.putFloat("endPositionY",(float) endPose.getY());
+                    editor.putFloat("endPosition_Heading",(float) endPose.getHeading());
+                    editor.putString("color", "blue");
+                    editor.apply();
                     break;
 
 
