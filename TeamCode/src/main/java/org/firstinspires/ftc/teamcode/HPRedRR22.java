@@ -449,7 +449,7 @@ public class HPRedRR22 extends LinearOpMode {
                     editor.putFloat("endPositionX",(float) endPose.getX());
                     editor.putFloat("endPositionY",(float) endPose.getY());
                     editor.putFloat("endPosition_Heading",(float) endPose.getHeading());
-                    editor.putString("color", "red");
+                    editor.putFloat("color",  1);
                     editor.apply();
                     break;
 

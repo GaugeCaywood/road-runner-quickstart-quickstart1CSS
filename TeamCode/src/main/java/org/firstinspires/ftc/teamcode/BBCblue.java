@@ -298,7 +298,7 @@ public class BBCblue extends LinearOpMode {
                     editor.putFloat("endPositionX",(float) endPose.getX());
                     editor.putFloat("endPositionY",(float) endPose.getY());
                     editor.putFloat("endPosition_Heading",(float) endPose.getHeading());
-                    editor.putString("color", "blue");
+                    editor.putFloat("color",  0);
                     editor.apply();
                     break;
 

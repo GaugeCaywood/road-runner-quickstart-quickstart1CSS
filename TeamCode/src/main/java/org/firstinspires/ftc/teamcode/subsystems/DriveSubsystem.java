@@ -7,15 +7,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.TrajectorySegment;
 
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import java.lang.Math;
 public class DriveSubsystem {
     private DcMotor fr, br, fl, bl;
     private double speedModifier = 1.0;
     private SampleMecanumDrive drive;
-
+    public boolean running = false;
+    public boolean trajectory = false;
     public DriveSubsystem(HardwareMap hwMap) {
         drive = new SampleMecanumDrive(hwMap);
     }
@@ -46,8 +45,8 @@ public class DriveSubsystem {
     public void driveUpdate(Pose2d currentPoz){
         drive.setPoseEstimate(currentPoz);
     }
-    public void goToPlaceRR(String color){
-        if(color == "red") {
+    public void goToPlaceRR(int color) {
+        if(color == 1) {
             if (getCurrentPoz().getX() < 0 && getCurrentPoz().getY() > 0) {
                 TrajectorySequence quadrant2ToPlace = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                         .splineToLinearHeading(new Pose2d(-15, 0, Math.toRadians(-45)), Math.toRadians(0))
@@ -78,7 +77,7 @@ public class DriveSubsystem {
                 drive.followTrajectorySequenceAsync(quadrant4ToPlace);
             }
         }
-        else if(color == "blue") {
+        else if(color==0) {
             if (getCurrentPoz().getX() < 0 && getCurrentPoz().getY() > 0) {
                 TrajectorySequence quadrant2ToPlace = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                         .setTangent(Math.toRadians(0))
@@ -109,29 +108,35 @@ public class DriveSubsystem {
                 drive.followTrajectorySequenceAsync(quadrant4ToPlace);
             }
         }
-
     }
-    public void toCollect(String color){
-        if(color == "red") {
+
+    public void toCollect(int color){
+        if(color == 1) {
+            running = true;
             if (getCurrentPoz().getX() < 0 && getCurrentPoz().getY() > 0) {
+
                 TrajectorySequence quadrant2ToCollect = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                         .splineToLinearHeading(new Pose2d(-45,45,Math.toRadians(90)),Math.toRadians(90))
                         .build();
-                drive.followTrajectorySequenceAsync(quadrant2ToCollect);
+                drive.followTrajectorySequence(quadrant2ToCollect);
+                trajectory = true;
 
             } else if (getCurrentPoz().getX() > 0 && getCurrentPoz().getY() > 0) {
+
                 TrajectorySequence quadrant1ToCollect = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                         .splineToLinearHeading(new Pose2d(10,0,Math.toRadians(90)),Math.toRadians(180))
                         .splineToLinearHeading(new Pose2d(-20,0,Math.toRadians(90)),Math.toRadians(180))
                         .splineToLinearHeading(new Pose2d(-45,45,Math.toRadians(90)),Math.toRadians(90))
                         .build();
-                drive.followTrajectorySequenceAsync(quadrant1ToCollect);
+                drive.followTrajectorySequence(quadrant1ToCollect);
+
 
             } else if (getCurrentPoz().getX() < 0 && getCurrentPoz().getY() < 0) {
+
                 TrajectorySequence quadrant3ToCollect = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                         .splineToLinearHeading(new Pose2d(-45,45,Math.toRadians(90)),Math.toRadians(90))
                         .build();
-                drive.followTrajectorySequenceAsync(quadrant3ToCollect);
+                drive.followTrajectorySequence(quadrant3ToCollect);
 
             } else {
                 TrajectorySequence quadrant4ToCollect = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
@@ -140,15 +145,17 @@ public class DriveSubsystem {
                         .splineToLinearHeading(new Pose2d(-20,0,Math.toRadians(90)),Math.toRadians(180))
                         .splineToLinearHeading(new Pose2d(-45,45,Math.toRadians(90)),Math.toRadians(90))
                         .build();
-                drive.followTrajectorySequenceAsync(quadrant4ToCollect);
+                drive.followTrajectorySequence(quadrant4ToCollect);
             }
+            running = false;
         }
-        else if(color == "blue") {
+        else if(color == 0) {
+
             if (getCurrentPoz().getX() < 0 && getCurrentPoz().getY() > 0) {
                 TrajectorySequence quadrant2ToCollect = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                         .splineToLinearHeading(new Pose2d(-45,-45,Math.toRadians(-90)),Math.toRadians(180))
                         .build();
-                drive.followTrajectorySequenceAsync(quadrant2ToCollect);
+                drive.followTrajectorySequence(quadrant2ToCollect);
 
             } else if (getCurrentPoz().getX() > 0 && getCurrentPoz().getY() > 0) {
                 TrajectorySequence quadrant1ToCollect = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
@@ -157,13 +164,13 @@ public class DriveSubsystem {
                         .splineToLinearHeading(new Pose2d(-30,0,Math.toRadians(-90)),Math.toRadians(180))
                         .splineToLinearHeading(new Pose2d(-50,-45,Math.toRadians(-90)),Math.toRadians(180))
                         .build();
-                drive.followTrajectorySequenceAsync(quadrant1ToCollect);
+                drive.followTrajectorySequence(quadrant1ToCollect);
 
             } else if (getCurrentPoz().getX() < 0 && getCurrentPoz().getY() < 0) {
                 TrajectorySequence quadrant3ToCollect = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                         .splineToLinearHeading(new Pose2d(-45,-45,Math.toRadians(-90)),Math.toRadians(180))
                         .build();
-                drive.followTrajectorySequenceAsync(quadrant3ToCollect);
+                drive.followTrajectorySequence(quadrant3ToCollect);
 
             } else {
                 TrajectorySequence quadrant4ToCollect = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
@@ -172,9 +179,14 @@ public class DriveSubsystem {
                         .splineToLinearHeading(new Pose2d(-20,0,Math.toRadians(-90)),Math.toRadians(180))
                         .splineToLinearHeading(new Pose2d(-45,-45,Math.toRadians(-90)),Math.toRadians(180))
                         .build();
-                drive.followTrajectorySequenceAsync(quadrant4ToCollect);
+                drive.followTrajectorySequence(quadrant4ToCollect);
             }
         }
+    }
 
+
+    public boolean busy(){
+
+        return drive.isBusy();
     }
 }

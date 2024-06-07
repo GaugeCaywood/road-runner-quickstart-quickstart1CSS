@@ -29,10 +29,9 @@ public class newDriveFTCLib extends LinearOpMode {
     public static double downpos = .65;
     public static int manual = 150;
     private final double ticks_in_degree = 751.8 / 180;
-    public String colorAlliance = "null";
+
     public Pose2d endPos1;
-
-
+    public int allianceColor = -1;
 
 public double first=0;
 public double end =0;
@@ -49,11 +48,12 @@ public double loopTime=0;
         liftSubsystem = new LiftSubsystem(hardwareMap, p, i, d, f, ticks_in_degree);
         intakeSubsystem = new IntakeSubsystem(hardwareMap);
         servoSubsystem = new ServoSubsystem(hardwareMap);
+        while(opModeInInit()){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(hardwareMap.appContext);
         float endPositionX = prefs.getFloat("endPositionX", Float.NaN);
         float endPositionY = prefs.getFloat("endPositionY", Float.NaN);
         float endPosition_Heading = prefs.getFloat("endPosition_Heading",Float.NaN);
-        String color = prefs.getString("color","Null");
+        float color = prefs.getFloat("color", Float.NaN);
         if(Float.isNaN(endPositionX) || Float.isNaN(endPositionY) || Float.isNaN(endPosition_Heading)){
             telemetry.addData("Status ", "Autonomous not run, using the default POSITION");
             Pose2d endPos1 = new Pose2d(0,0,0);
@@ -65,20 +65,20 @@ public double loopTime=0;
             telemetry.addData("End Position X", endPositionX);
             driveSubsystem.driveUpdate(endPos1);
         }
-        if(color == "null"){
-            telemetry.addData("Status ", "Autonomous not run, using the default ALLIANCE");
-            String colorAlliance = "Red";
+        if(color == -1){
+            telemetry.addData("Status ", "Autonomous  run, using the default ALLIANCE");
+            allianceColor = 0;
 
         }
         else {
-            String colorAlliance = color;
-            telemetry.addData("Status ", "Autonomous run, using the correct ALLIANCE");
+            allianceColor = (int) color;
+            telemetry.addData("Status ", "Autonomous run, using the given ALLIANCE");
 
         }
         telemetry.addData("End Position X", endPositionX);
         telemetry.addData("End Position Y", endPositionY);
         telemetry.addData("End Position Heading", endPositionX);
-        telemetry.addData("End Position Color", colorAlliance);
+        telemetry.addData("End Position Color", color);
 
 
         // Initialize GamepadEx and ButtonReaders
@@ -113,8 +113,8 @@ public double loopTime=0;
         telemetry.addData("End Position X", endPositionX);
         telemetry.addData("End Position Y", endPositionY);
         telemetry.addData("End Position Heading", endPositionX);
-        telemetry.addData("End Position Color", colorAlliance);
-        telemetry.update();
+        telemetry.addData("End Position Color", color);
+        telemetry.update();}
         waitForStart();
         runtime.reset();
 
@@ -128,7 +128,8 @@ public double loopTime=0;
             double lx = -gamepad1.left_stick_x; // Counteract imperfect strafing
             double rx = -gamepad1.right_stick_x;
 
-            driveSubsystem.drive(y, lx, rx);
+                driveSubsystem.drive(y, lx, rx);
+
 
             // Speed control
             if (yButton1.isDown()) {
@@ -141,21 +142,21 @@ public double loopTime=0;
                 driveSubsystem.setSpeedModifier(0.25);
             }
             // Turn 90 degrees when left bumper on gamepad1 is pressed
+//            if (leftBumper1.isDown()) {
+//                telemetry.addData("Gamepad1", "left_bumper pressed");
+//                driveSubsystem.turn90Degrees();
+//            }
+//            else if(rightBumper1.isDown()){
+//                telemetry.addData("Gamepad1", "right_bumper pressed");
+//                driveSubsystem.turnneg90Degrees();
+//            } // Move to a new position when right bumper on gamepad1 is pressed
             if (leftBumper1.isDown()) {
-                telemetry.addData("Gamepad1", "left_bumper pressed");
-                driveSubsystem.turn90Degrees();
+                telemetry.addData("SYSTEM OVERRIDE DO NOT TOUCH ", "I REPEAT DO NOT DRIVE");
+                driveSubsystem.goToPlaceRR(allianceColor);
             }
             else if(rightBumper1.isDown()){
-                telemetry.addData("Gamepad1", "right_bumper pressed");
-                driveSubsystem.turnneg90Degrees();
-            } // Move to a new position when right bumper on gamepad1 is pressed
-            if (gamepad1.right_trigger> .3) {
                 telemetry.addData("SYSTEM OVERRIDE DO NOT TOUCH ", "I REPEAT DO NOT DRIVE");
-                driveSubsystem.goToPlaceRR(colorAlliance);
-            }
-            else if(gamepad1.left_trigger> .3){
-                telemetry.addData("SYSTEM OVERRIDE DO NOT TOUCH ", "I REPEAT DO NOT DRIVE");
-                driveSubsystem.toCollect(colorAlliance);
+                driveSubsystem.toCollect(allianceColor);
             }
             // Lift control
             if (dpadDown2.isDown()) {
@@ -244,9 +245,10 @@ public double loopTime=0;
             telemetry.addData("looptime: ", loopTime);
             telemetry.addData("target: ", liftSubsystem.target);
             telemetry.addData("current Position: ", driveSubsystem.getCurrentPoz());
+            telemetry.addData("trajectory ", driveSubsystem.trajectory);
+            telemetry.addData("running ", driveSubsystem.running);
             telemetry.update();
         }
     }
-
 
 }
