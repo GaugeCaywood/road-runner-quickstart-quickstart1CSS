@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.arcrobotics.ftclib.controller.PIDController;
 
 public class LiftSubsystem {
-    private DcMotor liftA, liftB;
+    public DcMotor liftA, liftB;
     private PIDController controller;
     private double p, i, d, f;
     private double ticksInDegree;
@@ -32,8 +32,9 @@ public class LiftSubsystem {
     }
 
     public void update() {
+        controller.setSetPoint(target); // Ensure setpoint is updated in update method
         int armPoz = liftA.getCurrentPosition();
-        double pid = controller.calculate(armPoz, target);
+        double pid = controller.calculate(armPoz);
         double ff = Math.cos(Math.toRadians(target / ticksInDegree)) * f;
         double power = pid + ff;
 

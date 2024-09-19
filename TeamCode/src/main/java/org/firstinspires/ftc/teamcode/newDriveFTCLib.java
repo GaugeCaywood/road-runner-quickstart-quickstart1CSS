@@ -7,13 +7,22 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.button.Trigger;
+import com.arcrobotics.ftclib.controller.PIDController;
+import com.arcrobotics.ftclib.gamepad.ButtonReader;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.subsystems.*;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.arcrobotics.ftclib.gamepad.ButtonReader;
+
+import org.firstinspires.ftc.teamcode.commands.RumbleCommand;
+import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ServoSubsystem;
+import org.firstinspires.ftc.teamcode.triggers.TimeTrigger;
 
 @Config
 @TeleOp(name="New Drive FTC LIB", group="Pushbot")
@@ -29,7 +38,7 @@ public class newDriveFTCLib extends LinearOpMode {
     public static double downpos = .65;
     public static int manual = 150;
     private final double ticks_in_degree = 751.8 / 180;
-
+    private PIDController controller;
     public Pose2d endPos1;
     public int allianceColor = -1;
 
@@ -44,11 +53,19 @@ public double loopTime=0;
 
     @Override
     public void runOpMode() {
+
         driveSubsystem = new DriveSubsystem(hardwareMap);
         liftSubsystem = new LiftSubsystem(hardwareMap, p, i, d, f, ticks_in_degree);
         intakeSubsystem = new IntakeSubsystem(hardwareMap);
         servoSubsystem = new ServoSubsystem(hardwareMap);
+        controller = new PIDController(p, i, d);
+        controller.setSetPoint(target); // Ensure setpoint is updated in update method
+        int armPoz = liftSubsystem.liftA.getCurrentPosition();
+        double pid = controller.calculate(armPoz);
+        double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
+        double power = pid + ff;
         while(opModeInInit()){
+            liftSubsystem = new LiftSubsystem(hardwareMap, p, i, d, f, ticks_in_degree);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(hardwareMap.appContext);
         float endPositionX = prefs.getFloat("endPositionX", Float.NaN);
         float endPositionY = prefs.getFloat("endPositionY", Float.NaN);
@@ -115,9 +132,16 @@ public double loopTime=0;
         telemetry.addData("End Position Heading", endPositionX);
         telemetry.addData("End Position Color", color);
         telemetry.update();}
+
         waitForStart();
         runtime.reset();
+        Trigger rumble85Trigger = new TimeTrigger(runtime, 85, 86);
+        Trigger rumble90Trigger = new TimeTrigger(runtime, 90, 91);
 
+        // Bind triggers to rumble commands
+        rumble85Trigger.whenActive(new RumbleCommand(gamepad1, gamepad2, 5));
+        rumble90Trigger.whenActive(new RumbleCommand(gamepad1, gamepad2, 1000));
+        liftSubsystem.update();
         while (opModeIsActive()) {
             first = runtime.milliseconds();
             // Update gamepad buttons
@@ -176,7 +200,7 @@ public double loopTime=0;
                 liftSubsystem.setTarget(liftSubsystem.target - 150);
             } else if (rightBumper2.isDown()) {
                 telemetry.addData("Gamepad2", "right_bumper pressed");
-                liftSubsystem.setTarget(target + manual);
+                liftSubsystem.setTarget(liftSubsystem.target + manual);
             } else if (gamepad2.left_stick_x > .1) {
                 telemetry.addData("Gamepad2", "left_stick_x > 0.1");
                 liftSubsystem.setTarget(liftSubsystem.target - 50);
@@ -188,6 +212,7 @@ public double loopTime=0;
                 liftSubsystem.resetEncoder();
             }
             liftSubsystem.update();
+
 
             // Intake control
             if (gamepad2.right_trigger > .3) {
@@ -210,7 +235,7 @@ public double loopTime=0;
             if (yButton2.isDown()) {
                 telemetry.addData("Gamepad2", "y pressed");
                 servoSubsystem.closeClaw();
-                gamepad1.rumble(200);
+                CommandScheduler.getInstance().schedule(new RumbleCommand(gamepad1, gamepad2, 200));
             } else if (xButton2.isDown()) {
                 telemetry.addData("Gamepad2", "x pressed");
                 servoSubsystem.openClaw();
@@ -229,14 +254,7 @@ public double loopTime=0;
                 servoSubsystem.wristDown();
             }
 
-            // Rumble warnings
-            if ((runtime.seconds() > 85) && (runtime.seconds() < 86) && !gamepad1.isRumbling()) {
-                gamepad1.rumbleBlips(5);
-                gamepad2.rumbleBlips(5);
-            } else if ((runtime.seconds() > 90) && (runtime.seconds() < 91) && !gamepad1.isRumbling()) {
-                gamepad1.rumble(1000);
-                gamepad2.rumble(1000);
-            }
+
 
             telemetry.addData("Target: ", liftSubsystem.target);
             telemetry.addData("LiftA: ", liftSubsystem.getLiftPosition());
@@ -247,7 +265,10 @@ public double loopTime=0;
             telemetry.addData("current Position: ", driveSubsystem.getCurrentPoz());
             telemetry.addData("trajectory ", driveSubsystem.trajectory);
             telemetry.addData("running ", driveSubsystem.running);
+
             telemetry.update();
+
+            CommandScheduler.getInstance().run();
         }
     }
 

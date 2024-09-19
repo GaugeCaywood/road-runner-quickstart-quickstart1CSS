@@ -23,4 +23,8 @@ android {
     namespace = 'com.qualcomm.ftcrobotcontroller'
 }
 
+dependencies {
+    implementation 'junit:junit:4.12'
+}
+
 apply from: '../build.dependencies.gradle'

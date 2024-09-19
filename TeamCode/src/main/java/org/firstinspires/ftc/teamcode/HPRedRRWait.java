@@ -4,29 +4,20 @@ package org.firstinspires.ftc.teamcode;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.arcrobotics.ftclib.controller.PIDController;
-
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
-import org.firstinspires.ftc.vision.VisionPortal;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.vision.VisionProcessor;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Scalar;
-import java.lang.Math;
-import java.util.ArrayList;
 
 
-@Autonomous(name="Wait Human Player Side Red RR", group="Auton")
+@Autonomous(name="Human Player Side Red RR Wait", group="Auton")
 public class HPRedRRWait extends LinearOpMode {
     //////////////////VISION//////////////////////
     private VisionPortal visionPortal;
@@ -73,11 +64,12 @@ public class HPRedRRWait extends LinearOpMode {
 
         TrajectorySequence PPreloadRight = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
                 .setTangent(Math.toRadians(120))
-                .splineToLinearHeading(new Pose2d(-28, -30, Math.toRadians(180)), Math.toRadians(50))
+                .splineToLinearHeading(new Pose2d(-34, -30, Math.toRadians(180)), Math.toRadians(50))
+                .splineToLinearHeading(new Pose2d(-30, -30, Math.toRadians(180)), Math.toRadians(180))
+                .waitSeconds(10)
                 .build();
 
         TrajectorySequence DriveToStackRight = drive.trajectorySequenceBuilder(PPreloadRight.end())
-                .waitSeconds(12)
                 .setTangent(Math.toRadians(200))
                 .splineToLinearHeading(new Pose2d(-56, -11, Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(0))
@@ -87,10 +79,10 @@ public class HPRedRRWait extends LinearOpMode {
 
         TrajectorySequence PPreloadMiddle = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
                 .lineToLinearHeading(new Pose2d(-40, -23, Math.toRadians(180)))
+                .waitSeconds(10)
 
                 .build();
         TrajectorySequence DriveToStackMiddle = drive.trajectorySequenceBuilder(PPreloadMiddle.end())
-                .waitSeconds(12)
                 .setTangent(Math.toRadians(190))
                 .splineToLinearHeading(new Pose2d(-57, -12, Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(0))
@@ -99,34 +91,31 @@ public class HPRedRRWait extends LinearOpMode {
                 .build();
         TrajectorySequence PPreloadLeft = drive.trajectorySequenceBuilder(new Pose2d(-36.8, -61.2, Math.toRadians(-90)))
                 .lineToLinearHeading(new Pose2d(-48, -22, Math.toRadians(90)) )
+                .waitSeconds(10)
                 .build();
         TrajectorySequence DriveToStackLeft = drive.trajectorySequenceBuilder(PPreloadLeft.end())
-                .waitSeconds(12)
                 .setTangent(Math.toRadians(120))
                 .splineToLinearHeading(new Pose2d(-65, -11, Math.toRadians(180)), Math.toRadians(180))
                 .setTangent(Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(45, -14, Math.toRadians(180)), Math.toRadians(-10))
+                .splineToLinearHeading(new Pose2d(45, -10.5, Math.toRadians(180)), Math.toRadians(-10))
 
                 .build();
         TrajectorySequence DriveToBackBoardMiddle = drive.trajectorySequenceBuilder(DriveToStackMiddle.end())
-
-                .splineToLinearHeading(new Pose2d(50.5, -37, Math.toRadians(180)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(50.5, -38, Math.toRadians(180)), Math.toRadians(-30))
                 .build();
         TrajectorySequence DriveToBackBoardLeft = drive.trajectorySequenceBuilder(DriveToStackLeft.end())
-
-                .splineToLinearHeading(new Pose2d(51, -19, Math.toRadians(180)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(51, -20, Math.toRadians(180)), Math.toRadians(-30))
 
 
                 .build();
         TrajectorySequence DriveToBackBoardRight = drive.trajectorySequenceBuilder(DriveToStackRight.end())
-                .splineToLinearHeading(new Pose2d(50.5, -46, Math.toRadians(180)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(51.5, -44, Math.toRadians(180)), Math.toRadians(-30))
                 .build();
         TrajectorySequence DriveToBackParkM = drive.trajectorySequenceBuilder(DriveToStackMiddle.end())
                 .setTangent(Math.toRadians(180))
                 .lineToLinearHeading(new Pose2d(45,-41, Math.toRadians(180)))
                 .build();
         TrajectorySequence DriveToBackBoardL = drive.trajectorySequenceBuilder(DriveToStackLeft.end())
-
                 .setTangent(Math.toRadians(180))
                 .lineToLinearHeading(new Pose2d(46,-20, Math.toRadians(180)))
 
@@ -263,7 +252,7 @@ public class HPRedRRWait extends LinearOpMode {
 
                     if(!drive.isBusy()) {
                         if (preloadpos == 1) {
-                            target = 2350;
+                            target = 2300;
                             drive.followTrajectorySequenceAsync(DriveToBackBoardLeft);
                             target = 2300;
                             servo.reset();

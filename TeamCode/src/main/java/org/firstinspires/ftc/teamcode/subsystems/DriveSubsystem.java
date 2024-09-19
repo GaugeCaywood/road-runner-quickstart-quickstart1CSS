@@ -15,13 +15,13 @@ public class DriveSubsystem {
     private SampleMecanumDrive drive;
     public boolean running = false;
     public boolean trajectory = false;
+
     public DriveSubsystem(HardwareMap hwMap) {
         drive = new SampleMecanumDrive(hwMap);
     }
     public void setSpeedModifier(double modifier) {
         this.speedModifier = modifier;
     }
-
     public void drive(double y, double lx, double rx) {
         drive.setWeightedDrivePower(new Pose2d(y, lx, rx));
         drive.update();
@@ -183,7 +183,12 @@ public class DriveSubsystem {
             }
         }
     }
-
+    public static double worldXPosition = 50;
+    public static double worldYPosition = 50;
+    public static double movement_X = 0;
+    public static double movement_Y = 0;
+    public static double movement_turn = 0;
+    public static double worldAngle_rad = 0;
 
     public boolean busy(){
 
